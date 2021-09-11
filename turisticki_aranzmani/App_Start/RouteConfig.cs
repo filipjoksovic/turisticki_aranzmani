@@ -14,11 +14,24 @@ namespace turisticki_aranzmani
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Residence/Create",
+                url: "createResidence",
+                new { controller = "Residence", action = "Create" }
+                );
+            routes.MapRoute(
+                name: "User/Create",
+                url: "createUser",
+                new { controller = "User", action = "Create" });
+            routes.MapRoute(
                 name: "User/CreateManager",
                 url: "createManager",
                 new { controller = "User", action = "CreateManager" }
                 );
-
+            routes.MapRoute(
+                name: "User/Seller",
+                url: "seller",
+                new { controller = "User", action = "Seller" }
+                );
             routes.MapRoute(
                 name: "User/Admin",
                 url: "admin",

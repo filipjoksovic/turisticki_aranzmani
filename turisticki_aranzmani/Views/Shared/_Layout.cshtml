@@ -11,16 +11,15 @@
     @Html.Partial("_Nav")
     @if (TempData["message"] != null)
     {
-        @Html.Partial("_Msg")
-    }
+@Html.Partial("_Msg")}
     @if (TempData["error"] != null)
     {
-        @Html.Partial("_Err")
-    }
+@Html.Partial("_Err")}
     <div class="container body-content">
         @RenderBody()
 
     </div>
+    @MyMapComponent.AddMap()
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

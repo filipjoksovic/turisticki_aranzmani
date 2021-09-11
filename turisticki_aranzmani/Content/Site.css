@@ -1,1 +1,16 @@
-﻿
+﻿.box {
+    aspect-ratio : 2/1;
+    flex-grow:1;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    background-color: #e7e7e7;
+    margin: 1rem;
+    border-radius: 1rem;
+    border: 1px solid #e1e1e1;
+    box-shadow : 0px 0px 20px 0px #e3e3e3;
+    cursor:pointer;
+    font-weight:600;
+    font-size: x-large;
+}
+

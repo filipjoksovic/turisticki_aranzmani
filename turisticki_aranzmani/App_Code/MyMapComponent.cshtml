@@ -1,0 +1,63 @@
+﻿@helper AddMap()
+{
+    <link rel="stylesheet" href="/Scripts/ol.css" type="text/css">
+    <style>
+        .map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <script src="/Scripts/ol.js"></script>
+
+    <div id="map" class="map"></div>
+    <div id="myposition"></div>
+
+    <script type="text/javascript">
+        var osm_default = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        });
+
+        var map = new ol.Map({
+            layers: [osm_default],
+            target: 'map',
+            view: new ol.View({
+                center: ol.proj.fromLonLat([20.9224158, 44.2107675]),
+                zoom: 7
+            })
+        });
+
+        var mousePosition = new ol.control.MousePosition({
+            coordinateFormat: ol.coordinate.createStringXY(2),
+            projection: 'EPSG:4326',
+            target: document.getElementById('myposition'),
+            undefinedHTML: '&nbsp;'
+        });
+
+        map.addControl(mousePosition);
+
+
+        function reverseGeocode(coords) {
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1])
+                .then(function (response) {
+                    return response.json();
+                }).then(function (json) {
+                    console.log(json);
+                });
+        }
+        map.on("pointermove", function (evt) {
+            var hit = this.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+                return true;
+            });
+            if (hit) {
+                this.getTargetElement().style.cursor = 'pointer';
+            } else {
+                this.getTargetElement().style.cursor = '';
+            }
+        });
+
+        map.on('click', function (evt) {
+            var coord = ol.proj.toLonLat(evt.coordinate);
+            reverseGeocode(coord);
+        });
+    </script>
+}

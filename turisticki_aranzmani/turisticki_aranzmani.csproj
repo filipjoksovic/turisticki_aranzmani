@@ -158,11 +158,17 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ResidenceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileObjectSerializer.cs" />
+    <Compile Include="Models\ArrangementModel.cs" />
+    <Compile Include="Models\PlaceModel.cs" />
+    <Compile Include="Models\ResidenceItemModel.cs" />
+    <Compile Include="Models\ResidenceModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -219,12 +225,18 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="App_Data\users.csv" />
+    <Content Include="App_Code\MyMapComponent.cshtml" />
+    <Content Include="App_Data\places.csv" />
+    <Content Include="App_Data\residences.csv" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ol-debug.js" />
+    <Content Include="Scripts\ol.css" />
+    <Content Include="Scripts\ol.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -328,6 +340,9 @@
     <Content Include="Views\User\Admin.cshtml" />
     <Content Include="Views\User\CreateManager.cshtml" />
     <Content Include="Views\User\Seller.cshtml" />
+    <Content Include="Views\Residence\ResidenceSellerDisplay.cshtml" />
+    <Content Include="Views\Residence\CreateResidence.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -47,7 +47,7 @@ namespace turisticki_aranzmani.Models
             this.Gender = data[4];
             this.Email = data[5];
             this.Birthday = DateTime.Parse(data[6]);
-            this.Role= data[7];
+            this.Role = data[7];
         }
         public UserModel(String username, String password, String first_name, String last_name, String gender, String email, DateTime birthday, String role)
         {
@@ -79,14 +79,14 @@ namespace turisticki_aranzmani.Models
         public String Role { get; set; }
         public override string ToString()
         {
-            return String.Format("{0},{1},{2},{3},{4},{5},{6},{7}{8}", this.Username, this.Password, this.FirstName, this.LastName, this.Gender, this.Email, this.Birthday, this.Role, Environment.NewLine); ;
+            return String.Format("{0};{1};{2};{3};{4};{5};{6};{7}{8}", this.Username, this.Password, this.FirstName, this.LastName, this.Gender, this.Email, this.Birthday, this.Role, Environment.NewLine); ;
         }
         public Boolean exists()
         {
             List<String> fileContent = System.IO.File.ReadAllLines(table).ToList();
             foreach (String row in fileContent)
             {
-                UserModel newUserInstance = new UserModel(row.Split(','));
+                UserModel newUserInstance = new UserModel(row.Split(';'));
                 System.Diagnostics.Debug.WriteLine("Hello");
                 System.Diagnostics.Debug.WriteLine(newUserInstance.Username);
                 if (this.Username == newUserInstance.Username || this.Email == newUserInstance.Email)
@@ -98,14 +98,21 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean save()
         {
-            try
+            if (!this.exists())
             {
-                System.IO.File.AppendAllText(this.table, this.ToString());
-                return true;
+                try
+                {
+                    System.IO.File.AppendAllText(this.table, this.ToString());
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
                 return false;
             }
         }
@@ -115,7 +122,7 @@ namespace turisticki_aranzmani.Models
             bool found = false;
             for (int i = 0; i < fileContent.Count; i++)
             {
-                UserModel newUserInstance = new UserModel(fileContent[i].Split(','));
+                UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
                 if (this.Username.Equals(newUserInstance.Username))
                 {
                     fileContent[i] = this.ToString();
@@ -139,7 +146,7 @@ namespace turisticki_aranzmani.Models
             bool found = true;
             for (int i = fileContent.Count - 1; i >= 0; i--)
             {
-                UserModel newUserInstance = new UserModel(fileContent[i].Split(','));
+                UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
                 if (this.Username.Equals(newUserInstance.Username))
                 {
                     fileContent.RemoveAt(i);
@@ -157,11 +164,14 @@ namespace turisticki_aranzmani.Models
                 return false;
             }
         }
-        public static UserModel find(String username) {
+        public static UserModel find(String username)
+        {
             List<String> fileContent = System.IO.File.ReadAllLines(stable).ToList();
-            foreach (String row in fileContent) {
-                UserModel userInstance = new UserModel(row.Split(','));
-                if (userInstance.Username.Equals(username)) {
+            foreach (String row in fileContent)
+            {
+                UserModel userInstance = new UserModel(row.Split(';'));
+                if (userInstance.Username.Equals(username))
+                {
                     return userInstance;
                 }
             }
@@ -172,7 +182,7 @@ namespace turisticki_aranzmani.Models
             List<String> fileContent = System.IO.File.ReadAllLines(stable).ToList();
             for (int i = 0; i < fileContent.Count; i++)
             {
-                UserModel newUserInstance = new UserModel(fileContent[i].Split(','));
+                UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
                 if (model.Username.Equals(newUserInstance.Username) && model.Password.Equals(newUserInstance.Password))
                 {
                     return newUserInstance;

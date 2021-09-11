@@ -13,6 +13,35 @@ namespace turisticki_aranzmani.Controllers
         {
             return View();
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Models.UserModel userModel)
+        {
+            Models.UserModel loggedInUser = Models.UserModel.find(Session["username"].ToString());
+            if (loggedInUser == null)
+            {
+                TempData["error"] = "Morate biti ulogovani kao administrator kako biste mogli da kreirate menadzera";
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                if (!userModel.save())
+                {
+                    TempData["error"] = "Nalog sa ovim korisnickim imenom ili email adresom vec postoji";
+                    return RedirectToAction("admin");
+                }
+                else
+                {
+                    TempData["message"] = "Novi korisnik sa korisnickim imenom " + userModel.Username + " je uspesno kreiran";
+                    return RedirectToAction("admin");
+                }
+
+            }
+        }
         public ActionResult Register()
         {
             return View();
@@ -62,7 +91,7 @@ namespace turisticki_aranzmani.Controllers
                 {
                     return RedirectToAction("admin");
                 }
-                else if (foundInstance.Role.Equals("menadzer"))
+                else if (foundInstance.Role.Equals("seller"))
                 {
                     return RedirectToAction("seller");
                 }
@@ -83,13 +112,14 @@ namespace turisticki_aranzmani.Controllers
             Session["role_id"] = null;
             return RedirectToAction("Index", "Home");
         }
+
         public ActionResult Admin()
         {
             return View();
         }
         public ActionResult Seller()
         {
-            return View();
+            return View("Seller");
         }
 
         public ActionResult createManager()
@@ -114,7 +144,6 @@ namespace turisticki_aranzmani.Controllers
                 }
                 else
                 {
-                    userModel.Role = "menadzer";
                     if (userModel.save())
                     {
                         TempData["message"] = "Novi menadzer sa korisnickim imenom " + userModel.Username + " je uspesno kreiran";
