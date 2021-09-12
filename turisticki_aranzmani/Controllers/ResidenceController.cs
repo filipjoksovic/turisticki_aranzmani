@@ -18,10 +18,10 @@ namespace turisticki_aranzmani.Controllers
                 String role = Session["role"].ToString();
                 if (role.Equals("admin") || role.Equals("seller"))
                 {
-                    TempData["error"] = "Morate biti ulogovani kao menadzer ili administrator kako biste imali pristup ovom delu sajta";
+                    //TempData["error"] = "Morate biti ulogovani kao menadzer ili administrator kako biste imali pristup ovom delu sajta";
                     return true;
                 }
-                return true;
+                return false;
             }
             else
             {

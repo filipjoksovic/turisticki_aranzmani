@@ -12,11 +12,21 @@ namespace turisticki_aranzmani
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
+            routes.MapRoute(
+                name: "ResidenceItem/CreateResidenceUnit/",
+                url: "seller/createResidenceUnit/{id}",
+                new { controller = "ResidenceItem", action = "CreateResidenceUnit" });
+
+            routes.MapRoute(
+                name: "ResidenceItem/ListResidenceUnits",
+                url: "seller/listResidenceUnits/{id}",
+                new { controller = "ResidenceItem", action = "ListResidenceUnits" });
+
             routes.MapRoute(
                 name: "Residence/ListResidences",
                 url: "seller/listResidences/",
-                new { controller = "Residence", action = "ListResidences"}
+                new { controller = "Residence", action = "ListResidences" }
                 );
 
             routes.MapRoute(
@@ -75,7 +85,7 @@ namespace turisticki_aranzmani
                 new { action = "Index", id = UrlParameter.Optional }
             );
 
-          
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
