@@ -63,6 +63,9 @@
                         @Html.DisplayFor(modelItem => item.HasWifi)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
                         @Html.ActionLink("Izmeni", "editResidence", new { id = item.ID }) |
                         @Html.RouteLink("Smestajne jedinice", "ResidenceItem/ListResidenceUnits/", new { id = item.ID }) |
                         @Html.ActionLink("Ukloni", "deleteResidence", new { id = item.ID })

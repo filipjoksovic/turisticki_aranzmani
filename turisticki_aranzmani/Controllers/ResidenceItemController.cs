@@ -26,7 +26,6 @@ namespace turisticki_aranzmani.Controllers
         [HttpPost]
         public ActionResult CreateResidenceUnit(ResidenceItemModel model)
         {
-            
             if (!model.save())
             {
                 TempData["error"] = "Doslo je do greske prilikom kreiranja smestajne jedinice. Proverite da li vec postoji smestajna jedinica pod ovim nazivom i pokusajte ponovo";

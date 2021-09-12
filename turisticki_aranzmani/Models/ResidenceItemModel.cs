@@ -14,7 +14,7 @@ namespace turisticki_aranzmani.Models
         private static String static_path = HttpContext.Current.Server.MapPath("~/App_Data/residence_units.csv");
 
         public int ID { get; set; }
-        [DisplayName("Sifra smestajne jedinice")]
+        [DisplayName("Sifra smestaja")]
         public int ResidenceID { get; set; }
         [DisplayName("Naziv smestajne jedinice")]
         public string UnitName { get; set; }
@@ -28,8 +28,9 @@ namespace turisticki_aranzmani.Models
 
         public ResidenceItemModel()
         {
+            System.Diagnostics.Debug.WriteLine("Id from function: " + FileObjectSerializer.GetInsertID(path));
             this.fileContent = FileObjectSerializer.GetFileContent(path);
-            this.ID = FileObjectSerializer.GetInsertID(path);
+            System.Diagnostics.Debug.WriteLine("ID from constructor: " + this.ID);
 
         }
         public ResidenceItemModel(String[] fields) {
@@ -68,21 +69,29 @@ namespace turisticki_aranzmani.Models
         }
         public static List<ResidenceItemModel> getAllItems(int id) {
             List<ResidenceItemModel> allItems = ResidenceItemModel.getAllItems();
-            //for (int i = allItems.Count - 1; i >= 0; i--) {
-            //    if (allItems[i].ResidenceID != id) {
-            //        allItems.RemoveAt(i);
-            //    }
-            //}
+            for (int i = allItems.Count - 1; i >= 0; i--)
+            {
+                if (allItems[i].ResidenceID != id)
+                {
+                    allItems.RemoveAt(i);
+                }
+            }
             return allItems;
         }
         public Boolean save()
         {
+            this.ID = FileObjectSerializer.GetInsertID(path);
+
             if (this.exists())
             {
                 return false;
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine("ID:");
+
+                System.Diagnostics.Debug.WriteLine(this.ID);
+
                 bool writeRestult = FileObjectSerializer.AppendToFile(path, this.ToString());
                 return writeRestult;
             }
