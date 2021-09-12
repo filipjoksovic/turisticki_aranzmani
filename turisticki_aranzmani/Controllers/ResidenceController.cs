@@ -28,13 +28,27 @@ namespace turisticki_aranzmani.Controllers
 
         // POST: Residence/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Models.ResidenceModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                try
+                {
+                    model.Username = Session["username"].ToString();
+                }
+                catch
+                {
+                    model.Username = "null";
+                }
+                if (!model.save()) {
+                    TempData["error"] = "Doslo je do greske prilikom kreiranja smestaja";
+                }
+                else
+                {
+                    TempData["message"] = "Novi smestaj je uspesno kreiran. Kreirajte nove smestajne jedinice za njega kako biste mogli da dodajete aranzmane povezane s njim";
+                }
+                return RedirectToAction("seller","User");
 
-                return RedirectToAction("Index");
             }
             catch
             {

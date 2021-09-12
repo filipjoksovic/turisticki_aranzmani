@@ -32,6 +32,15 @@ namespace turisticki_aranzmani
                 url: "seller",
                 new { controller = "User", action = "Seller" }
                 );
+
+
+
+
+            routes.MapRoute(
+                name : "User/ViewUsers",
+                url:"viewUsers",
+                new {controller = "User", action = "ViewUsers"}
+                );
             routes.MapRoute(
                 name: "User/Admin",
                 url: "admin",

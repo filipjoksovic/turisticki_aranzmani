@@ -12,7 +12,8 @@ namespace turisticki_aranzmani.Models
         private String path = HttpContext.Current.Server.MapPath("~/App_Data/seller_appartments.csv");
         private static String static_path = HttpContext.Current.Server.MapPath("~/App_Data/seller_appartments.csv");
 
-        public int ID { get; set; }
+        public String ID { get; set; }
+        public int ResidenceID { get; set; }
         public int MaxGuests { get; set; }
         public Boolean AllowPets { get; set; }
         public int Price { get; set; }
@@ -23,7 +24,11 @@ namespace turisticki_aranzmani.Models
 
         }
         public ResidenceItemModel(String[] fields) {
-            this.ID = FileObjectSerializer.GetInsertID(this.path);
+            this.ID = fields[0];
+            this.ResidenceID = Convert.ToInt32(fields[1]);
+            this.MaxGuests = Convert.ToInt32(fields[2]);
+            this.AllowPets = Convert.ToBoolean(fields[3]);
+            this.Price = Convert.ToInt32(fields[4]);
         }
 
         public Boolean exists()

@@ -6,6 +6,7 @@ using System.IO;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
+using turisticki_aranzmani.Helpers;
 
 namespace turisticki_aranzmani.Models
 {
@@ -189,6 +190,15 @@ namespace turisticki_aranzmani.Models
                 }
             }
             return null;
+        }
+        public static List<UserModel> GetUsers() {
+            List<String> fileContent = FileObjectSerializer.GetFileContent(stable);
+            List<UserModel> allUsers = new List<UserModel>();
+            foreach (String dataRow in fileContent) {
+                UserModel userInstance = new UserModel(dataRow.Split(';'));
+                allUsers.Add(userInstance);
+            }
+            return allUsers;
         }
 
     }

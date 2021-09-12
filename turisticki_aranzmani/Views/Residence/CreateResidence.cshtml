@@ -1,63 +1,69 @@
 ﻿@model turisticki_aranzmani.Models.ResidenceModel
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ResidenceModel</h4>
+
+    <div class="container mt-5" onload="hideRating">
+
+        <h4>Dodavanje nove smestajne jedinice</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+            @Html.LabelFor(model => model.Name)
+
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.BuildingType, "Tip smestaja")
+
+
+            @Html.DropDownListFor(m => m.BuildingType, new List<SelectListItem> {
+            new SelectListItem{Text = "Hotel", Value = "hotel"},
+            new SelectListItem{Text = "Motel", Value = "motel"},
+            new SelectListItem{Text = "Vila", Value = "vila"},
+          }, new { @class = "form-control", @id = "typeSelect" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.StarRating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StarRating, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StarRating, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div class="form-group" id="starRating">
+            @Html.LabelFor(model => model.StarRating)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.HasPool, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.EditorFor(model => model.StarRating, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.StarRating, "", new { @class = "text-danger"})
+        </div>
+        <div class="d-flex w-100 justify-content-between flex-wrap">
+            <div class="form-group">
+                @Html.LabelFor(model => model.HasPool)
+
                 <div class="checkbox">
                     @Html.EditorFor(model => model.HasPool)
                     @Html.ValidationMessageFor(model => model.HasPool, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.HasSpa, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.HasSpa)
+
                 <div class="checkbox">
                     @Html.EditorFor(model => model.HasSpa)
                     @Html.ValidationMessageFor(model => model.HasSpa, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DisabilityApproved, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.DisabilityApproved)
+
                 <div class="checkbox">
                     @Html.EditorFor(model => model.DisabilityApproved)
                     @Html.ValidationMessageFor(model => model.DisabilityApproved, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.HasWifi, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.HasWifi)
+
                 <div class="checkbox">
                     @Html.EditorFor(model => model.HasWifi)
                     @Html.ValidationMessageFor(model => model.HasWifi, "", new { @class = "text-danger" })
@@ -67,16 +73,35 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Kreiraj smestaj" class="btn btn-primary btn-block mx-auto w-50" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    function hideRating() {
+        let element = document.getElementById("typeSelect")
+        let value = element.options[element.selectedIndex].value;
+        if (value != "hotel") {
+            document.getElementById("starRating").style.display = "none";
+        }
+        else {
+            document.getElementById("starRating").style.display = "unset";
+        }
+    }
+    document.getElementById("typeSelect").addEventListener("change", (event) => {
+        let element = document.getElementById("typeSelect")
+        let value = element.options[element.selectedIndex].value;
+        if (value != "hotel") {
+            document.getElementById("starRating").style.display = "none";
+        }
+        else {
+            document.getElementById("starRating").style.display = "unset";
+
+        }
+    })
+</script>

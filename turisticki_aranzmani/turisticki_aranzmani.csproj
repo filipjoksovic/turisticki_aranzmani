@@ -165,11 +165,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileObjectSerializer.cs" />
+    <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Models\ArrangementModel.cs" />
     <Compile Include="Models\PlaceModel.cs" />
     <Compile Include="Models\ResidenceItemModel.cs" />
     <Compile Include="Models\ResidenceModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +345,7 @@
     <Content Include="Views\Residence\ResidenceSellerDisplay.cshtml" />
     <Content Include="Views\Residence\CreateResidence.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\ViewUsers.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

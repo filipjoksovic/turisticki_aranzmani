@@ -35,5 +35,18 @@ namespace turisticki_aranzmani.Helpers
                 return false;
             }
         }
+        public static Boolean AppendToFile(String path, String dataRow) {
+            List<String> fileContent = FileObjectSerializer.GetFileContent(path);
+            fileContent.Add(dataRow);
+            try
+            {
+                File.AppendAllText(path, dataRow);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
