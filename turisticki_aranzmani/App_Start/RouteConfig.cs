@@ -19,7 +19,7 @@ namespace turisticki_aranzmani
                 new { controller = "ResidenceItem", action = "CreateResidenceUnit" });
 
             routes.MapRoute(
-                name: "ResidenceItem/ListResidenceUnits",
+                name: "ResidenceItem/ListResidenceUnits/",
                 url: "seller/listResidenceUnits/{id}",
                 new { controller = "ResidenceItem", action = "ListResidenceUnits" });
 

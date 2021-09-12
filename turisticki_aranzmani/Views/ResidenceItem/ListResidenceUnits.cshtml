@@ -1,0 +1,50 @@
+﻿@model IEnumerable<turisticki_aranzmani.Models.ResidenceItemModel>
+
+<p>
+    @Html.RouteLink("Dodajte novu smestajnu jedinicu", "ResidenceItem/CreateResidenceUnit/")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ResidenceID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxGuests)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllowPets)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResidenceID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxGuests)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowPets)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Izmeni", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Uklonni", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

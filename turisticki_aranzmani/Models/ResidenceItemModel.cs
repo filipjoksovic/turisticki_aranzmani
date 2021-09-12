@@ -66,6 +66,15 @@ namespace turisticki_aranzmani.Models
             }
             return allItems;
         }
+        public static List<ResidenceItemModel> getAllItems(int id) {
+            List<ResidenceItemModel> allItems = ResidenceItemModel.getAllItems();
+            //for (int i = allItems.Count - 1; i >= 0; i--) {
+            //    if (allItems[i].ResidenceID != id) {
+            //        allItems.RemoveAt(i);
+            //    }
+            //}
+            return allItems;
+        }
         public Boolean save()
         {
             if (this.exists())

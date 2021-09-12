@@ -15,7 +15,8 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
         public ActionResult ListResidenceUnits(int id) {
-            return View("ResidenceUnits");
+            List<ResidenceItemModel> data= ResidenceItemModel.getAllItems(id);
+            return View(data);
         }
         public ActionResult CreateResidenceUnit(int id) {
             //return Content("test");

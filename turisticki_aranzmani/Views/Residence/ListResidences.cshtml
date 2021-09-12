@@ -64,7 +64,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Izmeni", "editResidence", new { id = item.ID }) |
-                        @Html.RouteLink("Smestajne jedinice", "ResidenceItem/CreateResidenceUnit/", new { id = item.ID }) |
+                        @Html.RouteLink("Smestajne jedinice", "ResidenceItem/ListResidenceUnits/", new { id = item.ID }) |
                         @Html.ActionLink("Ukloni", "deleteResidence", new { id = item.ID })
                     </td>
                 </tr>
