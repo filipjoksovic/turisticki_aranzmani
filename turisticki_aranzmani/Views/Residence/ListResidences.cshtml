@@ -1,0 +1,75 @@
+﻿@model IEnumerable<turisticki_aranzmani.Models.ResidenceModel>
+
+<div class="mt-3">
+    <p>
+        @Html.RouteLink("Dodajte novi smestaj", "Residence/Create", new { area = "" })
+
+    </p>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BuildingType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StarRating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HasPool)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HasSpa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DisabilityApproved)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HasWifi)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuildingType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StarRating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasPool)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasSpa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisabilityApproved)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasWifi)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Izmeni", "editResidence", new { id = item.ID }) |
+                        @Html.ActionLink("Smestajne jedinice", "viewResidenceItems", new { id = item.ID }) |
+                        @Html.ActionLink("Ukloni", "deleteResidence", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+    </div>
+
+    </table>
+</div>

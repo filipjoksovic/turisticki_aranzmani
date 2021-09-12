@@ -41,12 +41,14 @@ namespace turisticki_aranzmani.Models
         public ResidenceModel(String[] fields)
         {
             this.ID = Convert.ToInt32(fields[0]);
-            this.Name = fields[1];
-            this.StarRating = Convert.ToInt32(fields[2]);
-            this.HasPool = Convert.ToBoolean(fields[3]);
-            this.HasSpa = Convert.ToBoolean(fields[4]);
-            this.DisabilityApproved = Convert.ToBoolean(fields[5]);
-            this.HasWifi = Convert.ToBoolean(fields[6]);
+            this.Username = fields[1];
+            this.Name = fields[2];
+            this.BuildingType = fields[3];
+            this.StarRating = Convert.ToInt32(fields[4]);
+            this.HasPool = Convert.ToBoolean(fields[5]);
+            this.HasSpa = Convert.ToBoolean(fields[6]);
+            this.DisabilityApproved = Convert.ToBoolean(fields[7]);
+            this.HasWifi = Convert.ToBoolean(fields[8]);
         }
 
         public static List<ResidenceModel> getAllItems()
@@ -58,6 +60,15 @@ namespace turisticki_aranzmani.Models
             {
                 ResidenceModel modelInstance = new ResidenceModel(dataRow.Split(';'));
                 allItems.Add(modelInstance);
+            }
+            return allItems;
+        }
+        public static List<ResidenceModel> getAllItems(String username) {
+            List<ResidenceModel> allItems = ResidenceModel.getAllItems();
+            for (int i = allItems.Count -1; i >= 0; i--) {
+                if (!allItems[i].Username.Equals(username)) {
+                    allItems.RemoveAt(i);
+                }
             }
             return allItems;
         }

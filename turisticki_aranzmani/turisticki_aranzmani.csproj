@@ -346,6 +346,7 @@
     <Content Include="Views\Residence\CreateResidence.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\ViewUsers.cshtml" />
+    <Content Include="Views\Residence\ListResidences.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

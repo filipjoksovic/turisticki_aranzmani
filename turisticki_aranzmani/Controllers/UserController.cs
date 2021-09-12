@@ -85,7 +85,7 @@ namespace turisticki_aranzmani.Controllers
             if (foundInstance != null)
             {
                 Session["username"] = foundInstance.Username;
-                Session["role_id"] = foundInstance.Role;
+                Session["role"] = foundInstance.Role;
                 TempData["message"] = "Uspesno prijavljivanje. Dobrodosli nazad, " + foundInstance.Username;
 
                 if (foundInstance.Role.Equals("admin"))
@@ -110,7 +110,7 @@ namespace turisticki_aranzmani.Controllers
         public ActionResult Logout()
         {
             Session["username"] = null;
-            Session["role_id"] = null;
+            Session["role"] = null;
             return RedirectToAction("Index", "Home");
         }
 
@@ -124,7 +124,15 @@ namespace turisticki_aranzmani.Controllers
         }
         public ActionResult Seller()
         {
-            return View("Seller");
+            if (Session["username"] != null && Session["role"].Equals("seller"))
+            {
+                return View("Seller");
+            }
+            else {
+                TempData["error"] = "Morate biti registrovani kao menadzer kako biste pristupili ovom delu sajta";
+                return Redirect("~/");
+            }
+
         }
 
         public ActionResult createManager()

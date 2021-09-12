@@ -1,83 +1,86 @@
 ﻿@model turisticki_aranzmani.Models.ResidenceModel
 
+<div class="mt-3">
+    @Html.RouteLink("Pregledajte sve smestaje", "Residence/ListResidences", new { area = "" })
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="container mt-5" onload="hideRating">
+        <div class="container mt-5" onload="hideRating">
 
-        <h4>Dodavanje nove smestajne jedinice</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name)
-
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.BuildingType, "Tip smestaja")
-
-
-            @Html.DropDownListFor(m => m.BuildingType, new List<SelectListItem> {
-            new SelectListItem{Text = "Hotel", Value = "hotel"},
-            new SelectListItem{Text = "Motel", Value = "motel"},
-            new SelectListItem{Text = "Vila", Value = "vila"},
-          }, new { @class = "form-control", @id = "typeSelect" })
-        </div>
-
-        <div class="form-group" id="starRating">
-            @Html.LabelFor(model => model.StarRating)
-
-            @Html.EditorFor(model => model.StarRating, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.StarRating, "", new { @class = "text-danger"})
-        </div>
-        <div class="d-flex w-100 justify-content-between flex-wrap">
+            <h4>Dodavanje nove smestajne jedinice</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.HasPool)
+                @Html.LabelFor(model => model.Name)
 
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.HasPool)
-                    @Html.ValidationMessageFor(model => model.HasPool, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.BuildingType, "Tip smestaja")
+
+
+                @Html.DropDownListFor(m => m.BuildingType, new List<SelectListItem> {
+                new SelectListItem{Text = "Hotel", Value = "hotel"},
+                new SelectListItem{Text = "Motel", Value = "motel"},
+                new SelectListItem{Text = "Vila", Value = "vila"},
+              }, new { @class = "form-control", @id = "typeSelect" })
+            </div>
+
+            <div class="form-group" id="starRating">
+                @Html.LabelFor(model => model.StarRating)
+
+                @Html.EditorFor(model => model.StarRating, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StarRating, "", new { @class = "text-danger" })
+            </div>
+            <div class="d-flex w-100 justify-content-between flex-wrap">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HasPool)
+
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.HasPool)
+                        @Html.ValidationMessageFor(model => model.HasPool, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HasSpa)
+
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.HasSpa)
+                        @Html.ValidationMessageFor(model => model.HasSpa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DisabilityApproved)
+
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.DisabilityApproved)
+                        @Html.ValidationMessageFor(model => model.DisabilityApproved, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HasWifi)
+
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.HasWifi)
+                        @Html.ValidationMessageFor(model => model.HasWifi, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.HasSpa)
-
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.HasSpa)
-                    @Html.ValidationMessageFor(model => model.HasSpa, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.DisabilityApproved)
-
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.DisabilityApproved)
-                    @Html.ValidationMessageFor(model => model.DisabilityApproved, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.HasWifi)
-
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.HasWifi)
-                    @Html.ValidationMessageFor(model => model.HasWifi, "", new { @class = "text-danger" })
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Kreiraj smestaj" class="btn btn-primary btn-block mx-auto w-50" />
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Kreiraj smestaj" class="btn btn-primary btn-block mx-auto w-50" />
-            </div>
-        </div>
-    </div>
-}
+    }
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
