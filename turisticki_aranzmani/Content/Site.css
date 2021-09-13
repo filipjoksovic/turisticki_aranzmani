@@ -16,4 +16,11 @@
 }
 #starRating {
 }
+.arrangement_image {
+    aspect-ratio : 1/1;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 100%;
+    padding: 1rem;
+}
 

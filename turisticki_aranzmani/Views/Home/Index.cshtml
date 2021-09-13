@@ -1,1 +1,19 @@
-﻿
+﻿@model dynamic
+<div class="container-fluid mt-5">
+    <h3 class="text-center">Prikaz aranzmana</h3>
+
+    @foreach (var arModel in Model.arrangements)
+    {
+        <div class="border row align-items-center">
+            <div class="col-md-2">
+                Datum polaska: @arModel.FormattedDateStart u @arModel.FormattedTimeStarting
+            </div>
+            <div class="col-md-2">
+                Datum povratka : @arModel.FormattedDateEnd
+            </div>
+            <div class="col-md-2"><img src='@Url.Content("~/Content/arrangement_images/slika1.webp")' class="arrangement_image" /></div>
+            <div class="col-md-4">@arModel.Name</div>
+            <div class="col-md-2">@Html.RouteLink("Detalji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-bloc w-50 mx-auto btn-primary" })</div>
+        </div>
+    }
+</div>

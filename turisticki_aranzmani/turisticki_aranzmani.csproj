@@ -242,6 +242,7 @@
     <Content Include="App_Data\arrangement_types.csv" />
     <Content Include="App_Data\ride_types.csv" />
     <Content Include="App_Data\arrangements.csv" />
+    <Content Include="Content\arrangement_images\slika1.webp" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

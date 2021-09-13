@@ -14,6 +14,11 @@ namespace turisticki_aranzmani
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name:"Arrangement/Details",
+                url:"arrangementDetails/{id}",
+                new {controller = "Arrangement", action = "Details"}
+                );
+            routes.MapRoute(
                 name: "Arrangement/Create",
                 url: "seller/createArrangement",
                 new { controller = "Arrangement", action = "Create" }

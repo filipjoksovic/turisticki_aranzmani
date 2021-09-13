@@ -11,6 +11,8 @@ namespace turisticki_aranzmani.Models
     public class ArrangementModel
     {
         private String path = HttpContext.Current.Server.MapPath("~/App_Data/arrangements.csv");
+        private static String pathstatic = HttpContext.Current.Server.MapPath("~/App_Data/arrangements.csv");
+
         public int ID { get; set; }
         public String Username { get; set; }
         public String Name { get; set; }
@@ -26,6 +28,9 @@ namespace turisticki_aranzmani.Models
         public String Programme { get; set; }
         public String ImagePath { get; set; }
         public int ResidenceID { get; set; }//gets information from residenceModel
+        public String FormattedDateStart { get { return this.DateStart.ToString("dd/M/yyyy"); } }
+        public String FormattedDateEnd { get { return this.DateStart.ToString("dd/M/yyyy"); } }
+        public String FormattedTimeStarting { get { return this.TimeStarting.ToString("H:mm"); } }
 
 
         public ArrangementModel()
@@ -54,18 +59,23 @@ namespace turisticki_aranzmani.Models
         {
             return String.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13};{14};{15}", this.ID, this.Name,this.Username, this.TypeID, this.DriveTypeID, this.Location, this.DateStart, this.DateEnd, this.StartingPointID, this.TimeStarting, this.MaxCustomers, this.Description, this.Programme, this.ImagePath, this.ResidenceID, Environment.NewLine);
         }
-        public List<ArrangementModel> getAllItems() {
-            List<String> fileContent = FileObjectSerializer.GetFileContent(path);
+        public static List<ArrangementModel> getAllItems()
+        {
+            List<String> fileContent = FileObjectSerializer.GetFileContent(pathstatic);
             List<ArrangementModel> allModels = new List<ArrangementModel>();
-            foreach (String row in fileContent) {
+            foreach (String row in fileContent)
+            {
                 ArrangementModel am = new ArrangementModel(row.Split(';'));
                 allModels.Add(am);
             }
             return allModels;
 
         }
+        public String getArrangementImage() {
+            return HttpContext.Current.Server.MapPath("~/App_Data/arrangement_images/") + this.ImagePath;
+        }
         public Boolean exists() {
-            foreach (ArrangementModel am in this.getAllItems()) {
+            foreach (ArrangementModel am in ArrangementModel.getAllItems()) {
                 if (am.Name.Equals(this.Name)){
                     return true;
                 }

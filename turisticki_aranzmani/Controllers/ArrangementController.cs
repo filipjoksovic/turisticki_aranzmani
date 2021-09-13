@@ -54,11 +54,11 @@ namespace turisticki_aranzmani.Controllers
             modelInstance.TimeStarting = DateTime.Parse(collection["TimeStarting"]);
             modelInstance.Programme = collection["Programme"];
             modelInstance.ResidenceID = Convert.ToInt32(collection["ResidenceID"]);
-            string FileName = Path.GetFileNameWithoutExtension(file.FileName);
+            string FileName = Path.GetFileNameWithoutExtension(file.FileName).Replace(" ","_");
             System.Diagnostics.Debug.WriteLine(FileName);
             string FileExtension = Path.GetExtension(file.FileName);
             modelInstance.ImagePath = FileName + FileExtension;
-            string UploadPath = Server.MapPath("~/App_Data/arrangement_images/") + FileName + FileExtension;
+            string UploadPath = Server.MapPath("~/Content/arrangement_images/") + FileName + FileExtension;
             System.Diagnostics.Debug.WriteLine(UploadPath);
 
             PlaceModel placeModelInstance = new PlaceModel();
@@ -81,6 +81,9 @@ namespace turisticki_aranzmani.Controllers
                 TempData["error"] = "Doslo je do greske prilikom kreiranja aranzmana";
                 return RedirectToRoute("User/Seller");
             }
+        }
+        public ActionResult Details(int id) {
+            return Content("Helolo");
         }
         //public ActionResult Edit() { 
 
