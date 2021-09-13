@@ -1,0 +1,66 @@
+﻿@model dynamic
+
+<div class="mt-5">
+    <h4>Detalji o Aranzmanu: @Model.Name</h4>
+    <hr />
+
+    <div class="row align-items-center">
+        <div class="col-md-4">
+            <img class="arrangement_image_details " src="@Url.Content("~/Content/arrangement_images/"+Model.ImagePath)" />
+        </div>
+
+        <div class="col-md-4">
+            <span>Izdavac : <strong>@Model.Username</strong><br /></span>
+            <span>Tip prevoza: <strong>@Model.RideTypeName</strong> <br></span>
+            <span>Tip aranzmana: <strong>@Model.ArrangementTypeName</strong><br></span>
+            <span>Lokacija: <strong>@Model.Location</strong><br></span>
+            <span>Datum i vreme polaska: <strong>@Model.FormattedDateStart u @Model.FormattedTimeStarting</strong> <br></span>
+            <span>Datum povratka: <strong>@Model.FormattedDateEnd</strong><br></span>
+
+            <span>Smestaj: <strong>@Model.ResidenceName</strong><br></span>
+            <span> <strong>Maksimalan broj gostiju: @Model.MaxCustomers</strong><br></span>
+        </div>
+        <div class="col-md-4 d-flex align-items-center">
+            @if (Session["username"] != null)
+            {
+                <h5 class="text-center">Dostupni smestaji</h5>
+                @Html.DropDownList("Smestajna jedinica", (SelectList)@Model.ResidenceItems, new { @class = "form-control" })
+                <div class=" mt-3">
+                    <button class="btn btn-primary btn-block">Rezervisi</button>
+                </div>
+            }
+            else
+            {
+                <h3 class="align-middle text-center">Morate biti ulogovani kako biste mogli da kreirate rezervaciju</h3>
+            }
+        </div>
+
+    </div>
+    <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Opis</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Program</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Komentari</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active mt-3" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <span>Opis aranzmana: @Model.Description<br></span>
+
+        </div>
+        <div class="tab-pane fade mt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <span>Program putovanja: @Model.Programme<br></span>
+
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+    </div>
+    <div class="container mt-5">
+        <h5 class="text-center">Komentari</h5>
+
+    </div>
+
+</div>

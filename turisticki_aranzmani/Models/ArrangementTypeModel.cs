@@ -25,5 +25,17 @@ namespace turisticki_aranzmani.Models
             }
             return allItems;
         }
+        public static String getTypeName(int id)
+        {
+            foreach (ArrangementTypeModel tm in ArrangementTypeModel.getAllItems())
+            {
+                if (tm.ID == id)
+                {
+                    return tm.name;
+                }
+            }
+            return null;
+        }
     }
+
 }

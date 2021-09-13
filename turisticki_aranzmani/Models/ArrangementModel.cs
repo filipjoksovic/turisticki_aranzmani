@@ -57,7 +57,7 @@ namespace turisticki_aranzmani.Models
         }
         public override string ToString()
         {
-            return String.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13};{14};{15}", this.ID, this.Name,this.Username, this.TypeID, this.DriveTypeID, this.Location, this.DateStart, this.DateEnd, this.StartingPointID, this.TimeStarting, this.MaxCustomers, this.Description, this.Programme, this.ImagePath, this.ResidenceID, Environment.NewLine);
+            return String.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13};{14};{15}", this.ID, this.Name, this.Username, this.TypeID, this.DriveTypeID, this.Location, this.DateStart, this.DateEnd, this.StartingPointID, this.TimeStarting, this.MaxCustomers, this.Description, this.Programme, this.ImagePath, this.ResidenceID, Environment.NewLine);
         }
         public static List<ArrangementModel> getAllItems()
         {
@@ -71,12 +71,27 @@ namespace turisticki_aranzmani.Models
             return allModels;
 
         }
-        public String getArrangementImage() {
+        public static ArrangementModel GetByID(int id)
+        {
+            foreach (ArrangementModel am in ArrangementModel.getAllItems())
+            {
+                if (id == am.ID)
+                {
+                    return am;
+                }
+            }
+            return null;
+        }
+        public String getArrangementImage()
+        {
             return HttpContext.Current.Server.MapPath("~/App_Data/arrangement_images/") + this.ImagePath;
         }
-        public Boolean exists() {
-            foreach (ArrangementModel am in ArrangementModel.getAllItems()) {
-                if (am.Name.Equals(this.Name)){
+        public Boolean exists()
+        {
+            foreach (ArrangementModel am in ArrangementModel.getAllItems())
+            {
+                if (am.Name.Equals(this.Name))
+                {
                     return true;
                 }
             }
@@ -84,11 +99,26 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean save()
         {
-            if (!this.exists()) {
+            if (!this.exists())
+            {
                 FileObjectSerializer.AppendToFile(this.path, this.ToString());
                 return true;
             }
             return false;
+        }
+        public String getRideName
+        {
+            get
+            {
+                return RideTypeModel.getRideName(this.DriveTypeID);
+            }
+        }
+        public String getArrangementType
+        {
+            get
+            {
+                return ArrangementTypeModel.getTypeName(this.TypeID);
+            }
         }
     }
 }

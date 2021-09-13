@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using turisticki_aranzmani.Models;
+using System.Dynamic;
 
 namespace turisticki_aranzmani.Controllers
 {
@@ -83,7 +84,17 @@ namespace turisticki_aranzmani.Controllers
             }
         }
         public ActionResult Details(int id) {
-            return Content("Helolo");
+            dynamic modelInstance = new ExpandoObject();
+            ArrangementModel arrangement = ArrangementModel.GetByID(id);
+            var dictionary = (IDictionary<string, object>)modelInstance;
+
+            foreach (var property in arrangement.GetType().GetProperties())
+                dictionary.Add(property.Name, property.GetValue(arrangement));
+            modelInstance.RideTypeName = RideTypeModel.getRideName(arrangement.DriveTypeID);
+            modelInstance.ArrangementTypeName = ArrangementTypeModel.getTypeName(arrangement.TypeID);
+            modelInstance.ResidenceName = ResidenceModel.getResidenceName(arrangement.ResidenceID);
+            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAllItems(arrangement.ResidenceID).AsEnumerable(),"ID","UnitName");
+            return View("Details",modelInstance);
         }
         //public ActionResult Edit() { 
 

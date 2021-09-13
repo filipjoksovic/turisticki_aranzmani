@@ -23,5 +23,13 @@ namespace turisticki_aranzmani.Models
             }
             return allItems;
         }
+        public static String getRideName(int id) {
+            foreach(RideTypeModel model in RideTypeModel.getAllItems()) {
+                if (model.ID == id) {
+                    return model.Name;
+                }
+            }
+            return null;
+        }
     }
 }

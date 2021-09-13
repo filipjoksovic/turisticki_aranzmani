@@ -77,5 +77,14 @@ namespace turisticki_aranzmani.Models
             bool writeResult = FileObjectSerializer.AppendToFile(path, this.ToString());
             return writeResult;
         }
+
+        public static String getResidenceName(int id) {
+            foreach (ResidenceModel rm in ResidenceModel.getAllItems()) {
+                if (rm.ID == id) {
+                    return rm.Name;
+                }
+            }
+            return null;
+        }
     }
 }
