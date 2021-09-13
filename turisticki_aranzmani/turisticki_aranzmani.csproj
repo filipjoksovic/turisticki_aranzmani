@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cyrillic.Convert, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cyrillic.Convert.2.2.0\lib\netstandard2.0\Cyrillic.Convert.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -125,6 +128,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Converter.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -157,6 +161,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ArrangementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ResidenceController.cs" />
     <Compile Include="Controllers\ResidenceItemController.cs" />
@@ -168,9 +173,11 @@
     <Compile Include="Helpers\FileObjectSerializer.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Models\ArrangementModel.cs" />
+    <Compile Include="Models\ArrangementTypeModel.cs" />
     <Compile Include="Models\PlaceModel.cs" />
     <Compile Include="Models\ResidenceItemModel.cs" />
     <Compile Include="Models\ResidenceModel.cs" />
+    <Compile Include="Models\RideTypeModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -232,6 +239,9 @@
     <Content Include="App_Data\places.csv" />
     <Content Include="App_Data\residences.csv" />
     <Content Include="App_Data\residence_units.csv" />
+    <Content Include="App_Data\arrangement_types.csv" />
+    <Content Include="App_Data\ride_types.csv" />
+    <Content Include="App_Data\arrangements.csv" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -351,8 +361,11 @@
     <Content Include="Views\Residence\ListResidences.cshtml" />
     <Content Include="Views\ResidenceItem\CreateResidenceUnit.cshtml" />
     <Content Include="Views\ResidenceItem\ListResidenceUnits.cshtml" />
+    <Content Include="Views\Arrangement\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\arrangement_images\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />

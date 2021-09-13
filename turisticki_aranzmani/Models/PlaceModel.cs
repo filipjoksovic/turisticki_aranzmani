@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-
+using turisticki_aranzmani.Helpers;
 namespace turisticki_aranzmani.Models
 {
     public class PlaceModel
@@ -11,8 +11,8 @@ namespace turisticki_aranzmani.Models
         private String table = HttpContext.Current.Server.MapPath("~/App_Data/places.csv");
 
         public int PlaceID { get; set; }
+        public int ArrangementID { get; set; }
         public String Street { get; set; }
-        public String StreetNumber { get; set; }
         public String City { get; set; }
         public String ZipCode { get; set; }
         public String Longitute { get; set; }
@@ -20,22 +20,22 @@ namespace turisticki_aranzmani.Models
 
         public PlaceModel()
         {
-
+            this.PlaceID = FileObjectSerializer.GetInsertID(this.table);
         }
         public PlaceModel(String[] fields)
         {
-            this.PlaceID = PlaceModel.getInsertID();
-            this.Street = fields[0];
-            this.StreetNumber = fields[1];
-            this.City = fields[2];
-            this.ZipCode = fields[3];
-            this.Longitute = fields[4];
-            this.Latitude = fields[5];
+            this.PlaceID = Convert.ToInt32(fields[0]);
+            this.ArrangementID = Convert.ToInt32(fields[1]);
+            this.Street = fields[2];
+            this.City = fields[3];
+            this.ZipCode = fields[4];
+            this.Longitute = fields[5];
+            this.Latitude = fields[6];
         }
 
         public override string ToString()
         {
-            return this.PlaceID + ";" + this.Street+ ";" + this.StreetNumber + ";" + this.City + ";" + this.ZipCode + ";" + this.Longitute + ";" + this.Latitude + Environment.NewLine;
+            return this.PlaceID + ";" + this.ArrangementID + ";" + this.Street + ";" + this.City + ";" + this.ZipCode + ";" + this.Longitute + ";" + this.Latitude + Environment.NewLine;
         }
 
         public static List<PlaceModel> getAllPlaces()
@@ -54,32 +54,48 @@ namespace turisticki_aranzmani.Models
         private static int getInsertID()
         {
             int max_id = 1;
-            foreach(PlaceModel place in PlaceModel.getAllPlaces()) {
-                if (max_id <= place.PlaceID) {
+            foreach (PlaceModel place in PlaceModel.getAllPlaces())
+            {
+                if (max_id <= place.PlaceID)
+                {
                     max_id = place.PlaceID + 1;
                 }
             }
             return max_id;
 
         }
-        public Boolean save() {
-            try
+        public Boolean exists()
+        {
+            List<PlaceModel> allModels = PlaceModel.getAllPlaces();
+            foreach (PlaceModel pm in allModels)
+            {
+                if (pm.Street.Equals(this.Street) && pm.City.Equals(this.City) && pm.ZipCode.Equals(this.ZipCode))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public Boolean save()
+        {
+            if (!this.exists())
             {
                 System.IO.File.AppendAllText(table, this.ToString());
                 return true;
             }
-            catch (IOException e) {
-                return false;
-            }
-            
+            return false;
+
         }
         public Boolean delete()
         {
-            try {
+            try
+            {
                 List<PlaceModel> allPlaces = PlaceModel.getAllPlaces();
-                for (int i = allPlaces.Count; i >= 0; i--) {
+                for (int i = allPlaces.Count; i >= 0; i--)
+                {
                     PlaceModel place = allPlaces[i];
-                    if (place.PlaceID == this.PlaceID) {
+                    if (place.PlaceID == this.PlaceID)
+                    {
                         allPlaces.Remove(place);
                         break;
                     }
@@ -93,16 +109,18 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean update()
         {
-            try {
+            try
+            {
                 bool found = false;
                 List<PlaceModel> allPlaces = PlaceModel.getAllPlaces();
-                for (int i = allPlaces.Count; i >= 0; i--) {
+                for (int i = allPlaces.Count; i >= 0; i--)
+                {
                     PlaceModel place = allPlaces[i];
-                    if (place.PlaceID == this.PlaceID) {
+                    if (place.PlaceID == this.PlaceID)
+                    {
                         place.Latitude = this.Latitude;
                         place.Longitute = this.Longitute;
                         place.Street = this.Street;
-                        place.StreetNumber = this.StreetNumber;
                         place.ZipCode = this.ZipCode;
                         found = true;
                         break;
@@ -112,7 +130,7 @@ namespace turisticki_aranzmani.Models
                 if (found)
                 {
                     //writing to files to be done if needed
-                    return true;    
+                    return true;
                 }
                 else
                 {
