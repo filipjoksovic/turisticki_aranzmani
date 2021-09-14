@@ -4,14 +4,13 @@
     ViewBag.Title = "Login";
 }
 
-<h2>View</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="container">
+    <div class="container mt-5">
         <h4 class="text-center">Prijavite se na vas nalog</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -30,7 +29,7 @@
 
         </div>
         <h5 class="text-center">Nemate nalog? Registrujte se <a href="register">ovde</a>.</h5>
-        <div class="form-group">
+        <div class="form-group mt-3">
             <div class="col-md-offset-2 ">
                 <input type="submit" value="Registrujte se" class="btn btn-primary btn-block mx-auto w-50" />
             </div>
@@ -38,9 +37,6 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
