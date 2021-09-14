@@ -7,153 +7,166 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="mt-3">
-        <h4>Kreiranje novih aranzmana</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("Naziv aranzmana")
+<div class="mt-3">
+    <h4>Kreiranje novog aranzmana</h4>
+    <div class="alert alert-warning text-center alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Ukoliko zelite da dodate novi smestaj/smestajne jedinice, uradite to @Html.RouteLink("ovde", "Residence/Create", new { area = "" })</strong>
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.Label("Naziv aranzmana")
 
-            @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
+        @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
 
-        </div>
-        <div class="form-group">
-            @Html.Label("Tip aranzmana")
-            @Html.DropDownList("TypeID", (SelectList)ViewBag.ArrangementTypes, "Svi tipovi", new { @class = "form-control" })
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Tip prevoza")
-
-            @Html.Editor("DriveTypeID", new { htmlAttributes = new { @class = "form-control" } })
-
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Lokacija posete")
-
-            @Html.Editor("Location", new { htmlAttributes = new { @class = "form-control" } })
-
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.Label("Datum pocetka")
-
-                    @Html.Editor("DateStart", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-
-                </div>
-            </div>
-            <div class="col-md-6">
-
-                <div class="form-group">
-                    @Html.Label("Datum povratka")
-
-                    @Html.Editor("DateEnd", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-
-                </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Tip aranzmana")
+                @Html.DropDownList("TypeID", (SelectList)ViewBag.ArrangementTypes, "Svi tipovi", new { @class = "form-control" })
             </div>
         </div>
-        <h4>Mesto okupljanja</h4>
-        <h6>Klikom na lokaciju na mapi aplikacija ce sama pokusati da popuni podatke o mestu. Ukoliko podaci nisu ispravni, mozete ih uneti i manualno</h6>
-        <div class="row">
-            @MyMapComponent.AddMap()
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Tip prevoza")
 
+                @Html.DropDownList("TypeID", (SelectList)ViewBag.RideTypes, "Svi tipovi", new { @class = "form-control" })
 
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class=" form-group">
-                    @Html.Label("Ulica")
-                    @Html.Editor("PlaceStreet", new { htmlAttributes = new { @class = "form-control", @id = "street" } })
-                </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class=" form-group">
-                    @Html.Label("Mesto/Grad")
-                    @Html.Editor("PlaceCity", new { htmlAttributes = new { @class = "form-control", @id = "city" } })
-                </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class=" form-group">
-                    @Html.Label("ZipCode")
-                    @Html.Editor("PlaceZipCode", new { htmlAttributes = new { @class = "form-control", @id = "zipCode" } })
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.Label("Latitudna koordinata")
-                    @Html.Editor("Latitude", new { htmlAttributes = new { @class = "form-control", @id = "lat" } })
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.Label("Longitudalna koordinata")
-                    @Html.Editor("Longitude", new { htmlAttributes = new { @class = "form-control", @id = "lon" } })
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.Label("Vreme polaska (24h format)")
-
-                    @Html.Editor("TimeStarting", new { htmlAttributes = new { @class = "form-control", @type = "time" } })
-
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="form-group">
-                    @Html.Label("Maksimalan broj putnika")
-
-                    @Html.Editor("MaxCustomers", new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Opis aranzmana")
-
-            @Html.TextArea("Description", new { @class = "form-control" })
-
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Program putovanja")
-
-            @Html.TextArea("Programme", new { @class = "form-control" })
-
-        </div>
-
-        <div class="form-group">
-            <div class="custom-file">
-                @Html.Label("Poster aranzmana", new { @id = "imgLabel", @class = "custom-file-label" });
-
-                @Html.Editor("file", new { htmlAttributes = new { @class = "custom-file-input", @type = "file", @id = "imgUpload", @accept = "image/*" } })
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Smestaj")
-
-            @Html.DropDownList("ResidenceID", (SelectList)ViewBag.Residences, new { @class = "form-control" })
-
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary btn-block w-50 mx-auto" />
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.Label("Lokacija posete")
+
+        @Html.Editor("Location", new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.Label("Vreme polaska (24h format)")
+
+                @Html.Editor("TimeStarting", new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                @Html.Label("Maksimalan broj putnika")
+
+                @Html.Editor("MaxCustomers", new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Datum pocetka")
+
+                @Html.Editor("DateStart", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+
+            </div>
+        </div>
+        <div class="col-md-6">
+
+            <div class="form-group">
+                @Html.Label("Datum povratka")
+
+                @Html.Editor("DateEnd", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+
+            </div>
+        </div>
+    </div>
+    <h4>Mesto okupljanja</h4>
+    <h6>Klikom na lokaciju na mapi aplikacija ce sama pokusati da popuni podatke o mestu. Ukoliko podaci nisu ispravni, mozete ih uneti i manualno</h6>
+    <div class="row">
+        @MyMapComponent.AddMap()
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class=" form-group">
+                @Html.Label("Ulica")
+                @Html.Editor("PlaceStreet", new { htmlAttributes = new { @class = "form-control", @id = "street" } })
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class=" form-group">
+                @Html.Label("Mesto/Grad")
+                @Html.Editor("PlaceCity", new { htmlAttributes = new { @class = "form-control", @id = "city" } })
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class=" form-group">
+                @Html.Label("Postanski broj")
+                @Html.Editor("PlaceZipCode", new { htmlAttributes = new { @class = "form-control", @id = "zipCode" } })
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Latitudna koordinata")
+                @Html.Editor("Latitude", new { htmlAttributes = new { @class = "form-control", @id = "lat" } })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Longitudalna koordinata")
+                @Html.Editor("Longitude", new { htmlAttributes = new { @class = "form-control", @id = "lon" } })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Opis aranzmana")
+
+                @Html.TextArea("Description", new { @class = "form-control" })
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.Label("Program putovanja")
+
+                @Html.TextArea("Programme", new { @class = "form-control" })
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="custom-file">
+            @Html.Label("Poster aranzmana", new { @id = "imgLabel", @class = "custom-file-label" });
+
+            @Html.Editor("file", new { htmlAttributes = new { @class = "custom-file-input", @type = "file", @id = "imgUpload", @accept = "image/*" } })
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Smestaj")
+
+        @Html.DropDownList("ResidenceID", (SelectList)ViewBag.Residences, new { @class = "form-control" })
+
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Kreiraj aranzman" class="btn btn-primary btn-block w-50 mx-auto" />
+    </div>
+</div>
 }
 
