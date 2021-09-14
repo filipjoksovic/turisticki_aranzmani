@@ -88,24 +88,8 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean delete()
         {
-            try
-            {
-                List<PlaceModel> allPlaces = PlaceModel.getAllPlaces();
-                for (int i = allPlaces.Count; i >= 0; i--)
-                {
-                    PlaceModel place = allPlaces[i];
-                    if (place.PlaceID == this.PlaceID)
-                    {
-                        allPlaces.Remove(place);
-                        break;
-                    }
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            FileObjectSerializer.Delete(this.table, this.ToString());
+            return true;
         }
         public Boolean update()
         {

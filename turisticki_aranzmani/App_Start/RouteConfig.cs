@@ -18,6 +18,11 @@ namespace turisticki_aranzmani
                 new {controller = "Reservation",action = "Create"}
                 );
             routes.MapRoute(
+                name:"Arrangement/Delete/",
+                url:"{role}/deleteArrangement/{id}",
+                new{ controller = "Arrangement", action = "Delete"}
+                );
+            routes.MapRoute(
                 name: "Arrangement/View",
                 url: "{role}/viewArrangements",
                 new { controller = "Arrangement", action = "ViewArrangements" }

@@ -67,6 +67,8 @@ namespace turisticki_aranzmani.Controllers
             placeModelInstance.Longitute = collection["Longitude"];
             placeModelInstance.Latitude = collection["Latitude"];
 
+            modelInstance.StartingPointID = placeModelInstance.PlaceID;
+
             if (modelInstance.save())
             {
                 placeModelInstance.save();
@@ -109,14 +111,38 @@ namespace turisticki_aranzmani.Controllers
                 {
                     return Redirect("~/");
                 }
-                foreach (ArrangementModel model in arrangements) {
+                foreach (ArrangementModel model in arrangements)
+                {
                     dynamic expandedModel = Utility.ExpandArrangement(model);
                     detailed_arrangements.Add(expandedModel);
                 }
                 return View(detailed_arrangements);
             }
         }
+        public ActionResult Delete(string role, int id)
+        {
+            if (Session["role"] == null)
+            {
+                TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite ovom delu sajta";
+                return Redirect("~/");
+            }
+            else
+            {
+                if (!Session["role"].ToString().Equals(role))
+                {
+                    TempData["error"] = "Nemate dozvolu za pristup ovom delu sajta";
+                    return Redirect("~/");
 
+                }
+                else
+                {
+                    ArrangementModel amodel = ArrangementModel.GetByID(id);
+                    amodel.delete();
+                    TempData["message"] = "Uspesno uklonjen aranzman";
+                    return Redirect(HttpContext.Request.UrlReferrer.ToString());
+                }
+            }
+        }
 
         public ActionResult Details(int id)
         {

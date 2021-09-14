@@ -143,6 +143,11 @@ namespace turisticki_aranzmani.Models
                 return ArrangementTypeModel.getTypeName(this.TypeID);
             }
         }
-       
+        public Boolean delete() {
+            PlaceModel arrangementPlace = PlaceModel.GetByID(this.StartingPointID);
+            FileObjectSerializer.Delete(this.path, this.ToString());
+            arrangementPlace.delete();
+            return true;
+        }
     }
 }

@@ -9,7 +9,7 @@
     {
         foreach (var item in Model)
         {
-            <div class="card">
+            <div class="card mt-2">
                 <div class="card-body row align-items-center">
                     <div class="col-md-3">
                         <img class="img-thumbnail" src="@Url.Content("~/Content/arrangement_images/" + item.ImagePath)" />
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 p-4">
-                        <button class="btn btn-block btn-danger">Ukloni</button>
+                        @Html.RouteLink("Ukloni","Arrangement/Delete/",new {id = item.ID, role = Session["role"].ToString()}, new {@class = "btn btn-block btn-danger"})
                         @if (Session["role"].Equals("seller"))
                         {
                             <button class="btn btn-warning btn-block">Izmeni</button>

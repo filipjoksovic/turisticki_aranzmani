@@ -35,13 +35,6 @@
                 {
                     <h5 class="text-center my-3">Dostupni smestaji</h5>
                     @Html.DropDownList("ResidenceUnit", (SelectList)Model.ResidenceItems, new {@class = "form-control", @id = "residenceUnitSelect" })
-                    @*<select name="ResidenceUnit" id="residenceUnitSelect" class="form-control">
-                        @for (int i = 0; i < Model.ResidenceItems.Count; i++)
-                        {
-                            <option value="@Model.ResidenceItems[i].ID">@Model.ResidenceItems[i].UnitName</option>
-                        }
-
-                    </select>*@
                     <div class="mb-2 mt-4 container-fluid" id="unitDetails">
                         <h5 class="text-center">Detalji o smestaju</h5>
                         <div>
