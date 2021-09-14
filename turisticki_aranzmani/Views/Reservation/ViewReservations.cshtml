@@ -1,0 +1,68 @@
+﻿@model IEnumerable<dynamic>
+
+<h3 class="mt-5">Pregled rezervacija</h3>
+<h6 class="text-muted mb-5">Klikom na zaglavlje tabele mozete je sortirati po vrednosti kliknutog zaglavlja</h6>
+<div class="table-responsive">
+    <table class="table">
+        <tr style="cursor:pointer;">
+
+            <th>
+                Korisnik
+            </th>
+            <th>
+                Aranzman
+            </th>
+            <th>
+                Smestajna jedinica
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Datum rezervacije
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @(item.username)
+                </td>
+                <td>
+                    @(item.ArrangementName)
+                </td>
+                <td>
+                    @(item.ResidenceUnit)
+                </td>
+                <td>
+                    @(item.Status)
+                </td>
+                <td>
+                    @(item.created_at)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $('th').click(function () {
+        var table = $(this).parents('table').eq(0)
+        var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+        this.asc = !this.asc
+        if (!this.asc) { rows = rows.reverse() }
+        for (var i = 0; i < rows.length; i++) { table.append(rows[i]) }
+    })
+    function comparer(index) {
+        return function (a, b) {
+            var valA = getCellValue(a, index), valB = getCellValue(b, index)
+            return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+        }
+    }
+    function getCellValue(row, index) { return $(row).children('td').eq(index).text() }
+</script>

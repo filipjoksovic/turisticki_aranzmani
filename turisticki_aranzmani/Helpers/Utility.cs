@@ -9,6 +9,14 @@ namespace turisticki_aranzmani.Helpers
 {
     public class Utility
     {
+        public static ExpandoObject ToExpandoObject(Object o) {
+            dynamic expandedModel = new ExpandoObject();
+            var dictionary = (IDictionary<string, object>)expandedModel;
+
+            foreach (var property in o.GetType().GetProperties())
+                dictionary.Add(property.Name, property.GetValue(o));
+            return expandedModel;
+        }
         public static ExpandoObject ExpandArrangement(ArrangementModel model)
         {
             dynamic modelInstance = new ExpandoObject();
@@ -22,6 +30,19 @@ namespace turisticki_aranzmani.Helpers
             modelInstance.ResidenceName = ResidenceModel.getResidenceName(model.ResidenceID);
             modelInstance.Residence = ResidenceModel.GetByID(model.ResidenceID);
             return modelInstance;
+        }
+        public static List<dynamic> GetDetailedReservations(List<ReservationModel> reservations)
+        {
+            List<dynamic> expandedReservations = new List<dynamic>();
+            foreach (ReservationModel model in reservations)
+            {
+                dynamic expandedModel = Utility.ToExpandoObject(model);
+                expandedModel.ArrangementName = ArrangementModel.GetByID(model.arrangement_id).Name;
+                expandedModel.ResidenceUnit = ResidenceItemModel.GetByID(model.residence_item_id).UnitName;
+                expandedModel.Status = model.status == 0 ? "Aktivna" : "Otkazana";
+                expandedReservations.Add(expandedModel);
+            }
+            return expandedReservations;
         }
     }
 }
