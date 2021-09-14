@@ -142,6 +142,19 @@ namespace turisticki_aranzmani.Models
                 return false;
             }
         }
+        public static PlaceModel GetByID(int place_id) {
+            System.Diagnostics.Debug.WriteLine("Placeid :" + place_id);
+            foreach (PlaceModel model in PlaceModel.getAllPlaces()) {
+                if (model.PlaceID == place_id) {
+                    return model;
+                }
+            }
+            return null;
+        }
+        public static String PrettifyPlace(int place_id) {
+            PlaceModel modelInstance = PlaceModel.GetByID(place_id);
+            return String.Format("{0},{1},{2} ({3},{4})", modelInstance.Street, modelInstance.City, modelInstance.ZipCode, Math.Round(Convert.ToDouble(modelInstance.Longitute),2), Math.Round(Convert.ToDouble(modelInstance.Latitude),2));
+        }
 
 
     }

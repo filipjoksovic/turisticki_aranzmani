@@ -173,6 +173,7 @@
     </Compile>
     <Compile Include="Helpers\FileObjectSerializer.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
+    <Compile Include="Helpers\Utility.cs" />
     <Compile Include="Models\ArrangementModel.cs" />
     <Compile Include="Models\ArrangementTypeModel.cs" />
     <Compile Include="Models\PlaceModel.cs" />
@@ -367,6 +368,7 @@
     <Content Include="Views\ResidenceItem\ListResidenceUnits.cshtml" />
     <Content Include="Views\Arrangement\Create.cshtml" />
     <Content Include="Views\Arrangement\Details.cshtml" />
+    <Content Include="Views\Arrangement\ViewArrangements.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\arrangement_images\" />

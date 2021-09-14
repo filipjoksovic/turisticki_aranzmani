@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using turisticki_aranzmani.Models;
 using System.Dynamic;
+using turisticki_aranzmani.Helpers;
 
 namespace turisticki_aranzmani.Controllers
 {
@@ -38,10 +39,6 @@ namespace turisticki_aranzmani.Controllers
                 TempData["error"] = "Morate biti ulogovani kao menadzer ili administrator kako biste pristupili ovoj stranici";
                 return Redirect("~/");
             }
-            //add a place model first
-
-
-
             ArrangementModel modelInstance = new ArrangementModel();
             modelInstance.Username = Session["username"].ToString();
             modelInstance.Name = collection["Name"];
@@ -55,7 +52,7 @@ namespace turisticki_aranzmani.Controllers
             modelInstance.TimeStarting = DateTime.Parse(collection["TimeStarting"]);
             modelInstance.Programme = collection["Programme"];
             modelInstance.ResidenceID = Convert.ToInt32(collection["ResidenceID"]);
-            string FileName = Path.GetFileNameWithoutExtension(file.FileName).Replace(" ","_");
+            string FileName = Path.GetFileNameWithoutExtension(file.FileName).Replace(" ", "_");
             System.Diagnostics.Debug.WriteLine(FileName);
             string FileExtension = Path.GetExtension(file.FileName);
             modelInstance.ImagePath = FileName + FileExtension;
@@ -83,18 +80,50 @@ namespace turisticki_aranzmani.Controllers
                 return RedirectToRoute("User/Seller");
             }
         }
-        public ActionResult Details(int id) {
-            dynamic modelInstance = new ExpandoObject();
-            ArrangementModel arrangement = ArrangementModel.GetByID(id);
-            var dictionary = (IDictionary<string, object>)modelInstance;
+        public ActionResult ViewArrangements(String role)
+        {
 
-            foreach (var property in arrangement.GetType().GetProperties())
-                dictionary.Add(property.Name, property.GetValue(arrangement));
-            modelInstance.RideTypeName = RideTypeModel.getRideName(arrangement.DriveTypeID);
-            modelInstance.ArrangementTypeName = ArrangementTypeModel.getTypeName(arrangement.TypeID);
-            modelInstance.ResidenceName = ResidenceModel.getResidenceName(arrangement.ResidenceID);
-            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(arrangement.ResidenceID).AsEnumerable(),"ID","UnitName", ResidenceItemModel.getBookedItems(arrangement.ResidenceID).AsEnumerable());
-            return View("Details",modelInstance);
+            if (Session["username"] == null)
+            {
+                TempData["error"] = "Morate biti registrovani kao korisnik kako biste pristupili ovom delu sajta";
+                return Redirect("~/");
+            }
+            else if (!Session["role"].Equals(role))
+            {
+                TempData["error"] = "Nemate dozvolu za pristup ovom delu sajta";
+                return Redirect("~/");
+            }
+            else
+            {
+                List<ArrangementModel> arrangements;
+                List<dynamic> detailed_arrangements = new List<dynamic>();
+                if (role.Equals("seller"))
+                {
+                    arrangements = ArrangementModel.getAllItems(Session["username"].ToString());
+                }
+                else if (role.Equals("admin"))
+                {
+                    arrangements = ArrangementModel.getAllItems();
+                }
+                else
+                {
+                    return Redirect("~/");
+                }
+                foreach (ArrangementModel model in arrangements) {
+                    dynamic expandedModel = Utility.ExpandArrangement(model);
+                    detailed_arrangements.Add(expandedModel);
+                }
+                return View(detailed_arrangements);
+            }
+        }
+
+
+        public ActionResult Details(int id)
+        {
+            ArrangementModel arrangement = ArrangementModel.GetByID(id);
+            dynamic modelInstance = Utility.ExpandArrangement(arrangement);
+            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(arrangement.ResidenceID).AsEnumerable(), "ID", "UnitName", ResidenceItemModel.getBookedItems(arrangement.ResidenceID).AsEnumerable());
+            return View("Details", modelInstance);
         }
         //public ActionResult Edit() { 
 
