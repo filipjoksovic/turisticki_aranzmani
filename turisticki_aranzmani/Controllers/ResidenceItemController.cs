@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using turisticki_aranzmani.Models;
+using System.Dynamic;
+
 
 namespace turisticki_aranzmani.Controllers
 {
@@ -35,6 +37,17 @@ namespace turisticki_aranzmani.Controllers
                 TempData["message"] = "Uspesno sacuvana smestajna jedinica.";
                 return RedirectToRoute("User/Seller");
             }
+        }
+        public JsonResult Details(int id) {
+            ResidenceItemModel Response = null;
+            if (id == null)
+            {
+                Response = null;
+            }
+            else {
+                Response = ResidenceItemModel.GetByID(id);
+            }
+            return Json(Response,JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -41,6 +41,17 @@ namespace turisticki_aranzmani.Models
             this.AllowPets = Convert.ToBoolean(fields[4]);
             this.Price = Convert.ToInt32(fields[5]);
         }
+
+        internal static ResidenceItemModel GetByID(int id)
+        {
+            foreach(ResidenceItemModel unit in ResidenceItemModel.getAllItems()) {
+                if (unit.ID == id) {
+                    return unit;
+                }
+            }
+            return null;
+        }
+
         public override string ToString()
         {
             return String.Format("{0};{1};{2};{3};{4};{5};{6}", this.ID, this.ResidenceID, this.UnitName, this.MaxGuests, this.AllowPets, this.Price, Environment.NewLine);
@@ -78,6 +89,48 @@ namespace turisticki_aranzmani.Models
             }
             return allItems;
         }
+        public static List<ResidenceItemModel> getAvailableItems(int arrangement_id) {
+            ArrangementModel arrangement = ArrangementModel.GetByID(arrangement_id);
+            int arrangement_residence = arrangement.ResidenceID;
+            List<ResidenceItemModel> allResidenceUnits = ResidenceItemModel.getAllItems(arrangement_residence);
+            List<ReservationModel> allReservations = ReservationModel.getAllItems(arrangement_id);
+            for (int i = 0; i < allReservations.Count; i++) {
+                int unit_id = allReservations[i].residence_item_id;
+                System.Diagnostics.Debug.WriteLine("resid: " + unit_id);
+                for (int j = allResidenceUnits.Count - 1; j >=0; j--) {
+                    System.Diagnostics.Debug.WriteLine("unitid: " + allResidenceUnits[j].ID);
+
+                    if (unit_id == allResidenceUnits[j].ID) {
+                        allResidenceUnits.RemoveAt(j);
+                    }
+                }
+            }
+            return allResidenceUnits;
+
+        }
+        public static List<ResidenceItemModel> getBookedItems(int arrangement_id) {
+            ArrangementModel arrangement = ArrangementModel.GetByID(arrangement_id);
+            int arrangement_residence = arrangement.ResidenceID;
+            List<ResidenceItemModel> allResidenceUnits = ResidenceItemModel.getAllItems(arrangement_residence);
+            List<ReservationModel> allReservations = ReservationModel.getAllItems(arrangement_id);
+            for (int i = 0; i < allReservations.Count; i++)
+            {
+                int unit_id = allReservations[i].residence_item_id;
+                System.Diagnostics.Debug.WriteLine("resid: " + unit_id);
+                for (int j = allResidenceUnits.Count - 1; j >= 0; j--)
+                {
+                    System.Diagnostics.Debug.WriteLine("unitid: " + allResidenceUnits[j].ID);
+
+                    if (unit_id != allResidenceUnits[j].ID)
+                    {
+                        allResidenceUnits.RemoveAt(j);
+                    }
+                }
+            }
+            return allResidenceUnits;
+
+        }
+
         public Boolean save()
         {
             this.ID = FileObjectSerializer.GetInsertID(path);

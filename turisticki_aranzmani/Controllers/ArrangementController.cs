@@ -93,7 +93,7 @@ namespace turisticki_aranzmani.Controllers
             modelInstance.RideTypeName = RideTypeModel.getRideName(arrangement.DriveTypeID);
             modelInstance.ArrangementTypeName = ArrangementTypeModel.getTypeName(arrangement.TypeID);
             modelInstance.ResidenceName = ResidenceModel.getResidenceName(arrangement.ResidenceID);
-            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAllItems(arrangement.ResidenceID).AsEnumerable(),"ID","UnitName");
+            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(arrangement.ResidenceID).AsEnumerable(),"ID","UnitName", ResidenceItemModel.getBookedItems(arrangement.ResidenceID).AsEnumerable());
             return View("Details",modelInstance);
         }
         //public ActionResult Edit() { 

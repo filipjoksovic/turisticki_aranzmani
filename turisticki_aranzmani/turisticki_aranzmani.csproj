@@ -163,6 +163,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ArrangementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\ResidenceController.cs" />
     <Compile Include="Controllers\ResidenceItemController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Models\ArrangementModel.cs" />
     <Compile Include="Models\ArrangementTypeModel.cs" />
     <Compile Include="Models\PlaceModel.cs" />
+    <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Models\ResidenceItemModel.cs" />
     <Compile Include="Models\ResidenceModel.cs" />
     <Compile Include="Models\RideTypeModel.cs" />
@@ -243,6 +245,7 @@
     <Content Include="App_Data\ride_types.csv" />
     <Content Include="App_Data\arrangements.csv" />
     <Content Include="Content\arrangement_images\slika1.webp" />
+    <Content Include="App_Data\reservations.csv" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -367,6 +370,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\arrangement_images\" />
+    <Folder Include="Views\Reservation\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

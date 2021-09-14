@@ -1,5 +1,10 @@
 ﻿@model dynamic
 
+@{
+    ViewBag.Title = Model.Name;
+}
+
+
 <div class="mt-5">
     <h4>Detalji o Aranzmanu: @Model.Name</h4>
     <hr />
@@ -20,14 +25,35 @@
             <span>Smestaj: <strong>@Model.ResidenceName</strong><br></span>
             <span> <strong>Maksimalan broj gostiju: @Model.MaxCustomers</strong><br></span>
         </div>
-        <div class="col-md-4 d-flex align-items-center">
+        <div class="col-md-4 d-flex align-items-center flex-column">
             @if (Session["username"] != null)
             {
-                <h5 class="text-center">Dostupni smestaji</h5>
-                @Html.DropDownList("Smestajna jedinica", (SelectList)@Model.ResidenceItems, new { @class = "form-control" })
-                <div class=" mt-3">
-                    <button class="btn btn-primary btn-block">Rezervisi</button>
-                </div>
+                using (Html.BeginRouteForm("Reservation/Create", FormMethod.Post, new
+                {
+                    @class = "container-fluid"
+                }))
+                {
+                    <h5 class="text-center my-3">Dostupni smestaji</h5>
+                    @Html.DropDownList("ResidenceUnit", (SelectList)Model.ResidenceItems, new {@class = "form-control", @id = "residenceUnitSelect" })
+                    @*<select name="ResidenceUnit" id="residenceUnitSelect" class="form-control">
+                        @for (int i = 0; i < Model.ResidenceItems.Count; i++)
+                        {
+                            <option value="@Model.ResidenceItems[i].ID">@Model.ResidenceItems[i].UnitName</option>
+                        }
+
+                    </select>*@
+                    <div class="mb-2 mt-4 container-fluid" id="unitDetails">
+                        <h5 class="text-center">Detalji o smestaju</h5>
+                        <div>
+                            <p>Maksimalan broj gostiju: <strong id="maxGuests"></strong></p>
+                            <p>Dozvoljeni ljubimci: <strong id="allowPets"></strong></p>
+                            <p>Cena: <strong id="price"></strong></p>
+                        </div>
+                    </div>
+                    <div class="  my-3 w-100">
+                        <button class="btn btn-primary btn-block" type="submit">Rezervisi</button>
+                    </div>
+                }
             }
             else
             {
@@ -63,4 +89,37 @@
 
     </div>
 
+
 </div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script>
+    $(document).ready(function () {
+        let id = $("#residenceUnitSelect").val()
+        $.ajax({
+            url: `/getResidenceItemDetails/${id}`,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                $("#maxGuests").text(response.MaxGuests)
+                $("#allowPets").text((response.AllowPets) ? "da" : "ne")
+                $("#price").text(response.Price + ".00 din")
+            }
+        })
+    })
+    $("#residenceUnitSelect").change(function () {
+        let id = $(event.target).val()
+        $.ajax({
+            url: `/getResidenceItemDetails/${id}`,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                $("#maxGuests").text(response.MaxGuests)
+                $("#allowPets").text((response.AllowPets) ? "da" : "ne")
+                $("#price").text(response.Price + ".00 din")
+            }
+        })
+    })
+
+</script>

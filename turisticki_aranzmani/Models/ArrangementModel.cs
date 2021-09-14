@@ -120,5 +120,6 @@ namespace turisticki_aranzmani.Models
                 return ArrangementTypeModel.getTypeName(this.TypeID);
             }
         }
+       
     }
 }
