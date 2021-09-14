@@ -114,7 +114,8 @@ namespace turisticki_aranzmani.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult ViewUsers() {
+        public ActionResult ViewUsers()
+        {
             IEnumerable<UserModel> data = UserModel.GetUsers();
             return View(data);
         }
@@ -128,11 +129,34 @@ namespace turisticki_aranzmani.Controllers
             {
                 return View("Seller");
             }
-            else {
+            else
+            {
                 TempData["error"] = "Morate biti registrovani kao menadzer kako biste pristupili ovom delu sajta";
                 return Redirect("~/");
             }
 
+        }
+        public ActionResult Delete(string username)
+        {
+            if (Session["role"] != null && Session["role"].Equals("admin"))
+            {
+                UserModel userModel = UserModel.GetUser(username);
+                if (userModel.delete())
+                {
+                    TempData["message"] = "Uspesno uklonjen korisnik iz baze podataka";
+                }
+                else
+                {
+                    TempData["error"] = "Doslo je do greske prilikom uklanjanja korisnika iz baze podataka";
+                }
+                return RedirectToRoute("User/Admin");
+
+            }
+            else
+            {
+                TempData["error"] = "Nemate pristup uklanjanju korisnika. Morate biti ulogovani kao administrator kako biste imali pristup ovoj funkciji";
+                return Redirect("~/");
+            }
         }
 
         public ActionResult createManager()

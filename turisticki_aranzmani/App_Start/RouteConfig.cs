@@ -78,8 +78,13 @@ namespace turisticki_aranzmani
 
             routes.MapRoute(
                 name: "User/ViewUsers",
-                url: "viewUsers",
+                url: "admin/viewUsers",
                 new { controller = "User", action = "ViewUsers" }
+                );
+            routes.MapRoute(
+                name: "User/Delete",
+                url: "admin/deleteUser/{username}",
+                new { controller = "User", action = "Delete" }
                 );
             routes.MapRoute(
                 name: "User/Admin",

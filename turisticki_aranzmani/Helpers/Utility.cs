@@ -20,6 +20,7 @@ namespace turisticki_aranzmani.Helpers
             modelInstance.ArrangementTypeName = ArrangementTypeModel.getTypeName(model.TypeID);
             modelInstance.GroupingPlace = PlaceModel.PrettifyPlace(model.StartingPointID);
             modelInstance.ResidenceName = ResidenceModel.getResidenceName(model.ResidenceID);
+            modelInstance.Residence = ResidenceModel.GetByID(model.ResidenceID);
             return modelInstance;
         }
     }

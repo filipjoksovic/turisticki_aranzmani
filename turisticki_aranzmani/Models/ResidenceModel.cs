@@ -31,7 +31,7 @@ namespace turisticki_aranzmani.Models
 
         public override string ToString()
         {
-            return this.ID + ";" +this.Username + ";" + this.Name + ";" + this.BuildingType + ";" + this.StarRating + ";" + this.HasPool + ";" + this.HasSpa + ";" + this.DisabilityApproved + ";" + this.HasSpa + Environment.NewLine;
+            return this.ID + ";" + this.Username + ";" + this.Name + ";" + this.BuildingType + ";" + this.StarRating + ";" + this.HasPool + ";" + this.HasSpa + ";" + this.DisabilityApproved + ";" + this.HasSpa + Environment.NewLine;
         }
 
         public ResidenceModel()
@@ -63,10 +63,13 @@ namespace turisticki_aranzmani.Models
             }
             return allItems;
         }
-        public static List<ResidenceModel> getAllItems(String username) {
+        public static List<ResidenceModel> getAllItems(String username)
+        {
             List<ResidenceModel> allItems = ResidenceModel.getAllItems();
-            for (int i = allItems.Count -1; i >= 0; i--) {
-                if (!allItems[i].Username.Equals(username)) {
+            for (int i = allItems.Count - 1; i >= 0; i--)
+            {
+                if (!allItems[i].Username.Equals(username))
+                {
                     allItems.RemoveAt(i);
                 }
             }
@@ -78,13 +81,52 @@ namespace turisticki_aranzmani.Models
             return writeResult;
         }
 
-        public static String getResidenceName(int id) {
-            foreach (ResidenceModel rm in ResidenceModel.getAllItems()) {
-                if (rm.ID == id) {
+        public static String getResidenceName(int id)
+        {
+            foreach (ResidenceModel rm in ResidenceModel.getAllItems())
+            {
+                if (rm.ID == id)
+                {
                     return rm.Name;
                 }
             }
             return null;
+        }
+        public static ResidenceModel GetByID(int residence_id)
+        {
+            foreach (ResidenceModel model in ResidenceModel.getAllItems())
+            {
+                if (model.ID == residence_id)
+                {
+                    return model;
+                }
+            }
+            return null;
+        }
+        public Boolean delete()
+        {
+            //get residence items
+            List<ResidenceItemModel> residenceItems = ResidenceItemModel.getAllItems(this.ID);
+            //get arrangement items
+            List<ArrangementModel> arrangements = ArrangementModel.getAllItems(this.ID);
+            //get arrangement reservations
+            List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
+
+            if (FileObjectSerializer.Delete(path, this.ToString()))
+            {
+                foreach (ResidenceItemModel residence in residenceItems)
+                {
+                    FileObjectSerializer.Delete(residence.Path, residence.ToString());
+                }
+                foreach (ReservationModel reservation in reservations) {
+                    FileObjectSerializer.Delete(reservation.Path, reservation.ToString());
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -143,27 +143,21 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean delete()
         {
-            List<String> fileContent = System.IO.File.ReadAllLines(table).ToList();
-            bool found = true;
-            for (int i = fileContent.Count - 1; i >= 0; i--)
+            System.Diagnostics.Debug.WriteLine(this.ToString());
+            if(this.role == "seller")
             {
-                UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
-                if (this.Username.Equals(newUserInstance.Username))
-                {
-                    fileContent.RemoveAt(i);
-                    found = true;
-                    break;
+                List<ResidenceModel> residences = ResidenceModel.getAllItems(this.username);
+                foreach (ResidenceModel residence in residences) {
+                    residence.delete();
                 }
             }
-            if (found)
-            {
-                System.IO.File.WriteAllLines(table, fileContent);
-                return true;
+            List<ReservationModel> reservations = ReservationModel.getAllItems(this.Username);
+            foreach (ReservationModel reservation in reservations) {
+                reservation.delete();
             }
-            else
-            {
-                return false;
-            }
+            //add comment delete method
+            FileObjectSerializer.Delete(table, this.ToString());
+            return true;
         }
         public static UserModel find(String username)
         {
@@ -199,6 +193,15 @@ namespace turisticki_aranzmani.Models
                 allUsers.Add(userInstance);
             }
             return allUsers;
+        }
+        public static UserModel GetUser(String username) {
+            List<UserModel> allUsers = UserModel.GetUsers();
+            foreach (UserModel user in allUsers) {
+                if (user.Username.Equals(username)) {
+                    return user;
+                }
+            }
+            return null;
         }
 
     }

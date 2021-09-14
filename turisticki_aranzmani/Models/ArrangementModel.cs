@@ -81,7 +81,18 @@ namespace turisticki_aranzmani.Models
                 allModels.Add(am);
             }
             return allModels;
-
+        }
+        public static List<ArrangementModel> getAllItems(int residence_id) {
+            List<String> fileContent = FileObjectSerializer.GetFileContent(pathstatic);
+            List<ArrangementModel> allModels = new List<ArrangementModel>();
+            foreach (String row in fileContent) {
+                ArrangementModel am = new ArrangementModel(row.Split(';'));
+                if(am.ResidenceID == residence_id)
+                {
+                    allModels.Add(am);
+                }
+            }
+            return allModels;
         }
         public static ArrangementModel GetByID(int id)
         {

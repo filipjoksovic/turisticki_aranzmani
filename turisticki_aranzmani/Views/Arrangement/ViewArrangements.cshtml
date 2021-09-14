@@ -34,15 +34,45 @@
                                 <span>Mesto okupljanja: <strong> @item.GroupingPlace</strong></span>
                                 <span>Vreme polaska: <strong>@item.FormattedTimeStarting</strong></span>
                                 <span>Maksimalan broj gostiju:<strong> @item.MaxCustomers.ToString()</strong></span>
-                                <span><strong>@item.ResidenceID.ToString()</strong></span>
+                                <span><strong>@item.Residence.Name @if (item.Residence.BuildingType.Equals("hotel")) {<span>(@item.Residence.StarRating) Zvezdica</span> }</strong></span>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3 p-4">
                         <button class="btn btn-block btn-danger">Ukloni</button>
-                        <button class="btn btn-warning btn-block">Izmeni</button>
+                        @if (Session["role"].Equals("seller"))
+                        {
+                            <button class="btn btn-warning btn-block">Izmeni</button>
+                        }
                     </div>
                 </div>
+                    <div class="d-flex w-100 justify-content-around p-3" >
+                        <div class="form-check">
+                            <input disabled checked="@item.Residence.HasPool" class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Ima bazen
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" disabled type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" checked="@item.Residence.HasWifi" for="defaultCheck1">
+                                Ima WiFi
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" disabled checked="@item.Residence.HasSpa" type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Spa centar
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" disabled checked="@item.Residence.DisabilityApproved" type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Pogodno za osobe sa invaliditetom
+                            </label>
+                        </div>
+                    </div>
             </div>
         }
     }

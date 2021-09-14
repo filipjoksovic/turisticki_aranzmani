@@ -25,6 +25,7 @@ namespace turisticki_aranzmani.Models
         public Boolean AllowPets { get; set; }
         [DisplayName("Cena smestaja")]
         public int Price { get; set; }
+        public String Path { get { return this.path; } }
 
         public ResidenceItemModel()
         {

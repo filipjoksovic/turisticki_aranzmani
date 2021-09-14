@@ -62,8 +62,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Izmeni", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Detalji", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Ukloni", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.RouteLink("Ukloni", "User/Delete", new { username = item.Username})
                 </td>
             </tr>
         }

@@ -57,5 +57,31 @@ namespace turisticki_aranzmani.Helpers
                 return false;
             }
         }
+        public static Boolean Delete(String path, String row)
+        {
+            List<String> fileContent = FileObjectSerializer.GetFileContent(path);
+            for (int i = fileContent.Count - 1; i >= 0; i--)
+            {
+                fileContent[i] += Environment.NewLine;
+                if (fileContent[i].Equals(row))
+                {
+                    System.Diagnostics.Debug.WriteLine("found it");
+                    System.Diagnostics.Debug.WriteLine(fileContent[i]);
+
+                    fileContent.RemoveAt(i);
+                }
+            }
+            System.Diagnostics.Debug.WriteLine(fileContent.Count);
+            try
+            {
+                String fileContentString = string.Join("", fileContent);
+                File.WriteAllText(path, fileContentString);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
