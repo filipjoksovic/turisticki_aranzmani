@@ -28,7 +28,7 @@ namespace turisticki_aranzmani.Controllers
             List<ArrangementTypeModel> allItems = ArrangementTypeModel.getAllItems();
             ViewBag.ArrangementTypes = new SelectList(allItems.AsEnumerable(), "ID", "Name");
             ViewBag.RideTypes = new SelectList(RideTypeModel.getAllItems().AsEnumerable(), "ID", "Name");
-            ViewBag.Residences = new SelectList(ResidenceModel.getAllItems().AsEnumerable(), "ID", "Name");
+            ViewBag.Residences = new SelectList(ResidenceModel.getAllItems(Session["username"].ToString()).AsEnumerable(), "ID", "Name");
             return View();
         }
         [HttpPost]

@@ -111,9 +111,11 @@ namespace turisticki_aranzmani.Models
             List<ArrangementModel> arrangements = ArrangementModel.getAllItems(this.ID);
             //get arrangement reservations
             List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
+            System.Diagnostics.Debug.Write("DELETE THIS BITCH");
 
             if (FileObjectSerializer.Delete(path, this.ToString()))
             {
+                System.Diagnostics.Debug.Write("found");
                 foreach (ResidenceItemModel residence in residenceItems)
                 {
                     FileObjectSerializer.Delete(residence.Path, residence.ToString());

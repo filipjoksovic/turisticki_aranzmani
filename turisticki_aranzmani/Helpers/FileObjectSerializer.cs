@@ -63,6 +63,7 @@ namespace turisticki_aranzmani.Helpers
             for (int i = fileContent.Count - 1; i >= 0; i--)
             {
                 fileContent[i] += Environment.NewLine;
+                System.Diagnostics.Debug.WriteLine(fileContent[i]);
                 if (fileContent[i].Equals(row))
                 {
                     System.Diagnostics.Debug.WriteLine("found it");

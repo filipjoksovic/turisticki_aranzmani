@@ -143,10 +143,14 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean delete()
         {
+            System.Diagnostics.Debug.WriteLine("ROla: " + this.Role);
+
             System.Diagnostics.Debug.WriteLine(this.ToString());
-            if(this.role == "seller")
+            if(this.Role.Equals("seller"))
             {
-                List<ResidenceModel> residences = ResidenceModel.getAllItems(this.username);
+                List<ResidenceModel> residences = ResidenceModel.getAllItems(this.Username);
+            System.Diagnostics.Debug.WriteLine(residences.Count);
+
                 foreach (ResidenceModel residence in residences) {
                     residence.delete();
                 }

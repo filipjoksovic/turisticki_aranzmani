@@ -1,1 +1,4 @@
 admin;password;Admin;Admin;m;admin@smestaj.rs;11/11/1989 12:00:00 AM;admin
+korisnik1;password;Korisnik;1;m;korisnik1@email.com;11/11/1991 12:00:00 AM;user
+korisnik2;password;Korisnik;2;m;korisnik2@email.com;12/12/2001 12:00:00 AM;user
+menadzer1;password;Menadzer;2;m;menadzer2@email.com;1/1/1996 12:00:00 AM;seller

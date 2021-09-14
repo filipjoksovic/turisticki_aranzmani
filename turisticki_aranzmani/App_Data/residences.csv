@@ -1,0 +1,4 @@
+1;menadzer1;Smestaj menadzer 1;hotel;5;True;True;True;True
+2;menadzer1;Smestaj menadzer 2;motel;0;False;True;True;True
+3;menadzer2;Smestaj menadzer 3;vila;0;False;False;False;False
+4;menadzer2;Smestaj menadzer 4;motel;0;True;True;False;True
