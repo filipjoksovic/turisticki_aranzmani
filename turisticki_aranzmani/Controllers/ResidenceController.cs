@@ -145,25 +145,30 @@ namespace turisticki_aranzmani.Controllers
             }
         }
 
-        // GET: Residence/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Residence/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+        public ActionResult Delete(string role, int id) {
+            if (Session["username"] == null) {
+                TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite ovom delu sajta";
+                return Redirect("~/");
             }
-            catch
+            if (!Session["role"].Equals(role)) {
+                TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
+                return Redirect("~/");
+            }
+
+            ResidenceModel residence = ResidenceModel.GetByID(id);
+            if (residence.delete())
             {
-                return View();
+                TempData["message"] = "Uspesno uklonjen smestaj sa pratecim smestajnim jedinicama";
+            }
+            else {
+                TempData["error"] = "Doslo je do greske prilikom uklanjanja smestaja";
+            }
+            if (role.Equals("admin"))
+            {
+                return RedirectToRoute("User/Admin");
+            }
+            else {
+                return RedirectToRoute("User/Seller");
             }
         }
     }

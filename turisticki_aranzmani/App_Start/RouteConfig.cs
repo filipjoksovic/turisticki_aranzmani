@@ -18,14 +18,14 @@ namespace turisticki_aranzmani
                 new { controller = "Reservation", action = "Cancel" }
                 );
             routes.MapRoute(
-                name:"Reservation/Create",
-                url:"createReservation",
-                new {controller = "Reservation",action = "Create"}
+                name: "Reservation/Create",
+                url: "createReservation",
+                new { controller = "Reservation", action = "Create" }
                 );
             routes.MapRoute(
-                name:"Arrangement/Delete/",
-                url:"{role}/deleteArrangement/{id}",
-                new{ controller = "Arrangement", action = "Delete"}
+                name: "Arrangement/Delete/",
+                url: "{role}/deleteArrangement/{id}",
+                new { controller = "Arrangement", action = "Delete" }
                 );
             routes.MapRoute(
                 name: "Arrangement/View",
@@ -33,9 +33,9 @@ namespace turisticki_aranzmani
                 new { controller = "Arrangement", action = "ViewArrangements" }
                 );
             routes.MapRoute(
-                name:"Arrangement/Details",
-                url:"arrangementDetails/{id}",
-                new {controller = "Arrangement", action = "Details"}
+                name: "Arrangement/Details",
+                url: "arrangementDetails/{id}",
+                new { controller = "Arrangement", action = "Details" }
                 );
             routes.MapRoute(
                 name: "Reservation/ViewReservations/",
@@ -48,9 +48,9 @@ namespace turisticki_aranzmani
                 new { controller = "Arrangement", action = "Create" }
                 );
             routes.MapRoute(
-                name : "ResidenceItem/Details/",
-                url:"getResidenceItemDetails/{id}",
-                new {controller = "ResidenceItem",action = "Details"}
+                name: "ResidenceItem/Details/",
+                url: "getResidenceItemDetails/{id}",
+                new { controller = "ResidenceItem", action = "Details" }
                 );
             routes.MapRoute(
                 name: "ResidenceItem/CreateResidenceUnit/",
@@ -67,7 +67,11 @@ namespace turisticki_aranzmani
                 url: "seller/listResidences/",
                 new { controller = "Residence", action = "ListResidences" }
                 );
-
+            routes.MapRoute(
+                name: "Residence/Delete/",
+                url: "{role}/deleteResidence/{id}",
+                new { controller = "Residence", action = "Delete" }
+                );
             routes.MapRoute(
                 name: "Residence/Create",
                 url: "seller/createResidence",

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<turisticki_aranzmani.Models.ResidenceModel>
 
-<div class="mt-3">
+<div class="mt-5">
     <p>
         @Html.RouteLink("Dodajte novi smestaj", "Residence/Create", new { area = "" })
 
@@ -66,9 +66,9 @@
                         @Html.DisplayFor(modelItem => item.ID)
                     </td>
                     <td>
-                        @Html.ActionLink("Izmeni", "editResidence", new { id = item.ID }) |
+                        @*@Html.RouteLink("Izmeni", "Residence/Edit", new { id = item.ID }) |*@
                         @Html.RouteLink("Smestajne jedinice", "ResidenceItem/ListResidenceUnits/", new { id = item.ID }) |
-                        @Html.ActionLink("Ukloni", "deleteResidence", new { id = item.ID })
+                        @Html.RouteLink("Ukloni", "Residence/Delete/",new { id = item.ID, role = Session["role"].ToString() })
                     </td>
                 </tr>
             }

@@ -123,6 +123,9 @@ namespace turisticki_aranzmani.Models
                 foreach (ReservationModel reservation in reservations) {
                     FileObjectSerializer.Delete(reservation.Path, reservation.ToString());
                 }
+                foreach (ArrangementModel arrangement in arrangements) {
+                    FileObjectSerializer.Delete(arrangement.Path, arrangement.ToString());
+                }
                 return true;
             }
             else

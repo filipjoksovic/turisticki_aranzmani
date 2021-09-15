@@ -12,7 +12,7 @@ namespace turisticki_aranzmani.Models
     {
         private String path = HttpContext.Current.Server.MapPath("~/App_Data/arrangements.csv");
         private static String pathstatic = HttpContext.Current.Server.MapPath("~/App_Data/arrangements.csv");
-
+        public String Path { get { return this.path; } }
         public int ID { get; set; }
         public String Username { get; set; }
         public String Name { get; set; }
