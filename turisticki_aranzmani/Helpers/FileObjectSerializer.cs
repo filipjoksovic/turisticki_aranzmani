@@ -84,5 +84,20 @@ namespace turisticki_aranzmani.Helpers
                 return false;
             }
         }
+        public static Boolean UpdateLine(String path, String previousValue, String updatedValue) {
+            List<String> fileContent = FileObjectSerializer.GetFileContent(path);
+            bool found = false;
+            for(int i = 0;i < fileContent.Count; i++) {
+                String line = fileContent[i];
+                if ((line + Environment.NewLine).Equals(previousValue)){
+                    line = updatedValue;
+                    fileContent[i] = line.Replace(Environment.NewLine,"");
+                    found = true;
+                    break;
+                }
+            }
+            File.WriteAllLines(path, fileContent);
+            return found;
+        }
     }
 }

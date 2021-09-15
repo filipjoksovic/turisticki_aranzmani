@@ -40,6 +40,8 @@ namespace turisticki_aranzmani.Helpers
                 expandedModel.ArrangementName = ArrangementModel.GetByID(model.arrangement_id).Name;
                 expandedModel.ResidenceUnit = ResidenceItemModel.GetByID(model.residence_item_id).UnitName;
                 expandedModel.Status = model.status == 0 ? "Aktivna" : "Otkazana";
+                expandedModel.ArrangementImage = ArrangementModel.GetByID(model.arrangement_id).ImagePath;
+
                 expandedReservations.Add(expandedModel);
             }
             return expandedReservations;

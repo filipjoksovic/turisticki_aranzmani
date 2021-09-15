@@ -15,6 +15,21 @@ namespace turisticki_aranzmani.Controllers
         {
             return View();
         }
+
+        public ActionResult Cancel(int id) {
+            ReservationModel reservationInstance = ReservationModel.GetByID(id);
+            if (reservationInstance.cancel())
+            {
+                TempData["message"] = "Uspesno otkazana rezervacija";
+            }
+            else {
+                TempData["error"] = "Greska prilikom otkazivanja rezervacije";
+            }
+            return RedirectToRoute("User/Account");
+        }
+
+
+
         [HttpPost]
         public ActionResult Create(FormCollection collection) {
             String[] referer = Request.UrlReferrer.ToString().Split('/');

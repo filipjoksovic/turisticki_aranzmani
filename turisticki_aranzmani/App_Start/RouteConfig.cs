@@ -13,6 +13,11 @@ namespace turisticki_aranzmani
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                name: "Reservation/Cancel",
+                url: "cancelReservation",
+                new { controller = "Reservation", action = "Cancel" }
+                );
+            routes.MapRoute(
                 name:"Reservation/Create",
                 url:"createReservation",
                 new {controller = "Reservation",action = "Create"}
@@ -85,7 +90,11 @@ namespace turisticki_aranzmani
 
 
 
-
+            routes.MapRoute(
+                name: "User/Account",
+                url: "account",
+                new { controller = "User", action = "Account" }
+                );
             routes.MapRoute(
                 name: "User/ViewUsers",
                 url: "admin/viewUsers",

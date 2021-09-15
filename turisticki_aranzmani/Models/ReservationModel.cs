@@ -43,6 +43,14 @@ namespace turisticki_aranzmani.Models
         {
             return String.Format("{0};{1};{2};{3};{4};{5}{6}", this.id, this.username, this.arrangement_id, this.residence_item_id, this.status, this.created_at, Environment.NewLine);
         }
+        public static ReservationModel GetByID(int id) {
+            foreach (ReservationModel rm in ReservationModel.getAllItems()) {
+                if (rm.id == id) {
+                    return rm;
+                }
+            }
+            return null;
+        }
         public static List<ReservationModel> getAllItems()
         {
             List<ReservationModel> allItems = new List<ReservationModel>();
@@ -87,6 +95,12 @@ namespace turisticki_aranzmani.Models
                 return false;
             }
 
+        }
+        public Boolean cancel() {
+            String prevVal = this.ToString();
+            this.status = 1;
+            String upVal = this.ToString();
+            return FileObjectSerializer.UpdateLine(this.path, prevVal, upVal);
         }
         public Boolean delete() {
             FileObjectSerializer.Delete(path, this.ToString());

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using turisticki_aranzmani.Models;
+using System.Dynamic;
+using turisticki_aranzmani.Helpers;
 
 namespace turisticki_aranzmani.Controllers
 {
@@ -15,6 +17,19 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
 
+        public ActionResult Account() {
+            if (Session["username"] == null)
+            {
+                TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite Vasem nalogu";
+                return Redirect("~/");
+            }
+            else {
+                dynamic account = new ExpandoObject();
+                account.User = UserModel.GetUser(Session["username"].ToString());
+                account.Reservations = Utility.GetDetailedReservations(ReservationModel.getAllItems(Session["username"].ToString()));
+                return View(account);
+            }
+        }
         public ActionResult Create()
         {
             return View();
