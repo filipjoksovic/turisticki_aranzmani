@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
 using turisticki_aranzmani.Helpers;
+using System.ComponentModel;
 
 namespace turisticki_aranzmani.Models
 {
@@ -37,7 +38,7 @@ namespace turisticki_aranzmani.Models
             this.Gender = model.Gender;
             this.Email = model.Email; ;
             this.Birthday = model.Birthday;
-            this.Role = "guest";
+            this.Role = "user";
         }
         public UserModel(String[] data)
         {
@@ -62,21 +63,29 @@ namespace turisticki_aranzmani.Models
             this.Role = role;
         }
         [Required(ErrorMessage = "Korisnicko ime je obavezno polje")]
+        [DisplayName("Korisnicko ime")]
         public String Username { get; set; }
         [Required(ErrorMessage = "Lozinka je obavezno bolje")]
         [DataType(DataType.Password)]
+        [DisplayName("Lozinka")]
         public String Password { get; set; }
         [Required(ErrorMessage = "Ime je obavezno bolje")]
+        [DisplayName("Ime")]
         public String FirstName { get; set; }
         [Required(ErrorMessage = "Prezime je obavezno polje")]
+        [DisplayName("Prezime")]
         public String LastName { get; set; }
+        [DisplayName("Pol")]
         public String Gender { get; set; }
         [Required(ErrorMessage = "Email adresa je obavezno bolje")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Email adresa nije u odgovarajucem formatu")]
+        [DisplayName("Email adresa")]
         public String Email { get; set; }
         [Required(ErrorMessage = "Datum rodjenja je obavezno polje")]
         [DataType(DataType.Date, ErrorMessage = "Datum rodjenja nije u odgovarajucem formatu")]
+        [DisplayName("Datum rodjenja")]
         public DateTime Birthday { get; set; }
+        [DisplayName("Uloga")]
         public String Role { get; set; }
         public override string ToString()
         {
@@ -119,27 +128,29 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean update()
         {
-            List<String> fileContent = System.IO.File.ReadAllLines(table).ToList();
-            bool found = false;
-            for (int i = 0; i < fileContent.Count; i++)
-            {
-                UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
-                if (this.Username.Equals(newUserInstance.Username))
-                {
-                    fileContent[i] = this.ToString();
-                    found = true;
-                    break;
-                }
-            }
-            if (found)
-            {
-                System.IO.File.WriteAllLines(table, fileContent);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            String prevVal = UserModel.GetUser(this.Username).ToString();
+            return FileObjectSerializer.UpdateLine(this.table, prevVal, this.ToString());
+            //List<String> fileContent = System.IO.File.ReadAllLines(table).ToList();
+            //bool found = false;
+            //for (int i = 0; i < fileContent.Count; i++)
+            //{
+            //    UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
+            //    if (this.Username.Equals(newUserInstance.Username))
+            //    {
+            //        fileContent[i] = this.ToString();
+            //        found = true;
+            //        break;
+            //    }
+            //}
+            //if (found)
+            //{
+            //    System.IO.File.WriteAllLines(table, fileContent);
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
         }
         public Boolean delete()
         {

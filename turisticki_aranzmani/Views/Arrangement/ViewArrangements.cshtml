@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<dynamic>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p class=" mt-5">
+    @Html.ActionLink("Dodajte novi aranzman", "Create")
 </p>
 <div class="container mt-5">
     <h3 class="text-center mb-3">Prikaz aranzmana</h3>
@@ -34,7 +34,7 @@
                                 <span>Mesto okupljanja: <strong> @item.GroupingPlace</strong></span>
                                 <span>Vreme polaska: <strong>@item.FormattedTimeStarting</strong></span>
                                 <span>Maksimalan broj gostiju:<strong> @item.MaxCustomers.ToString()</strong></span>
-                                <span><strong>@item.Residence.Name @if (item.Residence.BuildingType.Equals("hotel")) {<span>(@item.Residence.StarRating) Zvezdica</span> }</strong></span>
+                                <span><strong>@item.Residence.Name @if (item.Residence.BuildingType.Equals("hotel")) {<br /><span>(@item.Residence.StarRating Zvezdica)</span> }</strong></span>
                                 
                             </div>
                         </div>

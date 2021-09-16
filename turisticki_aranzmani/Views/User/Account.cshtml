@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-4">
             <h5>Detalji o nalogu</h5>
-            @using (@Html.BeginForm("User/Account", "User", FormMethod.Post))
+            @using (@Html.BeginForm("Account", "User",FormMethod.Post))
             {
                 <div class="form-group">
                     @Html.Label("Ime")
@@ -32,7 +32,7 @@
                 <div class="form-group">
                     @Html.Label("Datum rodjenja", htmlAttributes: new { @class = "" })
 
-                    @Html.Editor("Birthday", new { htmlAttributes = new { @class = "form-control", @type = "date", @Value = Model.User.Birthday.ToString("YYYY-M-dd") } })
+                    @Html.Editor("Birthday", new { htmlAttributes = new { @class = "form-control", @type = "date", @Value = Model.User.Birthday.ToString("yyyy-MM-dd") } })
                 </div>
                 <input type="submit" value="Izmeni nalog" class="btn btn-warning btn-block" />
             }
@@ -54,11 +54,9 @@
                                 <h6>
                                     @(reservation.ResidenceUnit)
                                 </h6>
+                                
                                 <h6>
-                                    @(reservation.Status)
-                                </h6>
-                                <h6>
-                                    @(reservation.created_at)
+                                    @(reservation.created_at.ToString("dd.M.yyyy"))
                                 </h6>
                             </div>
                             <div class=" col-md-3">

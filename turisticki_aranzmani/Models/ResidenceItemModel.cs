@@ -92,7 +92,9 @@ namespace turisticki_aranzmani.Models
         }
         public static List<ResidenceItemModel> getAvailableItems(int arrangement_id) {
             ArrangementModel arrangement = ArrangementModel.GetByID(arrangement_id);
+            System.Diagnostics.Debug.WriteLine("Arrangement ID" + arrangement_id);
             int arrangement_residence = arrangement.ResidenceID;
+
             List<ResidenceItemModel> allResidenceUnits = ResidenceItemModel.getAllItems(arrangement_residence);
             List<ReservationModel> allReservations = ReservationModel.getAllItems(arrangement_id);
             for (int i = 0; i < allReservations.Count; i++) {

@@ -65,7 +65,7 @@ namespace turisticki_aranzmani.Models
         public static List<ReservationModel> getAllItems(String username) {
             List<ReservationModel> allItems = ReservationModel.getAllItems();
             for (int i = allItems.Count - 1; i >= 0; i--) {
-                if (allItems[i].username.Equals(username)) {
+                if (!allItems[i].username.Equals(username)) {
                     allItems.RemoveAt(i);
                 }
             }

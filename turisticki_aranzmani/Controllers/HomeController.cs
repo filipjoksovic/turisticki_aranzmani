@@ -15,8 +15,9 @@ namespace turisticki_aranzmani.Controllers
             ViewBag.Title = "Home Page";
 
             dynamic aModel = new ExpandoObject();
-            aModel.arrangements = ArrangementModel.getAllItems();
-
+            List<ArrangementModel> arrangements = ArrangementModel.getAllItems();
+            arrangements.OrderBy(arrangement => arrangement.DateStart);
+            aModel.arrangements = arrangements;
             return View(aModel);
         }
     }

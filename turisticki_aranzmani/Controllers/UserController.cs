@@ -26,9 +26,36 @@ namespace turisticki_aranzmani.Controllers
             else {
                 dynamic account = new ExpandoObject();
                 account.User = UserModel.GetUser(Session["username"].ToString());
+
                 account.Reservations = Utility.GetDetailedReservations(ReservationModel.getAllItems(Session["username"].ToString()));
                 return View(account);
             }
+        }
+        [HttpPost]
+        public ActionResult Account(FormCollection collection) {
+            if (Session["username"] == null)
+            {
+                TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite Vasem nalogu";
+                return Redirect("~/");
+            }
+            else {
+                UserModel userInstance = UserModel.GetUser(Session["Username"].ToString());
+                userInstance.FirstName = collection["FirstName"];
+                userInstance.LastName = collection["LastName"];
+                userInstance.Gender = collection["Gender"];
+                userInstance.Email = collection["Email"];
+                userInstance.Birthday = DateTime.Parse(collection["Birthday"]);
+                if (userInstance.update())
+                {
+                    TempData["message"] = "Uspesno izmenjeni podaci o nalogu";
+                }
+                else
+                {
+                    TempData["error"] = "Greska prilikom izmene naloga";
+                }
+                return RedirectToRoute("User/Account");
+            }
+
         }
         public ActionResult Create()
         {
@@ -72,6 +99,7 @@ namespace turisticki_aranzmani.Controllers
             }
             else
             {
+                userModel.Role = "user";
                 bool saved = userModel.save();
                 if (saved)
                 {

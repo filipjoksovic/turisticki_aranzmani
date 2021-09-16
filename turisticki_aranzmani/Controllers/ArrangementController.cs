@@ -148,7 +148,7 @@ namespace turisticki_aranzmani.Controllers
         {
             ArrangementModel arrangement = ArrangementModel.GetByID(id);
             dynamic modelInstance = Utility.ExpandArrangement(arrangement);
-            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(arrangement.ResidenceID).AsEnumerable(), "ID", "UnitName", ResidenceItemModel.getBookedItems(arrangement.ResidenceID).AsEnumerable());
+            modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(id).AsEnumerable(), "ID", "UnitName");
             return View("Details", modelInstance);
         }
         //public ActionResult Edit() { 
