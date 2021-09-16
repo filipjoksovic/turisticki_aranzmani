@@ -26,22 +26,27 @@ namespace turisticki_aranzmani
             routes.MapRoute(
                 name:"Arrangement/DenyReview",
                 url:"{role}/DenyReview/{id}",
-                new {controller = "Arrangement", action = "DenyReview"}
+                new {controller = "ArrangementComment", action = "DenyReview"}
                 );
             routes.MapRoute(
                 name:"Arrangement/AllowReview/",
                 url:"{role}/allowReview/{id}",
-                new {controller = "Arrangement", action = "AllowReview"} 
+                new {controller = "ArrangementComment", action = "AllowReview"} 
                 );
             routes.MapRoute(
                 name:"Arrangement/DeleteReview/",
                 url:"{role}/deleteReview/{id}",
-                new { controller = "Arrangement", action ="DeleteReview" }
+                new { controller = "ArrangementComment", action ="DeleteReview" }
+                );
+            routes.MapRoute(
+                name: "Arrangement/EditReview",
+                url:"editReview",
+                new {controller = "ArrangementComment", action = "EditReview"}
                 );
             routes.MapRoute(
                 name: "Arrangement/Review",
                 url: "leaveReview",
-                new { controller = "Arrangemenet", action = "LeaveReview" }
+                new { controller = "ArrangementComment", action = "LeaveReview" }
                 );
             routes.MapRoute(
                 name: "Arrangement/Delete/",

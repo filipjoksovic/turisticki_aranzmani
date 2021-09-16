@@ -125,7 +125,7 @@
                 {
 
 
-                    using (@Html.BeginForm("LeaveReview", "Arrangement"))
+                    using (@Html.BeginForm("LeaveReview", "ArrangementComment"))
                     {
                         <div class="form-group">
                             @Html.Label("Ocena")
@@ -141,7 +141,7 @@
                 }
                 else if (Model.CanReview && Model.HasReview)
                 {
-                    using (@Html.BeginForm("LeaveReview", "Arrangement"))
+                    using (@Html.BeginForm("EditReview", "ArrangementComment"))
                     {
                         <div class="form-group">
                             @Html.Label("Ocena")
@@ -149,9 +149,9 @@
                         </div>
                         <div class="form-group">
                             @Html.Label("Komentar")
-                            @Html.TextArea("Comment", new { @class = "form-control", @Value = Model.Comment.Comment })
+                            @Html.TextArea("Comment",(String)@Model.Comment.Comment, new { @class = "form-control",@value = Model.Comment.Comment })
                         </div>
-                        @Html.Editor("ArrangementID", new { htmlAttributes = new { @class = "form-control", @type = "hidden", @Value = Model.ID } })
+                        @Html.Editor("ReviewID", new { htmlAttributes = new { @class = "form-control", @type = "hidden", @Value = Model.Comment.ID } })
                         <input type="submit" class=" btn btn-primary btn-block w-50 mx-auto" value="Izmeni ocenu" />
                     }
                 }

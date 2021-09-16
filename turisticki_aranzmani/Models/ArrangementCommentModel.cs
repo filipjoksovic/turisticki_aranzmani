@@ -64,6 +64,7 @@ namespace turisticki_aranzmani.Models
             return FileObjectSerializer.Delete(this.path, this.ToString());
         }
         public Boolean update() {
+
             String oldVal = ArrangementCommentModel.GetByID(this.ID).ToString();
             return FileObjectSerializer.UpdateLine(this.path, oldVal, this.ToString());
         }

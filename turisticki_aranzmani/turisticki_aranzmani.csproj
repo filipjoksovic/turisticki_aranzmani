@@ -161,6 +161,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ArrangementCommentController.cs" />
     <Compile Include="Controllers\ArrangementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
@@ -376,6 +377,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\arrangement_images\" />
+    <Folder Include="Views\ArrangementCommentt\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
