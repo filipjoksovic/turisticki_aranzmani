@@ -113,14 +113,31 @@
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <div class="container mt-5">
                 <h5 class="text-center">Komentari</h5>
+                <div>
+                    @foreach (var review in Model.Reviews) { 
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div>
+                                        <span>@review.Username</span><br />
+                                        <span>@review.Grade / 5</span>
+                                    </div>
+                                    <p>@review.DateCreated.ToString("dd/M/yyyy")</p>
 
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @review.Comment
+                            </div>
+                        </div>
+                    }
+
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="personal_comment" role="tabpanel" aria-labelledby="contact-tab">
             <div class="container mt-5">
                 <h5 class="text-center">Licni komentar</h5>
-                @Model.HasReview
-                @Model.CanReview
                 @if (Model.CanReview && !Model.HasReview)
                 {
 
@@ -159,11 +176,11 @@
                 {
                     if (Session["username"] == null)
                     {
-                        <h4 class="text-center">Morate biti ulogovani kako biste mogli da ocenite aranzman</h4>
+                        <h6 class="text-center">Morate biti ulogovani kako biste mogli da ocenite aranzman</h6>
                     }
                     if (Session["username"] != null && !Model.CanReview)
                     {
-                        <h4 class="text-center">Trenutno ne mozete da ocenite ovaj aranzman. Ukoliko imate rezervaciju na njega, sacekajte da se vratite.</h4>
+                        <h6 class="text-center">Trenutno ne mozete da ocenite ovaj aranzman. Ukoliko imate rezervaciju na njega, sacekajte da se vratite.</h6>
                     }
                 }
 

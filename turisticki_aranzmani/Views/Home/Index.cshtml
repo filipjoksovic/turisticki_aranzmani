@@ -4,24 +4,25 @@
 
     @foreach (var arModel in Model.arrangements)
     {
-        <div class="border row align-items-center mt-3">
-            <div class="col-md-2">
-                Datum polaska: @arModel.FormattedDateStart u @arModel.FormattedTimeStarting
-            </div>
-            <div class="col-md-2">
-                Datum povratka : @arModel.FormattedDateEnd
-            </div>
-            <div class="col-md-2"><img src='@Url.Content("~/Content/arrangement_images/" + arModel.ImagePath)' class="arrangement_image" /></div>
-            <div class="col-md-4">@arModel.Name</div>
-            @if (arModel.DateStart.CompareTo(DateTime.Now) == 1)
-            {
-                <div class="col-md-2">@Html.RouteLink("Detalji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block w-50 mx-auto btn-primary" })</div>
-            }
-            else
-            {
-                <div class="col-md-2"><button class=" btn btn-info btn-block w-50 mx-auto" disabled>Istekao</button></div>
+<div class="border row align-items-center mt-3">
+    <div class="col-md-2">
+        Datum polaska: @arModel.FormattedDateStart u @arModel.FormattedTimeStarting
+    </div>
+    <div class="col-md-2">
+        Datum povratka : @arModel.FormattedDateEnd
+    </div>
+    <div class="col-md-2"><img src='@Url.Content("~/Content/arrangement_images/" + arModel.ImagePath)' class="arrangement_image" /></div>
+    <div class="col-md-4">@arModel.Name</div>
+    @if (arModel.DateStart.CompareTo(DateTime.Now) == 1)
+    {
+        <div class="col-md-2">@Html.RouteLink("Detalji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block w-50 mx-auto btn-primary" })</div>
+    }
+    else
+    {
+        <div class="col-md-2">@Html.RouteLink("Itekao - Detailji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block  mx-auto btn-danger" })</div>
 
-            }
-        </div>
+
+    }
+</div>
     }
 </div>

@@ -65,6 +65,17 @@ namespace turisticki_aranzmani.Models
             }
             return comments;
         }
+        public static List<ArrangementCommentModel> GetComments(int id, Boolean allowed) {
+            List<ArrangementCommentModel> comments = ArrangementCommentModel.GetComments(id);
+            for (int i = comments.Count - 1; i >= 0; i--)
+            {
+                if (comments[i].Allowed != allowed)
+                {
+                    comments.RemoveAt(i);
+                }
+            }
+            return comments;
+        }
         public static ArrangementCommentModel GetByID(int id) {
             foreach (ArrangementCommentModel comment in ArrangementCommentModel.GetComments()) {
                 if (comment.ID == id) {

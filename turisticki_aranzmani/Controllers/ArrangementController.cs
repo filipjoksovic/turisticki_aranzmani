@@ -150,6 +150,7 @@ namespace turisticki_aranzmani.Controllers
             dynamic modelInstance = Utility.ExpandArrangement(arrangement);
             modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(id).AsEnumerable(), "ID", "UnitName");
             modelInstance.GroupingPlace = PlaceModel.GetByID(arrangement.StartingPointID);
+            modelInstance.Reviews = ArrangementCommentModel.GetComments(id,true);
             return View("Details", modelInstance);
         }
        
