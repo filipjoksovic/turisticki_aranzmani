@@ -62,6 +62,19 @@ namespace turisticki_aranzmani.Models
             }
             return allItems;
         }
+        public static List<ReservationModel> getSellerReservations(String username) {
+            List<ReservationModel> allItems = ReservationModel.getAllItems();
+            for (int i = allItems.Count - 1; i >= 0; i--)
+            {
+                ArrangementModel am = ArrangementModel.GetByID(allItems[i].arrangement_id);
+
+                if (!am.Username.Equals(username))
+                {
+                    allItems.RemoveAt(i);
+                }
+            }
+            return allItems;
+        }
         public static List<ReservationModel> getAllItems(String username) {
             List<ReservationModel> allItems = ReservationModel.getAllItems();
             for (int i = allItems.Count - 1; i >= 0; i--) {

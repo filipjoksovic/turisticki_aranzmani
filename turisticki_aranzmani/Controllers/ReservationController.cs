@@ -16,13 +16,15 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
 
-        public ActionResult Cancel(int id) {
+        public ActionResult Cancel(int id)
+        {
             ReservationModel reservationInstance = ReservationModel.GetByID(id);
             if (reservationInstance.cancel())
             {
                 TempData["message"] = "Uspesno otkazana rezervacija";
             }
-            else {
+            else
+            {
                 TempData["error"] = "Greska prilikom otkazivanja rezervacije";
             }
             return RedirectToRoute("User/Account");
@@ -31,12 +33,13 @@ namespace turisticki_aranzmani.Controllers
 
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection) {
+        public ActionResult Create(FormCollection collection)
+        {
             String[] referer = Request.UrlReferrer.ToString().Split('/');
             int arrangement_id = Convert.ToInt32(referer[referer.Length - 1]);
             int unit_id = Convert.ToInt32(collection["ResidenceUnit"]);
             String username = Session["username"].ToString();
-            ReservationModel model= new ReservationModel();
+            ReservationModel model = new ReservationModel();
             model.arrangement_id = arrangement_id;
             model.residence_item_id = unit_id;
             model.username = username;
@@ -44,25 +47,33 @@ namespace turisticki_aranzmani.Controllers
             TempData["message"] = "Rezervacija je uspesno kreirana";
             return Redirect("~/");
         }
-        public ActionResult ViewReservations(string role) {
+        public ActionResult ViewReservations(string role)
+        {
             List<dynamic> detailedReservations = new List<dynamic>();
 
             if ((role.Equals("admin") || role.Equals("seller")) && (Session["role"] != null && Session["role"].Equals(role)))
             {
                 List<ReservationModel> allReservations = new List<ReservationModel>();
-                if (role.Equals("admin")) {
+                if (role.Equals("admin"))
+                {
                     allReservations = ReservationModel.getAllItems();
+
+                }
+                else if (role.Equals("seller"))
+                {
+                    allReservations = ReservationModel.getSellerReservations(Session["username"].ToString());
                 }
                 else
                 {
                     allReservations = ReservationModel.getAllItems(Session["username"].ToString());
-                    detailedReservations = Utility.GetDetailedReservations(allReservations);
                 }
 
+                detailedReservations = Utility.GetDetailedReservations(allReservations);
 
                 return View(detailedReservations);
             }
-            else {
+            else
+            {
                 TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
                 return Redirect("~/");
             }

@@ -1,7 +1,18 @@
 ﻿@model IEnumerable<dynamic>
+@{ 
+    ViewBag.Title = "Prikaz ocena";
+}
 
 <div class="mt-5">
-    <h3>Prikaz ocena za</h3>
+    @if (ViewBag.ArrangementTitle != null)
+    {
+        <h3>Prikaz ocena za @ViewBag.ArrangementTitle</h3>
+    }
+    else
+    {
+        <h3>Prikaz ocena za sve aranzmane</h3>
+
+    }
     <div class="table-responsive mt-4">
         <table class="table">
             <tr>
@@ -30,16 +41,16 @@
             {
                 <tr>
                     <td>
-                         @item.Username
+                        @item.Username
                     </td>
                     <td>
-                         @item.ArrangementName
+                        @item.ArrangementName
                     </td>
                     <td>
-                         @item.Grade
+                        @item.Grade
                     </td>
                     <td>
-                         @item.Comment
+                        @item.Comment
                     </td>
                     <td>
                         @if (item.Allowed)
@@ -52,12 +63,12 @@
                         }
                     </td>
                     <td>
-                         @item.DateCreated
+                        @item.DateCreated
                     </td>
                     <td>
                         @if (item.Allowed)
                         {
-                            @Html.RouteLink("Odbij", "Arrangement/DenyReview/", new { id = item.ID}, new { @class = "text-center d-block"})
+                            @Html.RouteLink("Odbij", "Arrangement/DenyReview/", new { id = item.ID }, new { @class = "text-center d-block" })
                         }
                         else
                         {

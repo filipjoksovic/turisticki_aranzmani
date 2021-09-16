@@ -30,6 +30,10 @@ namespace turisticki_aranzmani.Controllers
                 {
                     int arrangement_id = Convert.ToInt32(id);
                     reviews = ArrangementCommentModel.GetComments(arrangement_id);
+                    if (reviews != null)
+                    {
+                        ViewBag.ArrangementTitle = ArrangementModel.GetByID(arrangement_id).Name;
+                    }
                 }
                 else
                 {
