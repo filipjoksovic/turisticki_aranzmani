@@ -26,31 +26,39 @@
             <span> <strong>Maksimalan broj gostiju: @Model.MaxCustomers</strong><br></span>
         </div>
         <div class="col-md-4 d-flex align-items-center flex-column">
-            @if (Session["username"] != null)
+            @if (Model.DateEnd.CompareTo(DateTime.Now) == 1)
             {
-                using (Html.BeginRouteForm("Reservation/Create", FormMethod.Post, new
+                if (Session["username"] != null)
                 {
-                    @class = "container-fluid"
-                }))
-                {
-                    <h5 class="text-center my-3">Dostupni smestaji</h5>
-                    @Html.DropDownList("ResidenceUnit", (SelectList)Model.ResidenceItems, new { @class = "form-control", @id = "residenceUnitSelect" })
-                    <div class="mb-2 mt-4 container-fluid" id="unitDetails">
-                        <h5 class="text-center">Detalji o smestaju</h5>
-                        <div>
-                            <p>Maksimalan broj gostiju: <strong id="maxGuests"></strong></p>
-                            <p>Dozvoljeni ljubimci: <strong id="allowPets"></strong></p>
-                            <p>Cena: <strong id="price"></strong></p>
+                    using (Html.BeginRouteForm("Reservation/Create", FormMethod.Post, new
+                    {
+                        @class = "container-fluid"
+                    }))
+                    {
+                        <h5 class="text-center my-3">Dostupni smestaji</h5>
+                        @Html.DropDownList("ResidenceUnit", (SelectList)Model.ResidenceItems, new { @class = "form-control", @id = "residenceUnitSelect" })
+                        <div class="mb-2 mt-4 container-fluid" id="unitDetails">
+                            <h5 class="text-center">Detalji o smestaju</h5>
+                            <div>
+                                <p>Maksimalan broj gostiju: <strong id="maxGuests"></strong></p>
+                                <p>Dozvoljeni ljubimci: <strong id="allowPets"></strong></p>
+                                <p>Cena: <strong id="price"></strong></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="  my-3 w-100">
-                        <button class="btn btn-primary btn-block" type="submit">Rezervisi</button>
-                    </div>
+                        <div class="  my-3 w-100">
+                            <button class="btn btn-primary btn-block" type="submit">Rezervisi</button>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h3 class="align-middle text-center">Morate biti ulogovani kako biste mogli da kreirate rezervaciju</h3>
                 }
             }
             else
             {
-                <h3 class="align-middle text-center">Morate biti ulogovani kako biste mogli da kreirate rezervaciju</h3>
+                <h4 class="align-middle text-center">Ovaj aranzman je istekao i ne mogu se rezervisati smestaji za njega</h4>
+
             }
         </div>
 
@@ -111,7 +119,9 @@
         <div class="tab-pane fade" id="personal_comment" role="tabpanel" aria-labelledby="contact-tab">
             <div class="container mt-5">
                 <h5 class="text-center">Licni komentar</h5>
-                @if (Model.CanReview)
+                @Model.HasReview
+                @Model.CanReview
+                @if (Model.CanReview && !Model.HasReview)
                 {
 
 
@@ -125,8 +135,35 @@
                             @Html.Label("Komentar")
                             @Html.TextArea("Comment", new { @class = "form-control" })
                         </div>
-                            @Html.Editor("ArrangementID", new { htmlAttributes = new { @class = "form-control", @type = "hidden", @Value = Model.ID} })
-                    <input type="submit" class=" btn btn-primary btn-block w-50 mx-auto" value="Oceni"/>
+                        @Html.Editor("ArrangementID", new { htmlAttributes = new { @class = "form-control", @type = "hidden", @Value = Model.ID } })
+                        <input type="submit" class=" btn btn-primary btn-block w-50 mx-auto" value="Oceni" />
+                    }
+                }
+                else if (Model.CanReview && Model.HasReview)
+                {
+                    using (@Html.BeginForm("LeaveReview", "Arrangement"))
+                    {
+                        <div class="form-group">
+                            @Html.Label("Ocena")
+                            @Html.Editor("Grade", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "5", @Value = Model.Comment.Grade } })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Komentar")
+                            @Html.TextArea("Comment", new { @class = "form-control", @Value = Model.Comment.Comment })
+                        </div>
+                        @Html.Editor("ArrangementID", new { htmlAttributes = new { @class = "form-control", @type = "hidden", @Value = Model.ID } })
+                        <input type="submit" class=" btn btn-primary btn-block w-50 mx-auto" value="Izmeni ocenu" />
+                    }
+                }
+                else
+                {
+                    if (Session["username"] == null)
+                    {
+                        <h4 class="text-center">Morate biti ulogovani kako biste mogli da ocenite aranzman</h4>
+                    }
+                    if (Session["username"] != null && !Model.CanReview)
+                    {
+                        <h4 class="text-center">Trenutno ne mozete da ocenite ovaj aranzman. Ukoliko imate rezervaciju na njega, sacekajte da se vratite.</h4>
                     }
                 }
 

@@ -30,11 +30,17 @@ namespace turisticki_aranzmani.Helpers
             modelInstance.ResidenceName = ResidenceModel.getResidenceName(model.ResidenceID);
             modelInstance.Residence = ResidenceModel.GetByID(model.ResidenceID);
             if (HttpContext.Current.Session["username"] != null) {
-                modelInstance.CanReview = model.canReview(HttpContext.Current.Session["username"].ToString());
+                String username = HttpContext.Current.Session["username"].ToString();
+                modelInstance.CanReview = model.canReview(username);
+                modelInstance.HasReview = model.hasReview(username);
+                if (modelInstance.HasReview) {
+                    modelInstance.Comment = ArrangementCommentModel.GetComment(model.ID, username);
+                }
             }
             else
             {
                 modelInstance.CanReview = false;
+                modelInstance.HasReview = false;
             }
             return modelInstance;
 

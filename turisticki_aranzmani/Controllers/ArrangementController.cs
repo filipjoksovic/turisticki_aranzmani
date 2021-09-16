@@ -185,6 +185,7 @@ namespace turisticki_aranzmani.Controllers
                     ArrangementCommentModel review = new ArrangementCommentModel();
                     review.Grade = Convert.ToInt32(collection["Grade"]);
                     review.Comment = collection["Comment"];
+                    review.Username = username;
                     review.ArrangementID = arrangementModel.ID;
                     if (review.save())
                     {

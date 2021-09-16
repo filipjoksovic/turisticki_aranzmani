@@ -67,6 +67,15 @@ namespace turisticki_aranzmani.Models
             String oldVal = ArrangementCommentModel.GetByID(this.ID).ToString();
             return FileObjectSerializer.UpdateLine(this.path, oldVal, this.ToString());
         }
+        public static ArrangementCommentModel GetComment(int arrangement_id, String username) {
+            foreach (ArrangementCommentModel comment in ArrangementCommentModel.GetComments()) {
+                System.Diagnostics.Debug.WriteLine(comment.ToString());
+                if (comment.ArrangementID == arrangement_id && comment.Username.Equals(username)) {
+                    return comment;
+                }
+            }
+            return null;
+        }
 
 
     }

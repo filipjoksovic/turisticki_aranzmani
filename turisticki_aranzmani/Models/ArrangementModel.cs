@@ -163,5 +163,11 @@ namespace turisticki_aranzmani.Models
             }
             return false;
         }
+        public Boolean hasReview(String username) {
+            if (ArrangementCommentModel.GetComment(this.ID, username) != null) {
+                return true;
+            }
+            return false;
+        }
     }
 }
