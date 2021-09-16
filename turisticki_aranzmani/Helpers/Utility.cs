@@ -29,7 +29,15 @@ namespace turisticki_aranzmani.Helpers
             modelInstance.GroupingPlace = PlaceModel.PrettifyPlace(model.StartingPointID);
             modelInstance.ResidenceName = ResidenceModel.getResidenceName(model.ResidenceID);
             modelInstance.Residence = ResidenceModel.GetByID(model.ResidenceID);
+            if (HttpContext.Current.Session["username"] != null) {
+                modelInstance.CanReview = model.canReview(HttpContext.Current.Session["username"].ToString());
+            }
+            else
+            {
+                modelInstance.CanReview = false;
+            }
             return modelInstance;
+
         }
         public static List<dynamic> GetDetailedReservations(List<ReservationModel> reservations)
         {
@@ -37,11 +45,13 @@ namespace turisticki_aranzmani.Helpers
             foreach (ReservationModel model in reservations)
             {
                 dynamic expandedModel = Utility.ToExpandoObject(model);
-                expandedModel.ArrangementName = ArrangementModel.GetByID(model.arrangement_id).Name;
+                ArrangementModel am = ArrangementModel.GetByID(model.arrangement_id);
+                expandedModel.ArrangementName = am.Name;
                 expandedModel.ResidenceUnit = ResidenceItemModel.GetByID(model.residence_item_id).UnitName;
                 expandedModel.Status = model.status == 0 ? "Aktivna" : "Otkazana";
-                expandedModel.ArrangementImage = ArrangementModel.GetByID(model.arrangement_id).ImagePath;
-
+                expandedModel.ArrangementImage = am.ImagePath;
+                expandedModel.DateEnd = am.DateEnd;
+                expandedModel.ArrangementID = am.ID;
                 expandedReservations.Add(expandedModel);
             }
             return expandedReservations;

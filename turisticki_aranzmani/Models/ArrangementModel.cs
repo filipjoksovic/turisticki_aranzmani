@@ -149,5 +149,19 @@ namespace turisticki_aranzmani.Models
             arrangementPlace.delete();
             return true;
         }
+        public  Boolean canReview(String username) {
+            bool exists = false;
+            List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
+            foreach (ReservationModel reservation in reservations) {
+                if (reservation.username.Equals(username)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists && this.DateEnd.CompareTo(DateTime.Now) == -1) {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -17,10 +17,31 @@ namespace turisticki_aranzmani
                 url: "cancelReservation",
                 new { controller = "Reservation", action = "Cancel" }
                 );
+            
             routes.MapRoute(
                 name: "Reservation/Create",
                 url: "createReservation",
                 new { controller = "Reservation", action = "Create" }
+                );
+            routes.MapRoute(
+                name:"Arrangement/DenyReview",
+                url:"{role}/DenyReview/{id}",
+                new {controller = "Arrangement", action = "DenyReview"}
+                );
+            routes.MapRoute(
+                name:"Arrangement/AllowReview/",
+                url:"{role}/allowReview/{id}",
+                new {controller = "Arrangement", action = "AllowReview"} 
+                );
+            routes.MapRoute(
+                name:"Arrangement/DeleteReview/",
+                url:"{role}/deleteReview/{id}",
+                new { controller = "Arrangement", action ="DeleteReview" }
+                );
+            routes.MapRoute(
+                name: "Arrangement/Review",
+                url: "leaveReview",
+                new { controller = "Arrangemenet", action = "LeaveReview" }
                 );
             routes.MapRoute(
                 name: "Arrangement/Delete/",

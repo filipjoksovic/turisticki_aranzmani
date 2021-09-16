@@ -152,11 +152,56 @@ namespace turisticki_aranzmani.Controllers
             modelInstance.GroupingPlace = PlaceModel.GetByID(arrangement.StartingPointID);
             return View("Details", modelInstance);
         }
-        //public ActionResult Edit() { 
-
-        //}
-        //public ActionResult() Delete{ 
-
-        //}
+        public ActionResult DeleteReview(String role, int id) {
+            if (Session["role"] == null || !Session["role"].Equals(role))
+            {
+                TempData["error"] = "Nemate dozvolu da uklonite ovu ocenu";
+                return Redirect("~/");
+            }
+            else {
+                ArrangementCommentModel reviewInstance = ArrangementCommentModel.GetByID(id);
+                if (reviewInstance.delete())
+                {
+                    TempData["message"] = "Komentar je uspesno izmenjen";
+                }
+                else {
+                    TempData["error"] = "Doslo je do greske prilikom uklanjanja komentara";
+                }
+                return RedirectToRoute("User/Account");
+            }
+        }
+        public ActionResult LeaveReview(FormCollection collection) {
+            if (Session["username"] == null)
+            {
+                TempData["error"] = "Morate biti ulogovani kako biste mogli ostaviti ocenu na aranzman";
+                return Redirect("~/");
+            }
+            else {
+                int arrangementID = Convert.ToInt32(collection["ArrangementID"]);
+                String username = Session["username"].ToString();
+                ArrangementModel arrangementModel = ArrangementModel.GetByID(arrangementID);
+                if (arrangementModel.canReview(username))
+                {
+                    ArrangementCommentModel review = new ArrangementCommentModel();
+                    review.Grade = Convert.ToInt32(collection["Grade"]);
+                    review.Comment = collection["Comment"];
+                    review.ArrangementID = arrangementModel.ID;
+                    if (review.save())
+                    {
+                        TempData["message"] = "Ocena uspesno ostavljena";
+                        return Redirect("~/");
+                    }
+                    else
+                    {
+                        TempData["error"] = "Doslo je do greske prilikom ostavljanja ocene na aranzman";
+                        return Redirect("~/");
+                    }
+                }
+                else {
+                    TempData["error"] = "Trenutno ne mozete ostaviti ocenu na dati aranzman";
+                    return Redirect("~/");
+                }
+            }
+        }
     }
 }
