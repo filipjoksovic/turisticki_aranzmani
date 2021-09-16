@@ -374,6 +374,7 @@
     <Content Include="Views\Arrangement\ViewArrangements.cshtml" />
     <Content Include="Views\Reservation\ViewReservations.cshtml" />
     <Content Include="Views\User\Account.cshtml" />
+    <Content Include="Views\ArrangementComment\ListReviews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\arrangement_images\" />

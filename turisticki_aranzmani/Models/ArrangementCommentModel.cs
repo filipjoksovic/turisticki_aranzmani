@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using turisticki_aranzmani.Helpers;
@@ -9,12 +10,19 @@ namespace turisticki_aranzmani.Models
     public class ArrangementCommentModel
     {
         private string path = HttpContext.Current.Server.MapPath("~/App_Data/arrangement_comments.csv");
+
         public int ID { get; set; }
+        [DisplayName("Korisnicko ime")]
         public String Username { get; set; }
+        [DisplayName("Aranzman")]
         public int ArrangementID { get; set; }
+        [DisplayName("Ocena")]
         public int Grade { get; set; }
+        [DisplayName("Komentar")]
         public String Comment { get; set; }
+        [DisplayName("Dozvoljena ocena")]
         public Boolean Allowed { get; set; }
+        [DisplayName("Datum ocene")]
         public DateTime DateCreated { get; set; }
 
         public ArrangementCommentModel()
@@ -47,6 +55,15 @@ namespace turisticki_aranzmani.Models
                 allComments.Add(commentInstance);
             }
             return allComments;
+        }
+        public static List<ArrangementCommentModel> GetComments(int id) {
+            List<ArrangementCommentModel> comments = ArrangementCommentModel.GetComments();
+            for (int i = comments.Count - 1; i >= 0; i--) {
+                if (comments[i].ArrangementID != id) {
+                    comments.RemoveAt(i);
+                }
+            }
+            return comments;
         }
         public static ArrangementCommentModel GetByID(int id) {
             foreach (ArrangementCommentModel comment in ArrangementCommentModel.GetComments()) {

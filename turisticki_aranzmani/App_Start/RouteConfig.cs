@@ -23,8 +23,14 @@ namespace turisticki_aranzmani
                 url: "createReservation",
                 new { controller = "Reservation", action = "Create" }
                 );
+
             routes.MapRoute(
-                name:"Arrangement/DenyReview",
+                name:"Arrangement/ListReviews",
+                url:"{role}/ListReviews/{id}",
+                new {controller = "ArrangementComment", action = "ListReviews", id = UrlParameter.Optional}
+                );
+            routes.MapRoute(
+                name:"Arrangement/DenyReview/",
                 url:"{role}/DenyReview/{id}",
                 new {controller = "ArrangementComment", action = "DenyReview"}
                 );
@@ -48,6 +54,7 @@ namespace turisticki_aranzmani
                 url: "leaveReview",
                 new { controller = "ArrangementComment", action = "LeaveReview" }
                 );
+
             routes.MapRoute(
                 name: "Arrangement/Delete/",
                 url: "{role}/deleteArrangement/{id}",

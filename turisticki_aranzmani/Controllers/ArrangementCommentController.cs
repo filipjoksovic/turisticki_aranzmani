@@ -15,6 +15,37 @@ namespace turisticki_aranzmani.Controllers
         {
             return View();
         }
+        public ActionResult ListReviews(String role, String id)
+        {
+            if (Session["role"] == null || !Session["role"].Equals(role))
+            {
+                TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
+                return Redirect("~/");
+            }
+            else
+            {
+                List<ArrangementCommentModel> reviews = new List<ArrangementCommentModel>();
+
+                if (id != null)
+                {
+                    int arrangement_id = Convert.ToInt32(id);
+                    reviews = ArrangementCommentModel.GetComments(arrangement_id);
+                }
+                else
+                {
+                    reviews = ArrangementCommentModel.GetComments();
+                }
+                List<dynamic> ExpandedReviews = new List<dynamic>();
+                foreach (ArrangementCommentModel comment in reviews)
+                {
+                    dynamic ExpandedReview = Utility.ToExpandoObject(comment);
+                    ExpandedReview.ArrangementName = ArrangementModel.GetByID(comment.ArrangementID).Name;
+                    ExpandedReviews.Add(ExpandedReview);
+                }
+
+                return View(ExpandedReviews);
+            }
+        }
         public ActionResult DeleteReview(String role, int id)
         {
             if (Session["role"] == null || !Session["role"].Equals(role))
@@ -97,6 +128,132 @@ namespace turisticki_aranzmani.Controllers
                     return Redirect("~/");
                 }
 
+            }
+        }
+        public ActionResult AllowReview(String id)
+        {
+            if (id != null)
+            {
+                if (Session["role"] == null)
+                {
+                    TempData["error"] = "Morate biti ulogvani kako biste mogli da odobrite ocenu";
+                    return Redirect("~/");
+                }
+                else
+                {
+                    if (Session["role"].Equals("admin"))
+                    {
+                        ArrangementCommentModel comment = ArrangementCommentModel.GetByID(Convert.ToInt32(id));
+                        comment.Allowed = true;
+                        if (comment.update())
+                        {
+                            TempData["message"] = "Komentar je uspesno odobren";
+                        }
+                        else
+                        {
+                            TempData["error"] = "Doslo je do greske prilikom odobravanja komentara";
+                        }
+                        return Redirect(Request.UrlReferrer.ToString());
+                    }
+                    else if (Session["role"].Equals("seller"))
+                    {
+                        int arrangement_id = Convert.ToInt32(id);
+                        ArrangementModel arrangement = ArrangementModel.GetByID(arrangement_id);
+                        if (arrangement.Username.Equals(Session["username"].ToString()))
+                        {
+                            ArrangementCommentModel comment = ArrangementCommentModel.GetByID(Convert.ToInt32(id));
+                            comment.Allowed = true;
+                            if (comment.update())
+                            {
+                                TempData["message"] = "Komentar je uspesno odobren";
+                            }
+                            else
+                            {
+                                TempData["error"] = "Doslo je do greske prilikom odobravanja komentara";
+                            }
+                            return Redirect(Request.UrlReferrer.ToString());
+
+                        }
+                        else
+                        {
+                            TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
+                            return Redirect("~/");
+                        }
+                    }
+                    else
+                    {
+                        TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
+                        return Redirect("~/");
+                    }
+                }
+            }
+            else
+            {
+                TempData["erorr"] = "Sifra ocene nije postavljena";
+                return Redirect("~/");
+            }
+        }
+        public ActionResult DenyReview(String id)
+        {
+            if (id != null)
+            {
+                if (Session["role"] == null)
+                {
+                    TempData["error"] = "Morate biti ulogvani kako biste mogli da odobrite ocenu";
+                    return Redirect("~/");
+                }
+                else
+                {
+                    if (Session["role"].Equals("admin"))
+                    {
+                        ArrangementCommentModel comment = ArrangementCommentModel.GetByID(Convert.ToInt32(id));
+                        comment.Allowed = false;
+                        if (comment.update())
+                        {
+                            TempData["message"] = "Komentar je uspesno odbijen";
+                        }
+                        else
+                        {
+                            TempData["error"] = "Doslo je do greske prilikom odbijanja komentara";
+                        }
+                        return Redirect(Request.UrlReferrer.ToString());
+                    }
+                    else if (Session["role"].Equals("seller"))
+                    {
+                        int arrangement_id = Convert.ToInt32(id);
+                        ArrangementModel arrangement = ArrangementModel.GetByID(arrangement_id);
+                        if (arrangement.Username.Equals(Session["username"].ToString()))
+                        {
+                            ArrangementCommentModel comment = ArrangementCommentModel.GetByID(Convert.ToInt32(id));
+                            comment.Allowed = false;
+                            if (comment.update())
+                            {
+                                TempData["message"] = "Komentar je uspesno odobren";
+                            }
+                            else
+                            {
+                                TempData["error"] = "Doslo je do greske prilikom odobravanja komentara";
+                            }
+                            return Redirect(Request.UrlReferrer.ToString());
+
+                        }
+                        else
+                        {
+                            TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
+                            return Redirect("~/");
+                        }
+                    }
+                    else
+                    {
+                        TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
+                        return Redirect("~/");
+                    }
+                }
+            }
+            else
+            {
+                TempData["erorr"] = "Sifra ocene nije postavljena";
+                return Redirect("~/");
             }
         }
     }

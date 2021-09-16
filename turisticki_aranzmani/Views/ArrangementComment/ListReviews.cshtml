@@ -1,0 +1,73 @@
+﻿@model IEnumerable<dynamic>
+
+<div class="mt-5">
+    <h3>Prikaz ocena za</h3>
+    <div class="table-responsive mt-4">
+        <table class="table">
+            <tr>
+                <th>
+                    Korisnik
+                </th>
+                <th>
+                    Aranzman
+                </th>
+                <th>
+                    Ocena
+                </th>
+                <th>
+                    Komentar
+                </th>
+                <th>
+                    Dozvoljena ocena
+                </th>
+                <th>
+                    Datum ocene
+                </th>
+                <th>Odobri/Odbij ocenu</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                         @item.Username
+                    </td>
+                    <td>
+                         @item.ArrangementName
+                    </td>
+                    <td>
+                         @item.Grade
+                    </td>
+                    <td>
+                         @item.Comment
+                    </td>
+                    <td>
+                        @if (item.Allowed)
+                        {
+                            <input type="checkbox" checked disabled class="form-check" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled class="form-check" />
+                        }
+                    </td>
+                    <td>
+                         @item.DateCreated
+                    </td>
+                    <td>
+                        @if (item.Allowed)
+                        {
+                            @Html.RouteLink("Odbij", "Arrangement/DenyReview/", new { id = item.ID}, new { @class = "text-center d-block"})
+                        }
+                        else
+                        {
+                            @Html.RouteLink("Odobri", "Arrangement/AllowReview/", new { id = item.ID }, new { @class = "text-center d-block" })
+
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
