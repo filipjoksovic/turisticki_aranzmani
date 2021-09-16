@@ -57,7 +57,10 @@
     </div>
     <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Opis</a>
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#map" role="tab" aria-controls="home" aria-selected="true">Mesto okupljanja</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home">Opis</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Program</a>
@@ -66,14 +69,32 @@
             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Komentari</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="contact" aria-selected="false">Licni komentar</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#personal_comment" role="tab" aria-controls="contact" aria-selected="false">Licni komentar</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active mt-3" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active " id="map" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="container mt-5">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="d-flex">
+                            <h6>
+                                @Model.GroupingPlace.Longitute,
+                                @Model.GroupingPlace.Latitude,
+                                @Model.GroupingPlace.Street,
+                                @Model.GroupingPlace.City,
+                                @Model.GroupingPlace.ZipCode.
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <h5>Polazak u @Model.TimeStarting.ToString("H:mm")</h5>
+                    </div>
+                </div>
+            @MyMapComponent.AddMap(50, 50, Convert.ToDouble(Model.GroupingPlace.Longitute), Convert.ToDouble(Model.GroupingPlace.Latitude), 18)
+            </div>
+        </div>
+        <div class="tab-pane fade mt-3" id="home" role="tabpanel" aria-labelledby="home-tab">
             <span>Opis aranzmana: @Model.Description<br></span>
 
         </div>

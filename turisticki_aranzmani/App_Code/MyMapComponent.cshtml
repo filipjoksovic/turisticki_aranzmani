@@ -1,10 +1,10 @@
-﻿@helper AddMap()
+﻿@helper AddMap(int height, int width, double longitude, double latitude, int zoomLevel)
 {
     <link rel="stylesheet" href="/Scripts/ol.css" type="text/css">
     <style>
         .map {
-            height: 400px;
-            width: 100%;
+            height: @width.ToString()%;
+            width: @height.ToString()%;
         }
     </style>
     <script src="/Scripts/ol.js"></script>
@@ -16,13 +16,16 @@
         var osm_default = new ol.layer.Tile({
             source: new ol.source.OSM()
         });
-
-        var map = new ol.Map({
-            layers: [osm_default],
+         var map = new ol.Map({
             target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
             view: new ol.View({
-                center: ol.proj.fromLonLat([20.9224158, 44.2107675]),
-                zoom: 7
+                center: ol.proj.fromLonLat([@longitude, @latitude]),
+                zoom: @zoomLevel
             })
         });
 
