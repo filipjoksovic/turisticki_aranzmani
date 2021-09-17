@@ -22,7 +22,7 @@ namespace turisticki_aranzmani.Controllers
             ViewBag.DriveTypes = new SelectList(RideTypeModel.getAllItems().AsEnumerable(), "ID", "Name");
             return View(aModel);
         }
-        public ActionResult Search(String MinDateStart, String MaxDateStart,String MinDateEnd, String MaxDateEnd, String ArrangementType, String DriveType, String Name ) {
+        public ActionResult Search(String MinDateStart, String MaxDateStart,String MinDateEnd, String MaxDateEnd, String ArrangementType, String DriveType, String Name, String Sort) {
             dynamic aModel = new ExpandoObject();
             List<ArrangementModel> arrangements = ArrangementModel.getAllItems();
             arrangements.OrderBy(arrangement => arrangement.DateStart);
@@ -31,53 +31,53 @@ namespace turisticki_aranzmani.Controllers
             DateTime minDateStart, maxDateStart, minDateEnd, maxDateEnd;
             if (Name != null)
             {
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--) {
-                    if (!aModel.arrangements[i].Name.ToLower().Contains(Name.ToLower())) {
-                        aModel.arrangements.RemoveAt(i);
+                for (int i = arrangements.Count - 1; i >= 0; i--) {
+                    if (!arrangements[i].Name.ToLower().Contains(Name.ToLower())) {
+                        arrangements.RemoveAt(i);
                     }
                 }
             }
             if (MinDateStart.Length > 0)
             {
                 minDateStart = DateTime.Parse(MinDateStart);
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--)
+                for (int i = arrangements.Count - 1; i >= 0; i--)
                 {
-                    if (aModel.arrangements[i].DateStart.CompareTo(minDateStart) == -1)
+                    if (arrangements[i].DateStart.CompareTo(minDateStart) == -1)
                     {
-                        aModel.arrangements.RemoveAt(i);
+                        arrangements.RemoveAt(i);
                     }
                 }
             }
             if (MaxDateStart.Length > 0)
             {
                 maxDateStart = DateTime.Parse(MaxDateStart);
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--)
+                for (int i = arrangements.Count - 1; i >= 0; i--)
                 {
-                    if (aModel.arrangements[i].DateStart.CompareTo(maxDateStart) == 1)
+                    if (arrangements[i].DateStart.CompareTo(maxDateStart) == 1)
                     {
-                        aModel.arrangements.RemoveAt(i);
+                        arrangements.RemoveAt(i);
                     }
                 }
             }
             if (MinDateEnd.Length > 0)
             {
                 minDateEnd = DateTime.Parse(MinDateEnd);
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--)
+                for (int i = arrangements.Count - 1; i >= 0; i--)
                 {
-                    if (aModel.arrangements[i].DateStart.CompareTo(minDateEnd) == -1)
+                    if (arrangements[i].DateStart.CompareTo(minDateEnd) == -1)
                     {
-                        aModel.arrangements.RemoveAt(i);
+                        arrangements.RemoveAt(i);
                     }
                 }
             }
             if (MaxDateEnd.Length > 0)
             {
                 maxDateEnd = DateTime.Parse(MaxDateEnd);
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--)
+                for (int i = arrangements.Count - 1; i >= 0; i--)
                 {
-                    if (aModel.arrangements[i].DateStart.CompareTo(maxDateEnd) == 1)
+                    if (arrangements[i].DateStart.CompareTo(maxDateEnd) == 1)
                     {
-                        aModel.arrangements.RemoveAt(i);
+                        arrangements.RemoveAt(i);
                     }
                 }
             }
@@ -85,11 +85,11 @@ namespace turisticki_aranzmani.Controllers
             if (DriveType.Length > 0)
             {
                 int dt = Convert.ToInt32(DriveType);
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--)
+                for (int i = arrangements.Count - 1; i >= 0; i--)
                 {
-                    if (aModel.arrangements[i].DriveTypeID!=dt)
+                    if (arrangements[i].DriveTypeID!=dt)
                     {
-                        aModel.arrangements.RemoveAt(i);
+                        arrangements.RemoveAt(i);
                     }
                 }
             }
@@ -97,16 +97,41 @@ namespace turisticki_aranzmani.Controllers
             {
                 int at = Convert.ToInt32(ArrangementType);
 
-                for (int i = aModel.arrangements.Count - 1; i >= 0; i--)
+                for (int i = arrangements.Count - 1; i >= 0; i--)
                 {
-                    if (aModel.arrangements[i].TypeID != at)
+                    if (arrangements[i].TypeID != at)
                     {
-                        aModel.arrangements.RemoveAt(i);
+                        arrangements.RemoveAt(i);
                     }
+                }
+            }
+            if (!Sort.Equals("-1")) {
+                if (Sort.Equals("nameAsc")) {
+                    arrangements.OrderBy(arrangement => arrangement.Name);
+                }
+                if (Sort.Equals("nameDesc")) {
+                    arrangements.OrderBy(arrangement => arrangement.Name);
+                    arrangements.Reverse();
+                }
+                if (Sort.Equals("dateStartAsc")) {
+                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                }
+                if (Sort.Equals("dateStartDesc")) { 
+                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                    arrangements.Reverse();
+                }
+                if (Sort.Equals("dateEndAsc")) { 
+                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                }
+                if (Sort.Equals("dateEndDesc")) {
+                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                    arrangements.Reverse();
                 }
             }
             ViewBag.ArrangementTypes = new SelectList(ArrangementTypeModel.getAllItems().AsEnumerable(), "ID", "Name");
             ViewBag.DriveTypes = new SelectList(RideTypeModel.getAllItems().AsEnumerable(), "ID", "Name");
+            ViewBag.SortOrder = Sort;
+            aModel.arrangements = arrangements;
             return View("Index", aModel);
             return Json(aModel,JsonRequestBehavior.AllowGet);
         }

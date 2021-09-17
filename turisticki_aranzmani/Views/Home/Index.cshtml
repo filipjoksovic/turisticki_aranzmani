@@ -45,11 +45,28 @@
                       </div>
             </div>
         </div>
-            <div class="form-group">
-                @Html.Label("Naziv")
-                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control w-100"} })
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    @Html.Label("Naziv")
+                    @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control w-100" } })
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="sort">Sortiranje</label>
+                <select name="Sort" id="sort" class="form-control">
+                    <option value="-1">Sortiranje</option>
+                    <option value="nameAsc">Naziv rastuce</option>
+                    <option value="nameDesc">Naziv opadajuce</option>
+                    <option value="dateStartAsc">Datum pocetka rastuce</option>
+                    <option value="dateStartDesc">Datum pocetka opadajuce</option>
+                    <option value="dateEndAsc">Datum zavrsetka rastuce</option>
+                    <option value="dateEndDesc">Datum zavrsetka opdajuce</option>
+                </select>
 
             </div>
+        </div>
         <input type="submit" class="btn btn-outline-success btn-block w-50 mx-auto" value="Pretrazi" />
     }
 </div>
