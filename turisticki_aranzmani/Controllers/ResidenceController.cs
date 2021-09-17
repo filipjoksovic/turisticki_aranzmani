@@ -37,18 +37,23 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
 
-        public ActionResult Search(String Name, String HasPool, String HasSpa, String DisablityApproved, String HasWifi, String Sort) {
+        public ActionResult Search(String Name, String HasPool, String HasSpa, String DisablityApproved, String HasWifi, String Sort)
+        {
             if (this.Middleware())
             {
                 List<ResidenceModel> allResidences = ResidenceModel.getAllItems(Session["username"].ToString());
-                if (Name.Length > 0) {
-                    for (int i = allResidences.Count - 1; i >= 0; i--) {
-                        if (!allResidences[i].Name.ToLower().Contains(Name.ToLower())) {
+                if (Name.Length > 0)
+                {
+                    for (int i = allResidences.Count - 1; i >= 0; i--)
+                    {
+                        if (!allResidences[i].Name.ToLower().Contains(Name.ToLower()))
+                        {
                             allResidences.RemoveAt(i);
                         }
                     }
                 }
-                if (HasPool != null) {
+                if (HasPool != null)
+                {
                     for (int i = allResidences.Count - 1; i >= 0; i--)
                     {
                         if (!allResidences[i].HasPool)
@@ -87,11 +92,14 @@ namespace turisticki_aranzmani.Controllers
                         }
                     }
                 }
-                if (Sort != null) {
-                    if (Sort.Equals("nameAsc")) {
+                if (Sort != null)
+                {
+                    if (Sort.Equals("nameAsc"))
+                    {
                         allResidences.OrderBy(residence => residence.Name);
                     }
-                    if (Sort.Equals("nameDesc")) { 
+                    if (Sort.Equals("nameDesc"))
+                    {
                         allResidences.OrderBy(residence => residence.Name);
                         allResidences.Reverse();
                     }
@@ -130,7 +138,8 @@ namespace turisticki_aranzmani.Controllers
 
                 return View("ListResidences", allResidences);
             }
-            else {
+            else
+            {
                 TempData["error"] = "Nemate dozvolu pristupa ovom sajtu";
                 return Redirect("~/");
             }
@@ -285,31 +294,17 @@ namespace turisticki_aranzmani.Controllers
             }
 
             ResidenceModel residence = ResidenceModel.GetByID(id);
-            if (residence.canDelete())
+            if (residence.delete())
             {
-                if (residence.delete())
-                {
-                    TempData["message"] = "Uspesno uklonjen smestaj sa pratecim smestajnim jedinicama";
-                }
-                else
-                {
-                    TempData["error"] = "Doslo je do greske prilikom uklanjanja smestaja";
-                }
-                if (role.Equals("admin"))
-                {
-                    return RedirectToRoute("User/Admin");
-                }
-                else
-                {
-                    return RedirectToRoute("User/Seller");
-                }
+                TempData["message"] = "Uspesno uklonjen smestaj sa pratecim smestajnim jedinicama";
             }
             else
             {
-                TempData["error"] = "Postoje rezervacije aranzmana sa ovim smestajem / smestajnim jedinicama. Kada aranzman prodje, mozete ponovo probati da uklonite smestaj / smestajnu jedinicu.";
-                return RedirectToRoute("User/Seller");
-
+                TempData["error"] = "Vec postoje rezervacije u ovom smestaju zbog cega ne moze biti uklonjen";
             }
+            return Redirect(Request.UrlReferrer.ToString());
+
         }
+
     }
 }

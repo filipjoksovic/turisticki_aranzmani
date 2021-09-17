@@ -111,21 +111,30 @@ namespace turisticki_aranzmani.Models
             List<ArrangementModel> arrangements = ArrangementModel.getAllItems(this.ID);
             //get arrangement reservations
             List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
-
-            if (FileObjectSerializer.Delete(path, this.ToString()))
+            if (reservations.Count == 0)
             {
-                System.Diagnostics.Debug.Write("found");
-                foreach (ResidenceItemModel residence in residenceItems)
+
+                if (FileObjectSerializer.Delete(path, this.ToString()))
                 {
-                    FileObjectSerializer.Delete(residence.Path, residence.ToString());
+                    System.Diagnostics.Debug.Write("found");
+                    foreach (ResidenceItemModel residence in residenceItems)
+                    {
+                        FileObjectSerializer.Delete(residence.Path, residence.ToString());
+                    }
+                    foreach (ReservationModel reservation in reservations)
+                    {
+                        FileObjectSerializer.Delete(reservation.Path, reservation.ToString());
+                    }
+                    foreach (ArrangementModel arrangement in arrangements)
+                    {
+                        FileObjectSerializer.Delete(arrangement.Path, arrangement.ToString());
+                    }
+                    return true;
                 }
-                foreach (ReservationModel reservation in reservations) {
-                    FileObjectSerializer.Delete(reservation.Path, reservation.ToString());
+                else
+                {
+                    return false;
                 }
-                foreach (ArrangementModel arrangement in arrangements) {
-                    FileObjectSerializer.Delete(arrangement.Path, arrangement.ToString());
-                }
-                return true;
             }
             else
             {
