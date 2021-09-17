@@ -63,7 +63,10 @@ namespace turisticki_aranzmani.Helpers
             for (int i = fileContent.Count - 1; i >= 0; i--)
             {
                 fileContent[i] += Environment.NewLine;
+                System.Diagnostics.Debug.WriteLine("Writing line from file: ");
                 System.Diagnostics.Debug.WriteLine(fileContent[i]);
+                System.Diagnostics.Debug.WriteLine("Writing line from function: ");
+                System.Diagnostics.Debug.WriteLine(row);
                 if (fileContent[i].Equals(row))
                 {
                     System.Diagnostics.Debug.WriteLine("found it");

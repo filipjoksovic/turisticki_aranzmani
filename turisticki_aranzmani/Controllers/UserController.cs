@@ -16,12 +16,44 @@ namespace turisticki_aranzmani.Controllers
         {
             return View();
         }
+        public ActionResult BlockUser(String id) {
+            if (Session["role"].Equals("admin"))
+            {
+                UserModel userToBlock = UserModel.GetUser(id);
+                userToBlock.blockUser();
+                TempData["message"] = "Korisnik je uspesno blokiran";
+                return RedirectToRoute("User/Admin");
+            }
+            else { 
+                TempData["message"] = "Nemate pristup ovom delu sajta";
+                return Redirect("~/");
+            }
+        }
+        public ActionResult UnblockUser(String id) {
+            if (Session["role"].Equals("admin"))
+            {
+                UserModel userToUnblock = UserModel.GetUser(id);
+                userToUnblock.unblockUser();
+                TempData["message"] = "Korisnik je uspesno odblokiran";
+                return RedirectToRoute("User/Admin");
 
+            }
+            else {
+                TempData["error"] = "Nemate pristup ovom delu sajta";
+                return Redirect("~/");
+
+            }
+        }
         public ActionResult DisplaySuspicious() {
 
             dynamic BlackList = new ExpandoObject();
             BlackList.BlockedUsers = BlackListModel.GetBlockedUsers();
             BlackList.UsersToBlock = UserModel.GetUsersToBlock();
+            for (int i = BlackList.UsersToBlock.Count - 1; i >= 0; i--) {
+                if (BlackList.UsersToBlock[i].isBlocked()) {
+                    BlackList.UsersToBlock.RemoveAt(i);
+                }
+            }
             return View(BlackList);
             return View();
         }

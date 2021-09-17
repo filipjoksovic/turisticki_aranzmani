@@ -33,6 +33,7 @@ namespace turisticki_aranzmani.Models
             return FileObjectSerializer.AppendToFile(path, this.ToString());
         }
         public Boolean delete() {
+            System.Diagnostics.Debug.WriteLine(this.ToString());
             return FileObjectSerializer.Delete(path, this.ToString());
         }
         public static Boolean isBlocked(UserModel user) {

@@ -137,8 +137,8 @@ namespace turisticki_aranzmani.Models
             return modelInstance.save();
         }
         public Boolean unblockUser() {
-            BlackListModel modelInstance = new BlackListModel(this.username);
-            ReservationModel.delete(username);
+            BlackListModel modelInstance = new BlackListModel(this.Username);
+            //ReservationModel.delete(username);
             return modelInstance.delete();
         }
         public Boolean isBlocked() {
@@ -148,7 +148,6 @@ namespace turisticki_aranzmani.Models
             List<ReservationModel> allReservations = ReservationModel.getAllItems();
             List<UserModel> allUsers = UserModel.GetUsers();
             List<UserModel> usersToBlock = new List<UserModel>();
-
             foreach (UserModel user in allUsers) {
                 int count = 0;
                 foreach (ReservationModel reservation in allReservations) {
