@@ -17,13 +17,15 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
 
-        public ActionResult Account() {
+        public ActionResult Account()
+        {
             if (Session["username"] == null)
             {
                 TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite Vasem nalogu";
                 return Redirect("~/");
             }
-            else {
+            else
+            {
                 dynamic account = new ExpandoObject();
                 account.User = UserModel.GetUser(Session["username"].ToString());
 
@@ -32,13 +34,15 @@ namespace turisticki_aranzmani.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Account(FormCollection collection) {
+        public ActionResult Account(FormCollection collection)
+        {
             if (Session["username"] == null)
             {
                 TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite Vasem nalogu";
                 return Redirect("~/");
             }
-            else {
+            else
+            {
                 UserModel userInstance = UserModel.GetUser(Session["Username"].ToString());
                 userInstance.FirstName = collection["FirstName"];
                 userInstance.LastName = collection["LastName"];
@@ -164,19 +168,31 @@ namespace turisticki_aranzmani.Controllers
             userRoles.Add(new SelectListItem() { Text = "Prodavac", Value = "seller" });
             userRoles.Add(new SelectListItem() { Text = "Korisnik", Value = "user" });
 
+            List<SelectListItem> sort = new List<SelectListItem>();
+            sort.Add(new SelectListItem() { Text = "Ime rastuce", Value = "fnameAsc" });
+            sort.Add(new SelectListItem() { Text = "Ime opadajuce", Value = "fnameDesc" });
+            sort.Add(new SelectListItem() { Text = "Prezime rastuce", Value = "lnameAsc" });
+            sort.Add(new SelectListItem() { Text = "Prezime opadajuce", Value = "lnameDesc" });
+            sort.Add(new SelectListItem() { Text = "Uloga rastuce", Value = "roleAsc" });
+            sort.Add(new SelectListItem() { Text = "Uloga opadajuce", Value = "roleDesc" });
 
-            SelectList userRolesList = new SelectList(userRoles,"Value","Text");
+            SelectList userRolesList = new SelectList(userRoles, "Value", "Text");
+            SelectList sortList = new SelectList(sort, "Value", "Text");
             ViewBag.userRoles = userRolesList;
+            ViewBag.sortList = sortList;
             ViewBag.checkedRoles = new List<String>();
 
             return View(data);
         }
-        public ActionResult Search(String FirstName, String LastName, List<String> Role, String Sort) {
+        public ActionResult Search(String FirstName, String LastName, List<String> Role, String Sort)
+        {
 
             List<UserModel> users = UserModel.GetUsers();
-            for (int i = users.Count - 1; i >=0; i--) {
+            for (int i = users.Count - 1; i >= 0; i--)
+            {
                 UserModel user = users[i];
-                if (!user.FirstName.ToLower().Contains(FirstName.ToLower())) {
+                if (!user.FirstName.ToLower().Contains(FirstName.ToLower()))
+                {
                     users.RemoveAt(i);
                 }
             }
@@ -200,12 +216,49 @@ namespace turisticki_aranzmani.Controllers
                 }
 
             }
+            if (Sort != null) {
+                if (Sort.Equals("fnameAsc")) {
+                    users.OrderBy(user => user.FirstName);
+                }
+                if (Sort.Equals("fnameDesc")) { 
+                    users.OrderBy(user => user.FirstName);
+                    users.Reverse();
+                }
+                if (Sort.Equals("lnameAsc"))
+                {
+                    users.OrderBy(user => user.LastName);
+                }
+                if (Sort.Equals("lnameDesc"))
+                {
+                    users.OrderBy(user => user.LastName);
+                    users.Reverse();
+                }
+                if (Sort.Equals("roleAsc"))
+                {
+                    users.OrderBy(user => user.Role);
+                }
+                if (Sort.Equals("roleDesc"))
+                {
+                    users.OrderBy(user => user.Role);
+                    users.Reverse();
+                }
+            }
 
             List<SelectListItem> userRoles = new List<SelectListItem>();
             userRoles.Add(new SelectListItem() { Text = "Prodavac", Value = "seller" });
             userRoles.Add(new SelectListItem() { Text = "Korisnik", Value = "user" });
             SelectList userRolesList = new SelectList(userRoles, "Value", "Text");
             ViewBag.userRoles = userRolesList;
+            List<SelectListItem> sort = new List<SelectListItem>();
+            sort.Add(new SelectListItem() { Text = "Ime rastuce", Value = "fnameAsc" });
+            sort.Add(new SelectListItem() { Text = "Ime opadajuce", Value = "fnameDesc" });
+            sort.Add(new SelectListItem() { Text = "Prezime rastuce", Value = "lnameAsc" });
+            sort.Add(new SelectListItem() { Text = "Prezime opadajuce", Value = "lnameDesc" });
+            sort.Add(new SelectListItem() { Text = "Uloga rastuce", Value = "roleAsc" });
+            sort.Add(new SelectListItem() { Text = "Uloga opadajuce", Value = "roleDesc" });
+            SelectList sortList = new SelectList(sort, "Value", "Text", Sort);
+            ViewBag.sortList = sortList;
+
             if (Role != null)
             {
                 ViewBag.checkedRoles = Role;
@@ -214,7 +267,7 @@ namespace turisticki_aranzmani.Controllers
             {
                 ViewBag.checkedRoles = new List<String>();
             }
-            return View("ViewUsers",users);
+            return View("ViewUsers", users);
         }
         public ActionResult Admin()
         {
