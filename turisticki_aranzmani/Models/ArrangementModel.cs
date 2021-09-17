@@ -149,6 +149,10 @@ namespace turisticki_aranzmani.Models
             arrangementPlace.delete();
             return true;
         }
+        public Boolean update() {
+            String oldVal = ArrangementModel.GetByID(this.ID).ToString();
+            return FileObjectSerializer.UpdateLine(Path, oldVal, this.ToString());
+        }
         public  Boolean canReview(String username) {
             bool exists = false;
             List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
@@ -168,6 +172,14 @@ namespace turisticki_aranzmani.Models
                 return true;
             }
             return false;
+        }
+        public Boolean canEdit() {
+            List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
+            if (reservations.Count > 0)
+            {
+                return false;
+            }
+            else return true;
         }
     }
 }

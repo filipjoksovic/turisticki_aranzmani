@@ -27,6 +27,7 @@ namespace turisticki_aranzmani.Helpers
             modelInstance.RideTypeName = RideTypeModel.getRideName(model.DriveTypeID);
             modelInstance.ArrangementTypeName = ArrangementTypeModel.getTypeName(model.TypeID);
             modelInstance.GroupingPlace = PlaceModel.PrettifyPlace(model.StartingPointID);
+            modelInstance.PlaceObject = PlaceModel.GetByID(model.StartingPointID);
             modelInstance.ResidenceName = ResidenceModel.getResidenceName(model.ResidenceID);
             modelInstance.Residence = ResidenceModel.GetByID(model.ResidenceID);
             if (HttpContext.Current.Session["username"] != null) {

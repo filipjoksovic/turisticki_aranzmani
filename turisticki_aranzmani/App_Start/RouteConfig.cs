@@ -54,7 +54,12 @@ namespace turisticki_aranzmani
                 url: "leaveReview",
                 new { controller = "ArrangementComment", action = "LeaveReview" }
                 );
+            routes.MapRoute(
+                name:"Arrangement/Edit/",
+                url:"{role}/editArrangement/{id}",
+                new { controller = "Arrangement", action = "Edit" }
 
+                );
             routes.MapRoute(
                 name: "Arrangement/Delete/",
                 url: "{role}/deleteArrangement/{id}",

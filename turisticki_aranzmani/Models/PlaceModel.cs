@@ -93,38 +93,8 @@ namespace turisticki_aranzmani.Models
         }
         public Boolean update()
         {
-            try
-            {
-                bool found = false;
-                List<PlaceModel> allPlaces = PlaceModel.getAllPlaces();
-                for (int i = allPlaces.Count; i >= 0; i--)
-                {
-                    PlaceModel place = allPlaces[i];
-                    if (place.PlaceID == this.PlaceID)
-                    {
-                        place.Latitude = this.Latitude;
-                        place.Longitute = this.Longitute;
-                        place.Street = this.Street;
-                        place.ZipCode = this.ZipCode;
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (found)
-                {
-                    //writing to files to be done if needed
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            String oldVal = PlaceModel.GetByID(this.PlaceID).ToString();
+            return FileObjectSerializer.UpdateLine(table, oldVal, this.ToString());
         }
         public static PlaceModel GetByID(int place_id) {
             System.Diagnostics.Debug.WriteLine("Placeid :" + place_id);

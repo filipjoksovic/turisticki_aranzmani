@@ -82,6 +82,83 @@ namespace turisticki_aranzmani.Controllers
                 return RedirectToRoute("User/Seller");
             }
         }
+        public ActionResult Edit(String role, String id)
+        {
+            if (id == null)
+            {
+                return Redirect("~/");
+            }
+            else
+            {
+                ArrangementModel arrangementModel = ArrangementModel.GetByID(Convert.ToInt32(id));
+                if (arrangementModel.canEdit())
+                {
+                    if ((Session["username"] == null && Session["role"] == null) || (!Session["role"].ToString().Equals("seller") && !Session["role"].Equals("admin")))
+                    {
+                        TempData["error"] = "Morate biti ulogovani kao menadzer ili administrator kako biste pristupili ovoj stranici";
+                        return Redirect("~/");
+                    }
+                    List<ArrangementTypeModel> allItems = ArrangementTypeModel.getAllItems();
+                    dynamic expandedModel = Utility.ExpandArrangement(arrangementModel);
+                    ViewBag.ArrangementTypes = new SelectList(allItems.AsEnumerable(), "ID", "Name", arrangementModel.TypeID);
+                    List<SelectListItem> atItems = new List<SelectListItem>();
+                    ViewBag.RideTypes = new SelectList(RideTypeModel.getAllItems().AsEnumerable(), "ID", "Name", arrangementModel.DriveTypeID);
+                    ViewBag.Residences = new SelectList(ResidenceModel.getAllItems(Session["username"].ToString()).AsEnumerable(), "ID", "Name", arrangementModel.ResidenceID);
+                    ViewBag.canEdit = true;
+
+                    return View(expandedModel);
+
+                }
+                else
+                {
+                    ViewBag.canEdit = false;
+                    return View();
+                }
+
+            }
+        }
+        [HttpPost]
+        public ActionResult Edit(string role, string id, FormCollection collection, HttpPostedFileBase file)
+        {
+            if ((Session["username"] == null && Session["role"] == null) || (!Session["role"].ToString().Equals("seller") && !Session["role"].Equals("admin")))
+            {
+                TempData["error"] = "Morate biti ulogovani kao menadzer ili administrator kako biste pristupili ovoj stranici";
+                return Redirect("~/");
+            }
+            ArrangementModel modelInstance = ArrangementModel.GetByID(Convert.ToInt32(id));
+            modelInstance.Username = Session["username"].ToString();
+            modelInstance.Name = collection["Name"];
+            modelInstance.TypeID = Convert.ToInt32(collection["TypeID"]);
+            modelInstance.DriveTypeID = Convert.ToInt32(collection["DriveTypeID"]);
+            modelInstance.Location = collection["Location"];
+            modelInstance.DateStart = DateTime.Parse(collection["DateStart"]);
+            modelInstance.DateEnd = DateTime.Parse(collection["DateEnd"]);
+            modelInstance.Description = collection["Description"];
+            modelInstance.MaxCustomers = Convert.ToInt32(collection["MaxCustomers"]);
+            modelInstance.TimeStarting = DateTime.Parse(collection["TimeStarting"]);
+            modelInstance.Programme = collection["Programme"];
+            modelInstance.ResidenceID = Convert.ToInt32(collection["ResidenceID"]);
+
+            PlaceModel placeModelInstance = PlaceModel.GetByID(modelInstance.StartingPointID);
+            placeModelInstance.Street = collection["PlaceStreet"];
+            placeModelInstance.City = collection["PlaceCity"];
+            placeModelInstance.ZipCode = collection["PlaceZipCode"];
+            placeModelInstance.Longitute = collection["Longitude"];
+            placeModelInstance.Latitude = collection["Latitude"];
+
+
+            if (modelInstance.update())
+            {
+                placeModelInstance.update();
+                TempData["message"] = "Uspesno azuriran aranzman";
+                return RedirectToRoute("User/Seller");
+            }
+            else
+            {
+                TempData["error"] = "Doslo je do greske prilikom azuriranja aranzmana";
+                return RedirectToRoute("User/Seller");
+            }
+        }
         public ActionResult ViewArrangements(String role)
         {
 
@@ -150,9 +227,9 @@ namespace turisticki_aranzmani.Controllers
             dynamic modelInstance = Utility.ExpandArrangement(arrangement);
             modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(id).AsEnumerable(), "ID", "UnitName");
             modelInstance.GroupingPlace = PlaceModel.GetByID(arrangement.StartingPointID);
-            modelInstance.Reviews = ArrangementCommentModel.GetComments(id,true);
+            modelInstance.Reviews = ArrangementCommentModel.GetComments(id, true);
             return View("Details", modelInstance);
         }
-       
+
     }
 }
