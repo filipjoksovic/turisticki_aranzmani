@@ -9,21 +9,21 @@
     <div class="row">
         <div class="col-md-3">
             <label for="pool">Ima bazen</label>
-            <input class="form-check" type="checkbox" name="HasPool" id="pool" />
+            <input class="form-check" type="checkbox" name="HasPool" id="pool"  @if (ViewBag.HasPoolChecked) {<text>checked</text>}/>
         </div>
         <div class="col-md-3">
             <label for="spa">Ima spa centar</label>
-            <input class="form-check"  id ="spa" type="checkbox" name="HasSpa" />
+            <input class="form-check"  id ="spa" type="checkbox" name="HasSpa"  @if (ViewBag.HasSpaChecked) {<text>checked</text>} />
 
         </div>
         <div class="col-md-3">
             <label for="dis">Prilagodjeno za osobe sa invaliditetom</label>
-            <input class="form-check" id="dis" type="checkbox" name="DisabilityApproved" />
+            <input class="form-check" id="dis" type="checkbox" name="DisabilityApproved"  @if (ViewBag.DisabilityApprovedChecked) {<text>checked</text>}/>
 
         </div>
         <div class="col-md-3">
             <label for="wifi">Ima Wifi</label>
-            <input class="form-check"  id ="wifi "type="checkbox" name="HasWifi" />
+            <input class="form-check"  id ="wifi "type="checkbox" name="HasWifi"  @if (ViewBag.HasWifiChecked){<text>checked</text>} />
 
         </div>
     </div>
@@ -99,9 +99,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.HasWifi)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ID)
-                    </td>
+                    
                     <td>
                         @Html.RouteLink("Izmeni", "Residence/Edit/", new { id = item.ID }) |
                         @Html.RouteLink("Smestajne jedinice", "ResidenceItem/ListResidenceUnits/", new { id = item.ID }) |

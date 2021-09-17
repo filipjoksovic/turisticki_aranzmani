@@ -36,9 +36,12 @@ namespace turisticki_aranzmani.Controllers
         {
             return View();
         }
-
-        public ActionResult Search(String Name, String HasPool, String HasSpa, String DisablityApproved, String HasWifi, String Sort)
+        public ActionResult Search(String Name, String HasPool, String HasSpa, String DisabilityApproved, String HasWifi, String Sort)
         {
+            ViewBag.HasPoolChecked = false;
+            ViewBag.HasSpaChecked = false;
+            ViewBag.HasWifiChecked = false;
+            ViewBag.DisabilityApprovedChecked = false;
             if (this.Middleware())
             {
                 List<ResidenceModel> allResidences = ResidenceModel.getAllItems(Session["username"].ToString());
@@ -61,6 +64,7 @@ namespace turisticki_aranzmani.Controllers
                             allResidences.RemoveAt(i);
                         }
                     }
+                    ViewBag.HasPoolChecked = true;
                 }
                 if (HasSpa != null)
                 {
@@ -71,6 +75,8 @@ namespace turisticki_aranzmani.Controllers
                             allResidences.RemoveAt(i);
                         }
                     }
+                    ViewBag.HasSpaChecked = true;
+
                 }
                 if (HasWifi != null)
                 {
@@ -81,8 +87,10 @@ namespace turisticki_aranzmani.Controllers
                             allResidences.RemoveAt(i);
                         }
                     }
+                    ViewBag.HasWifiChecked = true;
+
                 }
-                if (DisablityApproved != null)
+                if (DisabilityApproved != null)
                 {
                     for (int i = allResidences.Count - 1; i >= 0; i--)
                     {
@@ -91,6 +99,7 @@ namespace turisticki_aranzmani.Controllers
                             allResidences.RemoveAt(i);
                         }
                     }
+                    ViewBag.DisabilityApprovedChecked = true;
                 }
                 if (Sort != null)
                 {
@@ -176,6 +185,11 @@ namespace turisticki_aranzmani.Controllers
                     return Redirect("~/");
 
                 }
+                ViewBag.HasPoolChecked = false;
+                ViewBag.HasSpaChecked = false;
+                ViewBag.HasWifiChecked = false;
+                ViewBag.DisabilityApprovedChecked = false;
+
                 List<SelectListItem> sort = new List<SelectListItem>();
                 sort.Add(new SelectListItem() { Text = "Naziv rastuce", Value = "nameAsc" });
                 sort.Add(new SelectListItem() { Text = "Naziv opadajuce", Value = "nameDesc" });
@@ -269,7 +283,7 @@ namespace turisticki_aranzmani.Controllers
                 {
                     TempData["error"] = "Greska prilikom izmene smestaja";
                 }
-                return RedirectToRoute("User/Seller");
+                return Redirect(Request.UrlReferrer.ToString());
             }
 
             else
