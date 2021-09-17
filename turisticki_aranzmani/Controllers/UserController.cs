@@ -150,7 +150,7 @@ namespace turisticki_aranzmani.Controllers
                     TempData["message"] = "Uspesno kreiranje naloga. Dobrodosli, " + userModel.Username;
                     Session["username"] = userModel.Username;
                     Session["role"] = userModel.Role;
-                    return RedirectToAction("Index", "Home");
+                    return Redirect("~/");
                 }
                 else
                 {

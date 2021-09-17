@@ -214,8 +214,14 @@ namespace turisticki_aranzmani.Controllers
                 else
                 {
                     ArrangementModel amodel = ArrangementModel.GetByID(id);
-                    amodel.delete();
-                    TempData["message"] = "Uspesno uklonjen aranzman";
+                    if (amodel.delete())
+                    {
+                        TempData["message"] = "Uspesno uklonjen aranzman";
+                    }
+                    else
+                    {
+                        TempData["error"] = "Vec postoje rezervacije na ovaj aranzman, zbog cega se ne moze obrisati";
+                    }
                     return Redirect(HttpContext.Request.UrlReferrer.ToString());
                 }
             }

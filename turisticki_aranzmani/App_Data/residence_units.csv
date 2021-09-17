@@ -1,8 +1,10 @@
-1;3;SM-1;2;True;3000;
-2;3;SM-2;5;True;5000;
-3;5;Bojic Basic;2;False;2000;
-4;5;Bojic Standard;2;True;4000;
-5;5;Bojic Lux;4;True;10000;
-6;7;Jovic 1;5;False;5000;
-7;7;Jovic 2;5;True;4000;
-8;7;Jovic 3;1;True;7090;
+1;1;Jovic A-1;2;True;4000;
+2;1;Jovic A-2;4;True;8000;
+3;1;Jovic A-3;6;True;10000;
+4;1;Jovic A-4;8;True;12000;
+5;1;Jovic A-5;10;True;16000;
+6;2;Jovic B-1;2;True;4000;
+7;2;Jovic B-2;4;True;8000;
+8;2;Jovic B-3;6;True;10000;
+9;2;Jovic B-4;8;True;12000;
+10;2;Jovic B-5;10;True;16000;

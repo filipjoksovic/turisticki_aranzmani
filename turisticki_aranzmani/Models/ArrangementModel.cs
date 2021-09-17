@@ -144,10 +144,15 @@ namespace turisticki_aranzmani.Models
             }
         }
         public Boolean delete() {
-            PlaceModel arrangementPlace = PlaceModel.GetByID(this.StartingPointID);
-            FileObjectSerializer.Delete(this.path, this.ToString());
-            arrangementPlace.delete();
-            return true;
+            List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
+            if (reservations.Count == 0)
+            {
+                PlaceModel arrangementPlace = PlaceModel.GetByID(this.StartingPointID);
+                FileObjectSerializer.Delete(this.path, this.ToString());
+                arrangementPlace.delete();
+                return true;
+            }
+            return false;
         }
         public Boolean update() {
             String oldVal = ArrangementModel.GetByID(this.ID).ToString();

@@ -1,5 +1,2 @@
-3;menadzer2;Smestaj menadzer 3;vila;0;False;False;False;False
-4;menadzer2;Smestaj menadzer 4;motel;0;True;True;False;True
-5;strahinjabojic;Bojic;motel;0;True;True;True;True
-6;strahinjabojic;Gen;hotel;5;True;True;True;True
-7;jovicajovic;Smestaj Jovic;motel;0;True;False;False;False
+1;jovicajovic;Smestaj Jovic 1;motel;0;True;True;False;True
+2;jovicajovic;Smestaj Jovic 2;vila;0;True;True;True;True
