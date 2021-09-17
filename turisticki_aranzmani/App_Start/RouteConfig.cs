@@ -86,6 +86,11 @@ namespace turisticki_aranzmani
                 new { controller = "Arrangement", action = "Create" }
                 );
             routes.MapRoute(
+                name:"ResidenceItem/Delete/",
+                url:"deleteResidenceItem/{id}",
+                new {controller = "ResidenceItem",action = "Delete"}
+                );
+            routes.MapRoute(
                 name: "ResidenceItem/Details/",
                 url: "getResidenceItemDetails/{id}",
                 new { controller = "ResidenceItem", action = "Details" }

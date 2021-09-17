@@ -111,7 +111,6 @@ namespace turisticki_aranzmani.Models
             List<ArrangementModel> arrangements = ArrangementModel.getAllItems(this.ID);
             //get arrangement reservations
             List<ReservationModel> reservations = ReservationModel.getAllItems(this.ID);
-            System.Diagnostics.Debug.Write("DELETE THIS BITCH");
 
             if (FileObjectSerializer.Delete(path, this.ToString()))
             {
@@ -132,6 +131,17 @@ namespace turisticki_aranzmani.Models
             {
                 return false;
             }
+        }
+        public Boolean canDelete() {
+            List<ReservationModel> allReservations = ReservationModel.getAllItems();
+            foreach (ReservationModel rm in allReservations) {
+                ResidenceItemModel ri = ResidenceItemModel.GetByID(rm.residence_item_id);
+                ArrangementModel ai = ArrangementModel.GetByID(rm.arrangement_id);
+                if (ri.ResidenceID == this.ID && ai.DateEnd.CompareTo(DateTime.Now) == -1) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -152,5 +152,21 @@ namespace turisticki_aranzmani.Models
                 return writeRestult;
             }
         }
+        public Boolean canDelete() {
+            List<ReservationModel> reservationModels = ReservationModel.getAllItems();
+            foreach (ReservationModel rm in reservationModels) {
+                ArrangementModel ai = ArrangementModel.GetByID(rm.arrangement_id);
+                if (ai.DateEnd.CompareTo(DateTime.Now) == 1 && rm.residence_item_id == this.ID) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public Boolean delete() {
+            if (this.canDelete()) {
+                return FileObjectSerializer.Delete(path, this.ToString());
+            }
+            return false;
+        }
     }
 }

@@ -123,27 +123,7 @@ namespace turisticki_aranzmani.Controllers
             }
         }
 
-        // GET: Residence/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Residence/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
 
         public ActionResult Delete(string role, int id) {
             if (Session["username"] == null) {
@@ -156,19 +136,27 @@ namespace turisticki_aranzmani.Controllers
             }
 
             ResidenceModel residence = ResidenceModel.GetByID(id);
-            if (residence.delete())
+            if (residence.canDelete())
             {
-                TempData["message"] = "Uspesno uklonjen smestaj sa pratecim smestajnim jedinicama";
+                if (residence.delete())
+                {
+                    TempData["message"] = "Uspesno uklonjen smestaj sa pratecim smestajnim jedinicama";
+                }
+                else
+                {
+                    TempData["error"] = "Doslo je do greske prilikom uklanjanja smestaja";
+                }
+                if (role.Equals("admin"))
+                {
+                    return RedirectToRoute("User/Admin");
+                }
+                else
+                {
+                    return RedirectToRoute("User/Seller");
+                }
             }
             else {
-                TempData["error"] = "Doslo je do greske prilikom uklanjanja smestaja";
-            }
-            if (role.Equals("admin"))
-            {
-                return RedirectToRoute("User/Admin");
-            }
-            else {
-                return RedirectToRoute("User/Seller");
+                TempData["error"] = "Postoje rezervacije aranzmana sa ovim smestajem / smestajnim jedinicama. Kada aranzman prodje, mozete ponovo probati da uklonite smestaj / smestajnu jedinicu.";
             }
         }
     }

@@ -17,7 +17,7 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
         public ActionResult ListResidenceUnits(int id) {
-            List<ResidenceItemModel> data= ResidenceItemModel.getAllItems(id);
+            List<ResidenceItemModel> data = ResidenceItemModel.getAllItems(id);
             return View(data);
         }
         public ActionResult CreateResidenceUnit(int id) {
@@ -47,7 +47,24 @@ namespace turisticki_aranzmani.Controllers
             else {
                 Response = ResidenceItemModel.GetByID(id);
             }
-            return Json(Response,JsonRequestBehavior.AllowGet);
+            return Json(Response, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Delete(int id) {
+            if (Session["username"] == null || Session["role"] == null || Session["role"].Equals("user"))
+            {
+                TempData["erorr"] = "Nemate pristup ovom delu sajta";
+            }
+            else {
+                ResidenceItemModel model = ResidenceItemModel.GetByID(id);
+                if (model.delete())
+                {
+                    TempData["message"] = "Uspesno uklonjena smestajna jedinica";
+                }
+                else {
+                    TempData["error"] = "Greska prilikom uklanjanja smestajne jedinice";
+                }
+                return RedirectToRoute("User/Seller");
+            }
         }
     }
 }
