@@ -146,5 +146,21 @@ namespace turisticki_aranzmani.Models
             }
             return true;
         }
+        public int GetUnitCount()
+        {
+            return ResidenceItemModel.getAllItems(this.ID).Count;
+        }
+        public int GetFreeUnitCount()
+        {
+            int totalCount = this.GetUnitCount();
+            foreach (ReservationModel res in ReservationModel.getAllItems()) {
+                ResidenceItemModel ri = ResidenceItemModel.GetByID(res.residence_item_id);
+                ArrangementModel ai = ArrangementModel.GetByID(res.arrangement_id);
+                if (res.status == 0 && ai.DateEnd.CompareTo(DateTime.Now) == 1) {
+                    totalCount--;
+                }
+            }
+            return totalCount;
+        }
     }
 }

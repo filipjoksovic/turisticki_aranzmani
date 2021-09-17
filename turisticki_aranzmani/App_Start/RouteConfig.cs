@@ -154,9 +154,6 @@ namespace turisticki_aranzmani
                 url: "seller",
                 new { controller = "User", action = "Seller" }
                 );
-
-
-
             routes.MapRoute(
                 name: "User/Account",
                 url: "account",

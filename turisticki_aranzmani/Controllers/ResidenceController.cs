@@ -37,6 +37,105 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
 
+        public ActionResult Search(String Name, String HasPool, String HasSpa, String DisablityApproved, String HasWifi, String Sort) {
+            if (this.Middleware())
+            {
+                List<ResidenceModel> allResidences = ResidenceModel.getAllItems(Session["username"].ToString());
+                if (Name.Length > 0) {
+                    for (int i = allResidences.Count - 1; i >= 0; i--) {
+                        if (!allResidences[i].Name.ToLower().Contains(Name.ToLower())) {
+                            allResidences.RemoveAt(i);
+                        }
+                    }
+                }
+                if (HasPool != null) {
+                    for (int i = allResidences.Count - 1; i >= 0; i--)
+                    {
+                        if (!allResidences[i].HasPool)
+                        {
+                            allResidences.RemoveAt(i);
+                        }
+                    }
+                }
+                if (HasSpa != null)
+                {
+                    for (int i = allResidences.Count - 1; i >= 0; i--)
+                    {
+                        if (!allResidences[i].HasSpa)
+                        {
+                            allResidences.RemoveAt(i);
+                        }
+                    }
+                }
+                if (HasWifi != null)
+                {
+                    for (int i = allResidences.Count - 1; i >= 0; i--)
+                    {
+                        if (!allResidences[i].HasWifi)
+                        {
+                            allResidences.RemoveAt(i);
+                        }
+                    }
+                }
+                if (DisablityApproved != null)
+                {
+                    for (int i = allResidences.Count - 1; i >= 0; i--)
+                    {
+                        if (!allResidences[i].DisabilityApproved)
+                        {
+                            allResidences.RemoveAt(i);
+                        }
+                    }
+                }
+                if (Sort != null) {
+                    if (Sort.Equals("nameAsc")) {
+                        allResidences.OrderBy(residence => residence.Name);
+                    }
+                    if (Sort.Equals("nameDesc")) { 
+                        allResidences.OrderBy(residence => residence.Name);
+                        allResidences.Reverse();
+                    }
+                    if (Sort.Equals("sumAsc"))
+                    {
+                        allResidences.OrderBy(residence => residence.GetUnitCount());
+
+                    }
+                    if (Sort.Equals("sumDesc"))
+                    {
+                        allResidences.OrderBy(residence => residence.GetUnitCount());
+                        allResidences.Reverse();
+
+                    }
+                    if (Sort.Equals("freeAsc"))
+                    {
+                        allResidences.OrderBy(residence => residence.GetFreeUnitCount());
+
+                    }
+                    if (Sort.Equals("freeDesc"))
+                    {
+                        allResidences.OrderBy(residence => residence.GetFreeUnitCount());
+                        allResidences.Reverse();
+
+                    }
+                }
+                List<SelectListItem> sort = new List<SelectListItem>();
+                sort.Add(new SelectListItem() { Text = "Naziv rastuce", Value = "nameAsc" });
+                sort.Add(new SelectListItem() { Text = "Naziv opadajuce", Value = "nameAsc" });
+                sort.Add(new SelectListItem() { Text = "Ukupan broj smestajnih jedinica rastuce", Value = "sumAsc" });
+                sort.Add(new SelectListItem() { Text = "Ukupan broj smestajnih jedinica opadajuce", Value = "sumDesc" });
+                sort.Add(new SelectListItem() { Text = "Broj slobodnih smestajnih jedinica rastuce", Value = "freeAsc" });
+                sort.Add(new SelectListItem() { Text = "Broj slobodnih smestajnih jedinica opadajuce", Value = "freeDesc" });
+                SelectList sortList = new SelectList(sort, "Value", "Text", Sort);
+                ViewBag.sortList = sortList;
+
+                return View("ListResidences", allResidences);
+            }
+            else {
+                TempData["error"] = "Nemate dozvolu pristupa ovom sajtu";
+                return Redirect("~/");
+            }
+        }
+
         // GET: Residence/Details/5
         public ActionResult Details(int id)
         {
@@ -68,6 +167,16 @@ namespace turisticki_aranzmani.Controllers
                     return Redirect("~/");
 
                 }
+                List<SelectListItem> sort = new List<SelectListItem>();
+                sort.Add(new SelectListItem() { Text = "Naziv rastuce", Value = "nameAsc" });
+                sort.Add(new SelectListItem() { Text = "Naziv opadajuce", Value = "nameDesc" });
+                sort.Add(new SelectListItem() { Text = "Ukupan broj smestajnih jedinica rastuce", Value = "sumAsc" });
+                sort.Add(new SelectListItem() { Text = "Ukupan broj smestajnih jedinica opadajuce", Value = "sumDesc" });
+                sort.Add(new SelectListItem() { Text = "Broj slobodnih smestajnih jedinica rastuce", Value = "freeAsc" });
+                sort.Add(new SelectListItem() { Text = "Broj slobodnih smestajnih jedinica opadajuce", Value = "freeDesc" });
+                SelectList sortList = new SelectList(sort, "Value", "Text");
+                ViewBag.sortList = sortList;
+
                 return View(data);
             }
             else
