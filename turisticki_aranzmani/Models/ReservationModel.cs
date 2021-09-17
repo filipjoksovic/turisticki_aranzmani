@@ -119,5 +119,13 @@ namespace turisticki_aranzmani.Models
             FileObjectSerializer.Delete(path, this.ToString());
             return true;
         }
+        public static Boolean HasUserReservation(String username, int id) {
+            foreach (ReservationModel rm in ReservationModel.getAllItems()) {
+                if (rm.username.Equals(username) && rm.arrangement_id == id) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

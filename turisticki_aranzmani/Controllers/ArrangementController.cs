@@ -228,6 +228,10 @@ namespace turisticki_aranzmani.Controllers
             modelInstance.ResidenceItems = new SelectList(ResidenceItemModel.getAvailableItems(id).AsEnumerable(), "ID", "UnitName");
             modelInstance.GroupingPlace = PlaceModel.GetByID(arrangement.StartingPointID);
             modelInstance.Reviews = ArrangementCommentModel.GetComments(id, true);
+            if (Session["username"] != null)
+            {
+                modelInstance.HasReserved = ReservationModel.HasUserReservation(Session["username"].ToString(), arrangement.ID);
+            }
             return View("Details", modelInstance);
         }
 

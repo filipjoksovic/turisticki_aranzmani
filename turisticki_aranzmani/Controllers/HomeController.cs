@@ -17,6 +17,7 @@ namespace turisticki_aranzmani.Controllers
             dynamic aModel = new ExpandoObject();
             List<ArrangementModel> arrangements = ArrangementModel.getAllItems();
             arrangements.OrderBy(arrangement => arrangement.DateStart);
+            arrangements.Reverse();
             aModel.arrangements = arrangements;
             ViewBag.ArrangementTypes = new SelectList(ArrangementTypeModel.getAllItems().AsEnumerable(), "ID", "Name");
             ViewBag.DriveTypes = new SelectList(RideTypeModel.getAllItems().AsEnumerable(), "ID", "Name");

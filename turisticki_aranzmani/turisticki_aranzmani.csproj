@@ -376,6 +376,7 @@
     <Content Include="Views\User\Account.cshtml" />
     <Content Include="Views\ArrangementComment\ListReviews.cshtml" />
     <Content Include="Views\Arrangement\Edit.cshtml" />
+    <Content Include="Views\Residence\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\arrangement_images\" />

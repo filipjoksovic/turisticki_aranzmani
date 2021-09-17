@@ -111,6 +111,11 @@ namespace turisticki_aranzmani
                 new { controller = "Residence", action = "ListResidences" }
                 );
             routes.MapRoute(
+                name: "Residence/Edit/",
+                url: "seller/editResidence/{id}",
+                new { controller = "Residence", action = "Edit" }
+                );
+            routes.MapRoute(
                 name: "Residence/Delete/",
                 url: "{role}/deleteResidence/{id}",
                 new { controller = "Residence", action = "Delete" }

@@ -103,7 +103,7 @@ namespace turisticki_aranzmani.Models
                 for (int j = allResidenceUnits.Count - 1; j >=0; j--) {
                     System.Diagnostics.Debug.WriteLine("unitid: " + allResidenceUnits[j].ID);
 
-                    if (unit_id == allResidenceUnits[j].ID) {
+                    if (unit_id == allResidenceUnits[j].ID && allReservations[i].status == 0) {
                         allResidenceUnits.RemoveAt(j);
                     }
                 }

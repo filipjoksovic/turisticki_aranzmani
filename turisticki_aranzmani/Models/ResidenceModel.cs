@@ -132,6 +132,9 @@ namespace turisticki_aranzmani.Models
                 return false;
             }
         }
+        public Boolean update() {
+            return FileObjectSerializer.UpdateLine(path, ResidenceModel.GetByID(this.ID).ToString(), this.ToString());
+        }
         public Boolean canDelete() {
             List<ReservationModel> allReservations = ReservationModel.getAllItems();
             foreach (ReservationModel rm in allReservations) {

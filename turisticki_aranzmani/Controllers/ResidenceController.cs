@@ -9,7 +9,8 @@ namespace turisticki_aranzmani.Controllers
 {
     public class ResidenceController : Controller
     {
-        private Boolean Middleware() {
+        private Boolean Middleware()
+        {
             System.Diagnostics.Debug.WriteLine("here1");
 
             if (Session["username"] != null && Session["role"] != null)
@@ -69,7 +70,8 @@ namespace turisticki_aranzmani.Controllers
                 }
                 return View(data);
             }
-            else {
+            else
+            {
                 return Redirect("~/");
             }
         }
@@ -81,7 +83,8 @@ namespace turisticki_aranzmani.Controllers
             {
                 return View("CreateResidence");
             }
-            else {
+            else
+            {
                 return Redirect("~/");
             }
         }
@@ -118,19 +121,56 @@ namespace turisticki_aranzmani.Controllers
                     return View();
                 }
             }
-            else {
+            else
+            {
+                return Redirect("~/");
+            }
+        }
+        public ActionResult Edit(int id)
+        {
+            if (this.Middleware())
+            {
+                ResidenceModel residence = ResidenceModel.GetByID(id);
+                return View(residence);
+            }
+            else
+            {
+                return Redirect("~/");
+            }
+        }
+        [HttpPost]
+        public ActionResult Edit(ResidenceModel model)
+        {
+            if (this.Middleware())
+            {
+                if (model.update())
+                {
+                    TempData["message"] = "Uspesno izmenjen smestaj";
+                }
+                else
+                {
+                    TempData["error"] = "Greska prilikom izmene smestaja";
+                }
+                return RedirectToRoute("User/Seller");
+            }
+
+            else
+            {
                 return Redirect("~/");
             }
         }
 
-       
 
-        public ActionResult Delete(string role, int id) {
-            if (Session["username"] == null) {
+
+        public ActionResult Delete(string role, int id)
+        {
+            if (Session["username"] == null)
+            {
                 TempData["error"] = "Morate biti ulogovani kako biste mogli da pristupite ovom delu sajta";
                 return Redirect("~/");
             }
-            if (!Session["role"].Equals(role)) {
+            if (!Session["role"].Equals(role))
+            {
                 TempData["error"] = "Nemate dozvolu pristupa ovom delu sajta";
                 return Redirect("~/");
             }
@@ -155,9 +195,10 @@ namespace turisticki_aranzmani.Controllers
                     return RedirectToRoute("User/Seller");
                 }
             }
-            else {
+            else
+            {
                 TempData["error"] = "Postoje rezervacije aranzmana sa ovim smestajem / smestajnim jedinicama. Kada aranzman prodje, mozete ponovo probati da uklonite smestaj / smestajnu jedinicu.";
-                    return RedirectToRoute("User/Seller");
+                return RedirectToRoute("User/Seller");
 
             }
         }

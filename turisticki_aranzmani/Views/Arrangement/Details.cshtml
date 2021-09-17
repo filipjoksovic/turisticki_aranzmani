@@ -30,11 +30,13 @@
             {
                 if (Session["username"] != null)
                 {
-                    using (Html.BeginRouteForm("Reservation/Create", FormMethod.Post, new
+                    if (!Model.HasReserved)
                     {
-                        @class = "container-fluid"
-                    }))
-                    {
+                        using (Html.BeginRouteForm("Reservation/Create", FormMethod.Post, new
+                        {
+                            @class = "container-fluid"
+                        }))
+                        {
                         <h5 class="text-center my-3">Dostupni smestaji</h5>
                         @Html.DropDownList("ResidenceUnit", (SelectList)Model.ResidenceItems, new { @class = "form-control", @id = "residenceUnitSelect" })
                         <div class="mb-2 mt-4 container-fluid" id="unitDetails">
@@ -48,6 +50,11 @@
                         <div class="  my-3 w-100">
                             <button class="btn btn-primary btn-block" type="submit">Rezervisi</button>
                         </div>
+                        }
+                    }
+                    else
+                    {
+                        <h3 class="text-center">Vec imate rezervaciju za ovaj aranzman na Vasem nalogu.</h3>
                     }
                 }
                 else
