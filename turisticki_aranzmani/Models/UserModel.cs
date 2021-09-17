@@ -130,27 +130,37 @@ namespace turisticki_aranzmani.Models
         {
             String prevVal = UserModel.GetUser(this.Username).ToString();
             return FileObjectSerializer.UpdateLine(this.table, prevVal, this.ToString());
-            //List<String> fileContent = System.IO.File.ReadAllLines(table).ToList();
-            //bool found = false;
-            //for (int i = 0; i < fileContent.Count; i++)
-            //{
-            //    UserModel newUserInstance = new UserModel(fileContent[i].Split(';'));
-            //    if (this.Username.Equals(newUserInstance.Username))
-            //    {
-            //        fileContent[i] = this.ToString();
-            //        found = true;
-            //        break;
-            //    }
-            //}
-            //if (found)
-            //{
-            //    System.IO.File.WriteAllLines(table, fileContent);
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
+         
+        }
+        public Boolean blockUser() {
+            BlackListModel modelInstance = new BlackListModel(this.Username);
+            return modelInstance.save();
+        }
+        public Boolean unblockUser() {
+            BlackListModel modelInstance = new BlackListModel(this.username);
+            ReservationModel.delete(username);
+            return modelInstance.delete();
+        }
+        public Boolean isBlocked() {
+            return BlackListModel.isBlocked(this);
+        }
+        public static List<UserModel> GetUsersToBlock() {
+            List<ReservationModel> allReservations = ReservationModel.getAllItems();
+            List<UserModel> allUsers = UserModel.GetUsers();
+            List<UserModel> usersToBlock = new List<UserModel>();
+
+            foreach (UserModel user in allUsers) {
+                int count = 0;
+                foreach (ReservationModel reservation in allReservations) {
+                    if (reservation.username.Equals(user.Username) && reservation.status == 1) {
+                        count++;
+                    }
+                }
+                if (count >= 2) {
+                    usersToBlock.Add(user);
+                }
+            }
+            return usersToBlock;
         }
         public Boolean delete()
         {

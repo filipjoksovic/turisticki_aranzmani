@@ -178,6 +178,7 @@
     <Compile Include="Models\ArrangementCommentModel.cs" />
     <Compile Include="Models\ArrangementModel.cs" />
     <Compile Include="Models\ArrangementTypeModel.cs" />
+    <Compile Include="Models\BlackListModel.cs" />
     <Compile Include="Models\PlaceModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Models\ResidenceItemModel.cs" />
@@ -250,6 +251,7 @@
     <Content Include="Content\arrangement_images\slika1.webp" />
     <Content Include="App_Data\reservations.csv" />
     <Content Include="App_Data\arrangement_comments.csv" />
+    <Content Include="App_Data\blacklist.csv" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -377,6 +379,7 @@
     <Content Include="Views\ArrangementComment\ListReviews.cshtml" />
     <Content Include="Views\Arrangement\Edit.cshtml" />
     <Content Include="Views\Residence\Edit.cshtml" />
+    <Content Include="Views\User\DisplaySuspicious.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\arrangement_images\" />

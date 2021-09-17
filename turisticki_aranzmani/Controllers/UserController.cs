@@ -17,6 +17,14 @@ namespace turisticki_aranzmani.Controllers
             return View();
         }
 
+        public ActionResult DisplaySuspicious() {
+
+            dynamic BlackList = new ExpandoObject();
+            BlackList.BlockedUsers = BlackListModel.GetBlockedUsers();
+            BlackList.UsersToBlock = UserModel.GetUsersToBlock();
+            return View(BlackList);
+            return View();
+        }
         public ActionResult Account()
         {
             if (Session["username"] == null)
@@ -129,29 +137,36 @@ namespace turisticki_aranzmani.Controllers
         public ActionResult Login(Models.UserModel userModel)
         {
             Models.UserModel foundInstance = Models.UserModel.find(userModel);
-            if (foundInstance != null)
+            if (!foundInstance.isBlocked())
             {
-                Session["username"] = foundInstance.Username;
-                Session["role"] = foundInstance.Role;
-                TempData["message"] = "Uspesno prijavljivanje. Dobrodosli nazad, " + foundInstance.Username;
+                if (foundInstance != null)
+                {
+                    Session["username"] = foundInstance.Username;
+                    Session["role"] = foundInstance.Role;
+                    TempData["message"] = "Uspesno prijavljivanje. Dobrodosli nazad, " + foundInstance.Username;
 
-                if (foundInstance.Role.Equals("admin"))
-                {
-                    return RedirectToAction("admin");
-                }
-                else if (foundInstance.Role.Equals("seller"))
-                {
-                    return RedirectToAction("seller");
+                    if (foundInstance.Role.Equals("admin"))
+                    {
+                        return RedirectToAction("admin");
+                    }
+                    else if (foundInstance.Role.Equals("seller"))
+                    {
+                        return RedirectToAction("seller");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    TempData["error"] = "Greska prilikom logovanja. Proverite vase podatke i pokusajte ponovo";
+                    return RedirectToAction("login");
                 }
             }
-            else
-            {
-                TempData["error"] = "Greska prilikom logovanja. Proverite vase podatke i pokusajte ponovo";
-                return RedirectToAction("login");
+            else {
+                TempData["error"] = "Vas nalog je privremeno blokiran od strane administratora";
+                return Redirect("~/");
             }
         }
         public ActionResult Logout()

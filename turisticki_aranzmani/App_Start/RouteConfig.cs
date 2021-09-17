@@ -126,6 +126,16 @@ namespace turisticki_aranzmani
                 new { controller = "Residence", action = "Create" }
                 );
             routes.MapRoute(
+                name:"User/BlockUser/",
+                url:"admin/blockUser/{id}",
+                new {controller = "User", action = "BlockUser"}
+                );
+            routes.MapRoute(
+                name:"User/SuspiciousUsers",
+                url:"admin/susUsers",
+                new {controller = "User", action = "DisplaySuspicious"}
+                );
+            routes.MapRoute(
                 name: "User/Create",
                 url: "admin/createUser",
                 new { controller = "User", action = "Create" });

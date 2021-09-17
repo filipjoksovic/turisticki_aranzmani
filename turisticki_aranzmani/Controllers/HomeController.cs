@@ -16,7 +16,8 @@ namespace turisticki_aranzmani.Controllers
 
             dynamic aModel = new ExpandoObject();
             List<ArrangementModel> arrangements = ArrangementModel.getAllItems();
-            arrangements.OrderBy(arrangement => arrangement.DateStart);
+            //arrangements.OrderBy(arrangement => arrangement.DateStart);
+            arrangements.Sort((a1, a2) => DateTime.Compare(a1.DateStart, a2.DateStart));
             arrangements.Reverse();
             aModel.arrangements = arrangements;
             ViewBag.ArrangementTypes = new SelectList(ArrangementTypeModel.getAllItems().AsEnumerable(), "ID", "Name");
@@ -115,17 +116,17 @@ namespace turisticki_aranzmani.Controllers
                     arrangements.Reverse();
                 }
                 if (Sort.Equals("dateStartAsc")) {
-                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                    arrangements.Sort((a1, a2) => DateTime.Compare(a1.DateStart, a2.DateStart));
                 }
-                if (Sort.Equals("dateStartDesc")) { 
-                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                if (Sort.Equals("dateStartDesc")) {
+                    arrangements.Sort((a1, a2) => DateTime.Compare(a1.DateStart, a2.DateStart));
                     arrangements.Reverse();
                 }
-                if (Sort.Equals("dateEndAsc")) { 
-                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                if (Sort.Equals("dateEndAsc")) {
+                    arrangements.Sort((a1, a2) => DateTime.Compare(a1.DateEnd, a2.DateEnd));
                 }
                 if (Sort.Equals("dateEndDesc")) {
-                    arrangements.OrderBy(arrangement => arrangement.DateStart);
+                    arrangements.Sort((a1, a2) => DateTime.Compare(a1.DateEnd, a2.DateEnd));
                     arrangements.Reverse();
                 }
             }

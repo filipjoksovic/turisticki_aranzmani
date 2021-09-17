@@ -127,5 +127,11 @@ namespace turisticki_aranzmani.Models
             }
             return false;
         }
+        public static Boolean delete(String username) {
+            foreach (ReservationModel rm in ReservationModel.getAllItems(username)) {
+                FileObjectSerializer.Delete(HttpContext.Current.Server.MapPath("~/App_Data/reservations.csv"), rm.ToString());
+            }
+            return true;
+        }
     }
 }
