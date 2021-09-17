@@ -157,6 +157,8 @@ namespace turisticki_aranzmani.Controllers
             }
             else {
                 TempData["error"] = "Postoje rezervacije aranzmana sa ovim smestajem / smestajnim jedinicama. Kada aranzman prodje, mozete ponovo probati da uklonite smestaj / smestajnu jedinicu.";
+                    return RedirectToRoute("User/Seller");
+
             }
         }
     }

@@ -1,28 +1,83 @@
 ﻿@model dynamic
+
+<div class="container mt-3">
+    <h5 class="text-center">Pretraga aranzmana</h5>
+    @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Donja granica za pocetak putovanja")
+                    @Html.Editor("MinDateStart", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Gornja granica za pocetak putovanja")
+                    @Html.Editor("MaxDateStart", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Donja granica za zavrsetak putovanja")
+                    @Html.Editor("MinDateEnd", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                </div>
+            </div><div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Gornja granica za zavrsetak putovanja")
+                    @Html.Editor("MaxDateEnd", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Tip prevoza")
+                    @Html.DropDownList("DriveType", (SelectList)ViewBag.DriveTypes,new{@class ="form-control"})
+                </div>
+            </div><div class="col-md-6">
+                      <div class="form-group">
+                          @Html.Label("Tip aranzmana")
+                          @Html.DropDownList("ArrangementType", (SelectList)ViewBag.ArrangementTypes, new { @class = "form-control" })
+
+                      </div>
+            </div>
+        </div>
+            <div class="form-group">
+                @Html.Label("Naziv")
+                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control w-100"} })
+
+            </div>
+        <input type="submit" class="btn btn-outline-success btn-block w-50 mx-auto" value="Pretrazi" />
+    }
+</div>
+
 <div class="container-fluid mt-5">
     <h3 class="text-center">Prikaz aranzmana</h3>
 
     @foreach (var arModel in Model.arrangements)
     {
-<div class="border row align-items-center mt-3">
-    <div class="col-md-2">
-        Datum polaska: @arModel.FormattedDateStart u @arModel.FormattedTimeStarting
-    </div>
-    <div class="col-md-2">
-        Datum povratka : @arModel.FormattedDateEnd
-    </div>
-    <div class="col-md-2"><img src='@Url.Content("~/Content/arrangement_images/" + arModel.ImagePath)' class="arrangement_image" /></div>
-    <div class="col-md-4">@arModel.Name</div>
-    @if (arModel.DateStart.CompareTo(DateTime.Now) == 1)
-    {
-        <div class="col-md-2">@Html.RouteLink("Detalji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block w-50 mx-auto btn-primary" })</div>
-    }
-    else
-    {
-        <div class="col-md-2">@Html.RouteLink("Itekao - Detailji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block  mx-auto btn-danger" })</div>
+        <div class="border row align-items-center mt-3">
+            <div class="col-md-2">
+                Datum polaska: @arModel.FormattedDateStart u @arModel.FormattedTimeStarting
+            </div>
+            <div class="col-md-2">
+                Datum povratka : @arModel.FormattedDateEnd
+            </div>
+            <div class="col-md-2"><img src='@Url.Content("~/Content/arrangement_images/" + arModel.ImagePath)' class="arrangement_image" /></div>
+            <div class="col-md-4">@arModel.Name</div>
+            @if (arModel.DateStart.CompareTo(DateTime.Now) == 1)
+            {
+                <div class="col-md-2">@Html.RouteLink("Detalji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block w-50 mx-auto btn-primary" })</div>
+            }
+            else
+            {
+                <div class="col-md-2">@Html.RouteLink("Itekao - Detailji", "Arrangement/Details", new { id = @arModel.ID }, new { @class = "btn btn-block  mx-auto btn-danger" })</div>
 
 
-    }
-</div>
+            }
+        </div>
     }
 </div>

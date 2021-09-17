@@ -53,6 +53,7 @@ namespace turisticki_aranzmani.Controllers
             if (Session["username"] == null || Session["role"] == null || Session["role"].Equals("user"))
             {
                 TempData["erorr"] = "Nemate pristup ovom delu sajta";
+                return Redirect("~/");
             }
             else {
                 ResidenceItemModel model = ResidenceItemModel.GetByID(id);
