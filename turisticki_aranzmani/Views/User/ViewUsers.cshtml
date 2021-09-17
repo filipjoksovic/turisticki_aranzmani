@@ -1,13 +1,58 @@
 ﻿@model IEnumerable<turisticki_aranzmani.Models.UserModel>
 
 
+<div class="container mt-3">
+    <h5 class="text-center">Pretraga korisnika</h5>
+    @using (Html.BeginForm("Search", "User", new { area = "" }, FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-6">
+                @Html.Label("Ime")
+                @Html.Editor("FirstName", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-6">
+                @Html.Label("Prezime")
+                @Html.Editor("LastName", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+               
+                @foreach (SelectListItem item in (SelectList)@ViewBag.userRoles)
+                {
+            <div class="checkbox">
+                @*@if (ViewBag.userRoles.Contains(item.Value))*@
+                @*{<text> checked </text>}*@
+                <label>
+                    <input type="checkbox" name="Role" value="@item.Value"   @if (ViewBag.checkedRoles.Contains(item.Value)) {<text>checked</text> }/> @item.Text
+                </label>
+            </div>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <label for="sort">Sortiranje</label>
+                    <select name="Sort" id="sort" class="form-control">
+                        <option value="-1">Sortiranje</option>
+                        <option value="fnameAsc">Ime rastuce</option>
+                        <option value="fnameDesc">Ime opadajuce</option>
+                        <option value="lnameAsc">Prezime rastuce</option>
+                        <option value="lnameDesc">Prezime opadajuce</option>
+                        <option value="roleAsc">Uloga rastuce</option>
+                        <option value="roleDesc">Uloga opdajuce</option>
+                    </select>
+
+                </div>
+            </div>
+            <input type="submit" class="btn btn-outline-success btn-block w-50 mx-auto mt-3" value="Pretrazi" />
+        }
+</div>
 
 <h3 class="mt-5">Pregled korisnika</h3>
 <p>
     @Html.ActionLink("Dodavanje novog korisnika", "Create")
 </p>
-<div  class="table table-responsive">
-    <table class=" table-bordered">
+<div class="table table-responsive">
+    <table class=" table-bordered w-100">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Username)
@@ -64,8 +109,7 @@
                     @Html.DisplayFor(modelItem => item.Role)
                 </td>
                 <td>
-                    @Html.ActionLink("Izmeni", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.RouteLink("Ukloni", "User/Delete", new { username = item.Username})
+                    @Html.RouteLink("Ukloni", "User/Delete", new { username = item.Username })
                 </td>
             </tr>
         }

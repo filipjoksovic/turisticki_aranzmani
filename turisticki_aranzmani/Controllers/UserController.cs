@@ -160,7 +160,61 @@ namespace turisticki_aranzmani.Controllers
         public ActionResult ViewUsers()
         {
             IEnumerable<UserModel> data = UserModel.GetUsers();
+            List<SelectListItem> userRoles = new List<SelectListItem>();
+            userRoles.Add(new SelectListItem() { Text = "Prodavac", Value = "seller" });
+            userRoles.Add(new SelectListItem() { Text = "Korisnik", Value = "user" });
+
+
+            SelectList userRolesList = new SelectList(userRoles,"Value","Text");
+            ViewBag.userRoles = userRolesList;
+            ViewBag.checkedRoles = new List<String>();
+
             return View(data);
+        }
+        public ActionResult Search(String FirstName, String LastName, List<String> Role, String Sort) {
+
+            List<UserModel> users = UserModel.GetUsers();
+            for (int i = users.Count - 1; i >=0; i--) {
+                UserModel user = users[i];
+                if (!user.FirstName.ToLower().Contains(FirstName.ToLower())) {
+                    users.RemoveAt(i);
+                }
+            }
+            for (int i = users.Count - 1; i >= 0; i--)
+            {
+                UserModel user = users[i];
+                if (!user.LastName.ToLower().Contains(LastName.ToLower()))
+                {
+                    users.RemoveAt(i);
+                }
+            }
+            if (Role != null)
+            {
+                for (int i = users.Count - 1; i >= 0; i--)
+                {
+                    UserModel user = users[i];
+                    if (!Role.Contains(user.Role))
+                    {
+                        users.RemoveAt(i);
+                    }
+                }
+
+            }
+
+            List<SelectListItem> userRoles = new List<SelectListItem>();
+            userRoles.Add(new SelectListItem() { Text = "Prodavac", Value = "seller" });
+            userRoles.Add(new SelectListItem() { Text = "Korisnik", Value = "user" });
+            SelectList userRolesList = new SelectList(userRoles, "Value", "Text");
+            ViewBag.userRoles = userRolesList;
+            if (Role != null)
+            {
+                ViewBag.checkedRoles = Role;
+            }
+            else
+            {
+                ViewBag.checkedRoles = new List<String>();
+            }
+            return View("ViewUsers",users);
         }
         public ActionResult Admin()
         {

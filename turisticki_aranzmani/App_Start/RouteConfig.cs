@@ -122,7 +122,7 @@ namespace turisticki_aranzmani
                 );
             routes.MapRoute(
                 name: "User/Create",
-                url: "createUser",
+                url: "admin/createUser",
                 new { controller = "User", action = "Create" });
             routes.MapRoute(
                 name: "User/CreateManager",
