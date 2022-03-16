@@ -3,42 +3,6 @@
 <p>
     @Html.RouteLink("Dodajte novu smestajnu jedinicu", "ResidenceItem/CreateResidenceUnit/")
 </p>
-@using (Html.BeginForm("Search", "Residence", new { area = "" }, FormMethod.Get))
-{
-    <div class="row my-3">
-        @Html.Label("Naziv")
-        @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <label for="pool">Ima bazen</label>
-            <input class="form-check" type="checkbox" name="HasPool" id="pool" />
-        </div>
-        <div class="col-md-3">
-            <label for="spa">Ima spa centar</label>
-            <input class="form-check" id="spa" type="checkbox" name="HasSpa" />
-
-        </div>
-        <div class="col-md-3">
-            <label for="dis">Prilagodjeno za osobe sa invaliditetom</label>
-            <input class="form-check" id="dis" type="checkbox" name="DisabilityApproved" />
-
-        </div>
-        <div class="col-md-3">
-            <label for="wifi">Ima Wifi</label>
-            <input class="form-check" id="wifi " type="checkbox" name="HasWifi" />
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @*@Html.Label("Sortiranje")
-            @Html.DropDownList("Sort", (SelectList)@ViewBag.sortList, new { @class = "form-control" })*@
-
-        </div>
-    </div>
-    <input type="submit" class="btn btn-outline-success btn-block w-50 mx-auto mt-3" value="Pretrazi" />
-}
 <table class="table">
     <tr>
         <th>
